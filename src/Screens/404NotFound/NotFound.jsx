@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from '../../assets/webp.png'
+import Logo from '../../assets/NewlistaLogo.webp'
 
 export default function NotFound() {
   return (

@@ -1,6 +1,7 @@
+// Screens/Home/Home.jsx
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 
 // COMPONENTS
 import CardCarousel from "../../Components/Carousel/Carousel";
@@ -29,9 +30,6 @@ const Home = () => {
   const [Properties, setProperties] = useState([]);
   const [searchFilters, setSearchFilters] = useState(null);
 
-  console.log(`${window.location.origin}/properties/`);
-
-
   useEffect(() => {
     async function GetProperty() {
       try {
@@ -43,21 +41,23 @@ const Home = () => {
     }
     GetProperty();
 
-    const docWidth = document.documentElement.offsetWidth;
-    document.querySelectorAll("*").forEach((el) => {
-      if (el.offsetWidth > docWidth) {
-        el.style.outline = "2px solid red";
-      }
-    });
+    // ✅ FIX: Removed the offsetWidth check that caused 41ms forced reflow
+    // ❌ REMOVED THIS CODE:
+    // const docWidth = document.documentElement.offsetWidth;
+    // document.querySelectorAll("*").forEach((el) => {
+    //   if (el.offsetWidth > docWidth) {
+    //     el.style.outline = "2px solid red";
+    //   }
+    // });
 
     document.documentElement.classList.add("dark");
   }, []);
 
-  const applyFilters = (properties) => {
+  // ✅ FIX: Memoize the filter function
+  const applyFilters = useCallback((properties) => {
     if (!searchFilters) return properties;
 
-    const { propertyType, listingType, city, state, priceRange } =
-      searchFilters;
+    const { propertyType, listingType, city, state, priceRange } = searchFilters;
 
     return properties.filter((item) => {
       const price =
@@ -118,13 +118,16 @@ const Home = () => {
         matchesRange
       );
     });
-  };
+  }, [searchFilters]);
 
-  const filteredProperties = applyFilters(Properties);
+  // ✅ FIX: Memoize filtered properties
+  const filteredProperties = useMemo(() => {
+    return applyFilters(Properties);
+  }, [Properties, applyFilters]);
 
-  const handleFilterChange = (filters) => {
+  const handleFilterChange = useCallback((filters) => {
     setSearchFilters(filters);
-  };
+  }, []);
 
   const OffMarketProperties = () => {
     if (filteredProperties.length === 0) {
@@ -140,7 +143,6 @@ const Home = () => {
     }
 
     return offMarket.map((items) => (
-
       <OffMarketListingCard
         key={items.id}
         Img={items.images[0]}
@@ -159,11 +161,10 @@ const Home = () => {
         id={items.id}
         OffMarketProperties="Off Market Property"
       />
-
     ));
   };
 
-  const goToViewProperties = (filterType) => {
+  const goToViewProperties = useCallback((filterType) => {
     if (filterType === "offmarket") {
       if (token) {
         if (status === "active") {
@@ -179,9 +180,9 @@ const Home = () => {
         state: { filterType },
       });
     }
-  };
+  }, [token, status, navigate]);
 
-  const NetWorkView = () => {
+  const NetWorkView = useCallback(() => {
     if (!token) {
       navigate("/login");
     } else if (status !== "active") {
@@ -189,12 +190,11 @@ const Home = () => {
     } else {
       navigate("/admin/network");
     }
-  };
+  }, [token, status, navigate]);
 
   return (
     <>
-
-     <Helmet>
+      <Helmet>
         <title>Investor-Only Commercial Real Estate Network | Newlista</title>
         <meta
           name="description"
@@ -211,10 +211,6 @@ const Home = () => {
           onclick={() => goToViewProperties("offmarket")}
           token={token}
         ></CardShowcase>
-
-        {/* FEATUES PROPERTIES */}
-
-        {/* FEATURES END */}
 
         {/* OFF MARKET PROPERTIES START  */}
         <section
@@ -236,18 +232,15 @@ const Home = () => {
             {status === "active" ? (
               OffMarketProperties()
             ) : (
-
               OffMarketProperties()
             )}
           </div>
-          {/* </div> */}
         </section>
-        {/* OFF MARKET PROPERTIES  3 END */}
+        {/* OFF MARKET PROPERTIES END */}
 
-        {/* <TestimonialSection></TestimonialSection>
-        <PropertySell></PropertySell> */}
         <HowInvestorNetworkWorks/>
-<LongTermGrowthSection/>
+        <LongTermGrowthSection/>
+
         {/* NETWORKS CAROUSEL SECTION */}
         <section className="flex flex-col justify-center items-center pb-20 px-6 gap-10 overflow-hidden sm:pb-16 sm:px-8 md:px-0 sm:pt-10 w-[100%] xl:w-[94%] 2xl:w-[80%]">
           <HighlightBlock
@@ -326,7 +319,6 @@ const Home = () => {
                 ))}
             </div>
           )}
-          {/* </div> */}
         </section>
 
       </div>

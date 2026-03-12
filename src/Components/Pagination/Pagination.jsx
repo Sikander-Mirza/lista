@@ -1,18 +1,30 @@
-// components/Pagination.jsx
+// Components/Pagination/Pagination.jsx
+import { memo, useMemo, useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
-const Pagination = ({
+const Pagination = memo(({
   currentPage,
   totalPages,
   onPageChange,
 }) => {
-  const handlePrevious = () => {
-    if (currentPage > 1) onPageChange(currentPage - 1);
-  };
+  
+  // ✅ FIX: Memoize page numbers array
+  const pageNumbers = useMemo(() => {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }, [totalPages]);
 
-  const handleNext = () => {
+  // ✅ FIX: Memoize handlers
+  const handlePrevious = useCallback(() => {
+    if (currentPage > 1) onPageChange(currentPage - 1);
+  }, [currentPage, onPageChange]);
+
+  const handleNext = useCallback(() => {
     if (currentPage < totalPages) onPageChange(currentPage + 1);
-  };
+  }, [currentPage, totalPages, onPageChange]);
+
+  const handlePageClick = useCallback((pageNum) => {
+    onPageChange(pageNum);
+  }, [onPageChange]);
 
   return (
     <div className="flex items-center justify-center w-full">
@@ -30,13 +42,12 @@ const Pagination = ({
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
             </button>
 
-            {[...Array(totalPages)].map((_, i) => {
-              const pageNum = i + 1;
+            {pageNumbers.map((pageNum) => {
               const isActive = pageNum === currentPage;
               return (
                 <button
                   key={pageNum}
-                  onClick={() => onPageChange(pageNum)}
+                  onClick={() => handlePageClick(pageNum)}
                   className={`relative inline-flex items-center px-4.5 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 cursor-pointer font-Urbanist ${
                     isActive
                       ? "z-10 bg-indigo-600 text-white"
@@ -60,6 +71,8 @@ const Pagination = ({
         </div>
     </div>
   );
-};
+});
+
+Pagination.displayName = 'Pagination';
 
 export default Pagination;

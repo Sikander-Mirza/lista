@@ -12,32 +12,32 @@ export default defineConfig({
   ],
   
   build: {
-    // Use esbuild instead of terser (faster, built-in)
     minify: 'esbuild',
-    
-    // esbuild options
     esbuildOptions: {
-      drop: ['console', 'debugger'], // Remove console.log and debugger
+      drop: ['console', 'debugger'],
     },
     
     rollupOptions: {
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['@headlessui/react', 'lucide-react', 'flowbite-react'],
+          'vendor-ui': ['@headlessui/react', 'lucide-react'],
+          'vendor-flowbite': ['flowbite-react'],
           'vendor-utils': ['axios'],
           'vendor-lightbox': ['yet-another-react-lightbox'],
+          'vendor-phone': ['react-phone-input-2'],
         },
       },
     },
     
-    chunkSizeWarningLimit: 500,
     cssCodeSplit: true,
+    chunkSizeWarningLimit: 500,
     sourcemap: false,
     target: 'es2020',
   },
   
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom', 'axios'],
+    exclude: ['react-phone-input-2'],
   },
 });

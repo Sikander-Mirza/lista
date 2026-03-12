@@ -1,8 +1,7 @@
-// Components/SEO/SEO.jsx
+// src/Components/SEO/SEO.jsx
 import { Helmet } from 'react-helmet-async';
-import { useEffect } from 'react';
 
-const Seo = ({ 
+const SEO = ({ 
   title, 
   description, 
   canonicalUrl, 
@@ -10,44 +9,25 @@ const Seo = ({
   ogType = 'website',
   propertyData = null 
 }) => {
-  
-  // Debug: Log when canonical changes
-  useEffect(() => {
-    console.log('SEO Component - Canonical URL:', canonicalUrl);
-    console.log('SEO Component - Title:', title);
-  }, [canonicalUrl, title]);
+  if (!title) return null;
 
-  // Don't render if no canonical URL
-  if (!canonicalUrl) {
-    console.log('SEO Component - No canonical URL provided');
-    return null;
-  }
-  
   return (
     <Helmet>
-      {/* Title */}
       <title>{title}</title>
-      
-      {/* Meta Description */}
       <meta name="description" content={description} />
+      {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
       
-      {/* Canonical - This is the key part */}
-      <link rel="canonical" href={canonicalUrl} />
-      
-      {/* Open Graph */}
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:url" content={canonicalUrl} />
+      {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
       <meta property="og:type" content={ogType} />
       {ogImage && <meta property="og:image" content={ogImage} />}
       
-      {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       {ogImage && <meta name="twitter:image" content={ogImage} />}
       
-      {/* Schema.org JSON-LD */}
       {propertyData && (
         <script type="application/ld+json">
           {JSON.stringify({
@@ -56,9 +36,7 @@ const Seo = ({
             "name": propertyData.property_name,
             "description": propertyData.description,
             "url": canonicalUrl,
-            "image": propertyData.images?.[0] 
-              ? `${import.meta.env.VITE_IMAGE_KEY}${propertyData.images[0]}` 
-              : '',
+            "image": ogImage || '',
             "address": {
               "@type": "PostalAddress",
               "streetAddress": propertyData.address,
@@ -78,4 +56,4 @@ const Seo = ({
   );
 };
 
-export default Seo;
+export default SEO;

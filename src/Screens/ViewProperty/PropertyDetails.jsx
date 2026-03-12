@@ -17,7 +17,7 @@ import SocialPage from "./SocialIcons/SocialIcons";
 import PropertyChat from "../../Components/PropertyChat/PropertyChat";
 import ReportUserModal from "../../Components/ReportModal/ReportModal";
 import PropertyGallery from "../../Components/Carousel/PropertyGallery/PropertyGallery";
-import SEO from "../../Components/SEO/Seo";
+import SEO from "../../Components/Meta/Meta.jsx";
 
 // Images
 import SocialIcons7 from "../../assets/Icons/SocialIcons7.png";

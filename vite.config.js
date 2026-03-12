@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import flowbiteReact from "flowbite-react/plugin/vite";
 
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
@@ -12,105 +13,66 @@ export default defineConfig({
   ],
   
   build: {
-    // Better minification
-    minify: 'esbuild',
-    esbuildOptions: {
-      drop: ['console', 'debugger'],
-      pure: ['console.log', 'console.info', 'console.debug', 'console.warn'],
-      legalComments: 'none',
-      minifyIdentifiers: true,
-      minifySyntax: true,
-      minifyWhitespace: true,
+    // Enable minification
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,  // Remove console.log in production
+        drop_debugger: true,
+      },
     },
     
+    // Code splitting for better caching
     rollupOptions: {
       output: {
-        // Better code splitting
-        manualChunks: (id) => {
-          // Node modules splitting
-          if (id.includes('node_modules')) {
-            // React core
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-              return 'vendor-react';
-            }
-            
-            // UI libraries - split into smaller chunks
-            if (id.includes('@headlessui')) {
-              return 'vendor-headlessui';
-            }
-            if (id.includes('lucide-react')) {
-              return 'vendor-lucide';
-            }
-            if (id.includes('flowbite')) {
-              return 'vendor-flowbite';
-            }
-            
-            // Axios
-            if (id.includes('axios')) {
-              return 'vendor-axios';
-            }
-            
-            // Lightbox - lazy loaded
-            if (id.includes('yet-another-react-lightbox')) {
-              return 'vendor-lightbox';
-            }
-            
-            // Helmet
-            if (id.includes('react-helmet')) {
-              return 'vendor-helmet';
-            }
-            
-            // Country selector - if this is the CSS issue
-            if (id.includes('country') || id.includes('phone-input') || id.includes('react-phone')) {
-              return 'vendor-phone';
-            }
-            
-            // Redux (if used)
-            if (id.includes('redux')) {
-              return 'vendor-redux';
-            }
-            
-            // All other node_modules
-            return 'vendor-other';
-          }
+        manualChunks: {
+          // Core React libraries
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           
-          // Split screens
-          if (id.includes('/Screens/Admin/')) {
-            return 'screen-admin';
-          }
-          if (id.includes('/Screens/Authentication/') || id.includes('/Screens/Login/') || id.includes('/Screens/Register/')) {
-            return 'screen-auth';
-          }
-          if (id.includes('/Screens/ViewProperty/')) {
-            return 'screen-property';
-          }
+          // UI libraries
+          'vendor-ui': ['@headlessui/react', 'lucide-react', 'flowbite-react'],
+          
+          // Utility libraries
+          'vendor-utils': ['axios'],
+          
+          // Lightbox (only loaded when needed)
+          'vendor-lightbox': ['yet-another-react-lightbox'],
         },
-      },
-      
-      // Tree shaking
-      treeshake: {
-        moduleSideEffects: false,
-        propertyReadSideEffects: false,
-        tryCatchDeoptimization: false,
       },
     },
     
-    // CSS
+    // Chunk size warning
+    chunkSizeWarningLimit: 500,
+    
+    // CSS code splitting
     cssCodeSplit: true,
-    cssMinify: true,
     
-    // Other options
-    chunkSizeWarningLimit: 300,
+    // No source maps in production
     sourcemap: false,
-    target: 'es2020',
     
-    // Report compressed size
-    reportCompressedSize: true,
+    // Target modern browsers
+    target: 'es2020',
   },
   
-  // Optimize deps
+  // Optimize dependencies
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'axios'],
-    exclude: ['yet-another-react-lightbox'],
+    include: [
+      'react', 
+      'react-dom', 
+      'react-router-dom', 
+      'axios',
+    ],
+    exclude: ['yet-another-react-lightbox'], // Lazy load this
+  },
+  
+  // Server options for development
+  server: {
+    open: true,
+    cors: true,
+  },
+  
+  // Preview options
+  preview: {
+    port: 4173,
   },
 });

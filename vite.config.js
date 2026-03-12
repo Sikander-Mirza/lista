@@ -12,14 +12,13 @@ export default defineConfig({
   ],
   
   build: {
-    // Use esbuild instead of terser (faster, built-in)
+    // Use esbuild for faster builds
     minify: 'esbuild',
-    
-    // esbuild options
     esbuildOptions: {
-      drop: ['console', 'debugger'], // Remove console.log and debugger
+      drop: ['console', 'debugger'],
     },
     
+    // Code splitting
     rollupOptions: {
       output: {
         manualChunks: {
@@ -31,10 +30,19 @@ export default defineConfig({
       },
     },
     
-    chunkSizeWarningLimit: 500,
+    // CSS optimization
     cssCodeSplit: true,
+    cssMinify: true,
+    
+    // General
+    chunkSizeWarningLimit: 500,
     sourcemap: false,
     target: 'es2020',
+  },
+  
+  // Optimize CSS
+  css: {
+    devSourcemap: false,
   },
   
   optimizeDeps: {

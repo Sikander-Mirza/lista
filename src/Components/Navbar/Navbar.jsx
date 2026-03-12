@@ -7,7 +7,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog, DialogPanel, PopoverGroup } from "@headlessui/react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 // IMAGES
-import Logo from "../../assets/NewlistaLogo.png";
+import Logo from "../../assets/NewlistaLogo.webp";
 import DummyLogo from "../../assets/fallback/UnknowUser.png";
 // COMPONENTS
 import Spinner from "../Spinner/Spinner";

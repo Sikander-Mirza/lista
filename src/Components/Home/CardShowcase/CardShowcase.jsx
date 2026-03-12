@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import HomeSec1_1 from "../../../assets/Illustration/HomeSec1.1.png";
-import HomeSec1_2 from "../../../assets/Illustration/HomeSec1.2.png";
-import HomeSec1_3 from "../../../assets/Illustration/HomeSec1.3.png";
+import HomeSec1_1 from "../../../assets/Illustration/HomeSec1.1.webp";
+import HomeSec1_2 from "../../../assets/Illustration/HomeSec1.2.webp";
+import HomeSec1_3 from "../../../assets/Illustration/HomeSec1.3.webp";
 
 const CardShowcase = ({ token, onclick, NetWorkView }) => {
 

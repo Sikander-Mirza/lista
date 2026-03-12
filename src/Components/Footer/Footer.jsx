@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 // IMAGES
-import WhiteLogo from "../../assets/NewlistaLogo.png";
+import WhiteLogo from "../../assets/NewlistaLogo.webp";
 import FooterIcon from "../../assets/Icons/FooterIcon.png";
 import FooterIcon2 from "../../assets/Icons/FooterIcon2.png";
 

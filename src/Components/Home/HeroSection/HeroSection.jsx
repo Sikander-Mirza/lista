@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SearchBar from '../../SearchBar/SearchBar'
 import HeroBg from "../../../assets/Banners/bg-image.jpg";
-import MobileBg from "../../../assets/Banners/HeroSectionMobile.png";
+import MobileBg from "../../../assets/Banners/HeroSectionMobile.webp";
 import { Link } from 'react-router-dom';
 
 

@@ -2,7 +2,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect } from 'react';
 
-const SEO = ({ 
+const Seo = ({ 
   title, 
   description, 
   canonicalUrl, 
@@ -78,4 +78,4 @@ const SEO = ({
   );
 };
 
-export default SEO;
+export default Seo;

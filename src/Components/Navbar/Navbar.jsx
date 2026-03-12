@@ -141,7 +141,7 @@ function TransparentNavbar() {
               Networking
             </Link>
             <Link
-              to={"contact-us"}
+              to={"/contact-us"}
               className="text-sm/6 lg:text-[14px] xl:text-sm/6 font-[500] text-textColor font-Inter hover:text-[#c4c4c4]"
             >
               Contact

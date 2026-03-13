@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon } from "../../Components/Icons/Icons";
+import { CheckCircleIcon, XCircleIcon } from "../../Components/Icons/Icons";
 import { ChevronsDown, ExternalLink, TextSearch } from "lucide-react";
 import Spinner from "../../Spinner/Spinner";
 import clsx from "clsx";

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Lock, UserRoundCheck } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "../../Components/Icons/Icons";
 import { Dialog, DialogPanel, PopoverGroup } from "@headlessui/react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 // IMAGES

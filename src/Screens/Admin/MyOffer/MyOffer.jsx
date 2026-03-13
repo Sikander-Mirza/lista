@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
+import { CheckCircleIcon, XCircleIcon } from "../../Components/Icons/Icons";
 import RightSideArrow from "../../../assets/Icons/ListingRightSideArrow.png";
 import axios from "axios";
 import Spinner from "../../../Components/Spinner/Spinner";

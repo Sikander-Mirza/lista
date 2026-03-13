@@ -4,7 +4,7 @@ import Footer from "../../Components/Footer/Footer";
 // IMAGES
 import AddPropertyBanner from "../../assets/Banners/AddPropertyBanner1.1.jpg";
 import { Select } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "../../Components/Icons/Icons";
 import RentailForm from "../../Components/PropertyForm/RentailForm/RentailForm";
 import WareHouseForm from "../../Components/PropertyForm/WareHouseForm/WareHouseForm";
 import LandForm from "../../Components/PropertyForm/LandForm/LandForm";

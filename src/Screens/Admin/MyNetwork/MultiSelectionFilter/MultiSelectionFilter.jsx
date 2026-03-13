@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronDownIcon, CheckIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon, CheckIcon } from "../../Components/Icons/Icons";
 import clsx from "clsx";
 
 export default function MultiSelectDropdown({

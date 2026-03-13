@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import ComboboxSelector from "../ComboboxSelector/ComboboxSelector";
 import { Select } from "@headlessui/react";
 import Selection from "../InputFields/Selection";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon, CheckIcon } from "../../Components/Icons/Icons";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

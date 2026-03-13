@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "../../Components/Icons/Icons";
 import { ChevronsDown, ExternalLink, ChartNoAxesCombined, Edit, Trash2, Lock, Eye, TextSearch } from "lucide-react";
 import Spinner from "../../Spinner/Spinner";
 import TruncatedText from "../../TruncatedText/TruncatedText";

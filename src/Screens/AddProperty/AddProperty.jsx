@@ -8,7 +8,7 @@ import Footer from "../../Components/Footer/Footer";
 import AddPropertyBanner from "../../assets/Banners/AddPropertyBanner1.1.jpg";
 import ContactImage1_2 from "../../assets/Banners/ContactImage1.2.png";
 import ImagePlaceholder from "../../assets/fallback/ImagePlaceholder.png";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "../../Components/Icons/Icons";
 
 const AddProperty = () => {
   return (

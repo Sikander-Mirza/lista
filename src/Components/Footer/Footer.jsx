@@ -17,6 +17,8 @@ const Footer = () => {
                 <Link to={"/"} className="flex items-center">
                   <img
                     src={WhiteLogo}
+                     width={200}
+  height={72}
                     className="h-[65px] sm:h-[80px] me-3"
                     alt="Newlista"
                   />

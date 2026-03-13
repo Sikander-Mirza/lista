@@ -18,7 +18,7 @@ import OffMarketListingCard from "../../Components/Home/OffMarketListingCard/Off
 import HowInvestorNetworkWorks from "../../Components/HowInvestorNetworkWorks/HowInvestorNetworkWorks";
 import LongTermGrowthSection from "../../Components/LongTermGrowthSection/LongTermGrowthSection";
 import { Helmet } from 'react-helmet-async';
-
+import { lazy, Suspense } from 'react';
 const Home = () => {
   // KEYS
   const navigate = useNavigate();
@@ -238,8 +238,13 @@ const Home = () => {
         </section>
         {/* OFF MARKET PROPERTIES END */}
 
-        <HowInvestorNetworkWorks/>
-        <LongTermGrowthSection/>
+       <Suspense fallback={<div className="h-96" />}>
+  <HowInvestorNetworkWorks />
+</Suspense>
+
+<Suspense fallback={<div className="h-96" />}>
+  <LongTermGrowthSection />
+</Suspense>
 
         {/* NETWORKS CAROUSEL SECTION */}
         <section className="flex flex-col justify-center items-center pb-20 px-6 gap-10 overflow-hidden sm:pb-16 sm:px-8 md:px-0 sm:pt-10 w-[100%] xl:w-[94%] 2xl:w-[80%]">

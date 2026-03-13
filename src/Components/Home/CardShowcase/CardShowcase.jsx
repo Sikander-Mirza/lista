@@ -99,7 +99,8 @@ It is a commercial real estate investor ecosystem designed to facilitate investo
         className="bg-PurpleColor rounded-[10px] px-5.5 py-8 flex flex-col gap-4"
       >
         <div>
-          <img className="sm:w-[28%]" src={items.image} alt="" />
+          <img className="sm:w-[28%]"    width={80}
+  height={80} src={items.image} alt="" />
         </div>
 
         <div className="flex flex-col gap-3">

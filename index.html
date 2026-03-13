@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- Preconnects for fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
@@ -22,12 +23,14 @@
     </style>
   </head>
   <body>
-    <div id="root">
-      <div class="initial-loader">
-        <div class="initial-loader-spinner"></div>
-      </div>
+  <div id="root">
+    <div class="initial-loader">
+      <div class="initial-loader-spinner"></div>
     </div>
-    <script type="module" src="/src/main.jsx"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" media="print" onload="this.media='all'" />
-  </body>
+  </div>
+  <script type="module" src="/src/main.jsx"></script>
+  
+  <!-- Load fonts async - non-blocking -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&family=Poppins:wght@600&display=swap" media="print" onload="this.media='all'" />
+</body>
 </html>

@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
@@ -9,9 +8,9 @@
 }
 
 @theme {
-  --font-Urbanist: "Urbanist", sans-serif;
-  --font-Inter: "Inter", sans-serif;
-  --font-Poppins: "Poppins", sans-serif;
+  --font-Urbanist: "Urbanist", system-ui, sans-serif;
+  --font-Inter: "Inter", system-ui, sans-serif;
+  --font-Poppins: "Poppins", system-ui, sans-serif;
   --color-Paracolor: #444444;
   --color-PurpleColor: #703bf7;
   --color-YellowColor: #ffc107;

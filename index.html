@@ -4,13 +4,18 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Preconnects for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
     <meta name="description" content="Newlista - Find commercial real estate properties for sale and lease" />
     <meta name="theme-color" content="#7C3AED" />
     <title>Newlista - Commercial Real Estate</title>
 
     <style>
       *,*::before,*::after{box-sizing:border-box}
-      body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased}
+      body{margin:0;font-family:system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
       #root{min-height:100vh}
       .initial-loader{display:flex;justify-content:center;align-items:center;min-height:100vh}
       .initial-loader-spinner{width:40px;height:40px;border:3px solid #e5e7eb;border-top-color:#7C3AED;border-radius:50%;animation:spin 1s linear infinite}
@@ -18,11 +23,14 @@
     </style>
   </head>
   <body>
-    <div id="root">
-      <div class="initial-loader">
-        <div class="initial-loader-spinner"></div>
-      </div>
+  <div id="root">
+    <div class="initial-loader">
+      <div class="initial-loader-spinner"></div>
     </div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+  </div>
+  <script type="module" src="/src/main.jsx"></script>
+  
+  <!-- Load fonts async - non-blocking -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&family=Poppins:wght@600&display=swap" media="print" onload="this.media='all'" />
+</body>
 </html>

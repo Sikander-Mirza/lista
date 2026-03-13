@@ -1,8 +1,3 @@
-// main.jsx
-// REMOVE THESE TWO LINES:
-// import "flowbite";
-// import "flowbite-react";
-
 import "./index.css";
 import App from "./App.jsx";
 import { StrictMode } from "react";

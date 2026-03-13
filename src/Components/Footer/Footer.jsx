@@ -18,7 +18,7 @@ const Footer = () => {
                   <img
                     src={WhiteLogo}
                     className="h-[65px] sm:h-[80px] me-3"
-                    alt="FlowBite Logo"
+                    alt="Newlista"
                   />
                 </Link>
               </div>

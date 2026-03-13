@@ -26,11 +26,13 @@ export default defineConfig({
           'vendor-utils': ['axios'],
           'vendor-lightbox': ['yet-another-react-lightbox'],
           'vendor-phone': ['react-phone-input-2'],
+          'vendor-redux': ['redux', 'react-redux'],
         },
       },
     },
     
     cssCodeSplit: true,
+    cssMinify: true,
     chunkSizeWarningLimit: 500,
     sourcemap: false,
     target: 'es2020',
@@ -38,6 +40,6 @@ export default defineConfig({
   
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom', 'axios'],
-    exclude: ['react-phone-input-2'],
+    exclude: ['yet-another-react-lightbox', 'react-phone-input-2'],
   },
 });

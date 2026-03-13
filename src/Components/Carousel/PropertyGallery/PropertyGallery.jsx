@@ -1,9 +1,17 @@
 // Components/Carousel/PropertyGallery/PropertyGallery.jsx
 import React, { useState, useMemo, useCallback, lazy, Suspense } from "react";
-import "yet-another-react-lightbox/styles.css";
 
 // Lazy load lightbox
 const Lightbox = lazy(() => import('yet-another-react-lightbox'));
+
+// Load CSS only when needed
+let cssLoaded = false;
+const loadLightboxCSS = () => {
+  if (!cssLoaded) {
+    import('yet-another-react-lightbox/styles.css');
+    cssLoaded = true;
+  }
+};
 
 export default function PropertyGallery({ images = [] }) {
   const [index, setIndex] = useState(0);
@@ -25,6 +33,7 @@ export default function PropertyGallery({ images = [] }) {
   }, []);
 
   const handleOpenLightbox = useCallback((idx) => {
+    loadLightboxCSS(); // Load CSS only when opening lightbox
     setIndex(idx);
     setOpen(true);
   }, []);

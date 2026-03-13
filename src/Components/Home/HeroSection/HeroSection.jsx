@@ -56,7 +56,7 @@ const HeroSection = () => {
                         </h1>
 
                         <p className='text-[16px] sm:text-[16.5px] lg:text-[20px] font-[500] mt-4 text-white text-center sm:w-[80%]  lg:w-[60%] leading-relaxed'>
-                            Join an exclusive commercial real estate investor network to discover off-market deals, connect with investors aligned to your strategy, and build high-value acquisition partnerships.
+                           Newlista is an investor-only commercial real estate network where investors connect, share off-market opportunities, and build acquisition partnerships.
                         </p>
 
                         <div className="mt-8">

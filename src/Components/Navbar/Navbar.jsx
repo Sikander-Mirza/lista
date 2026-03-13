@@ -94,8 +94,8 @@ function TransparentNavbar() {
         {/* LOGO SECTION  */}
         <div className="flex lg:flex-1">
           <Link to={"/"} className="-m-1.5 p-1">
-            <span className="sr-only">New Lista</span>
-            <img alt="" src={Logo} className="h-18 sm:h-16 lg:h-18 w-[200px]" />
+            <span className="sr-only">NewLista</span>
+            <img alt="Newlista" src={Logo} className="h-18 sm:h-16 lg:h-18 w-[200px]" />
           </Link>
         </div>
         <div className="flex items-center md:gap-8 lg:gap-5 xl:gap-8 justify-between">
@@ -266,7 +266,7 @@ function TransparentNavbar() {
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto px-6 py-8 bg-black sm:px-6 sm:py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <Link className="-m-1.5 ">
-              <img alt="" src={Logo} className="h-17 -ml-1.5 w-auto" />
+              <img alt="Newlista" src={Logo} className="h-17 -ml-1.5 w-auto" />
             </Link>
             <button
               type="button"

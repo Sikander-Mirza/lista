@@ -1,6 +1,9 @@
-import "flowbite";
+// main.jsx
+// REMOVE THESE TWO LINES:
+// import "flowbite";
+// import "flowbite-react";
+
 import "./index.css";
-import "flowbite-react";
 import App from "./App.jsx";
 import { StrictMode } from "react";
 import store from "./Store/store.js";
@@ -14,8 +17,8 @@ createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <ErrorProvider>
         <HelmetProvider>
-    <App />
-  </HelmetProvider>
+          <App />
+        </HelmetProvider>
       </ErrorProvider>
     </Provider>
   </StrictMode>

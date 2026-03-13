@@ -195,10 +195,10 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Investor-Only Commercial Real Estate Network | Newlista</title>
+        <title>Newlista | Commercial Real Estate Investor Network</title>
         <meta
           name="description"
-          content="Newlista is a commercial real estate investor network where investors discover off-market opportunities and connect with capital partners to execute deals."
+          content="Newlista is a private commercial real estate investor network where investors connect, share on-market and off-market opportunities, and build acquisition partnerships."
         />
         <link rel="canonical" href="https://www.newlista.com/" />
       </Helmet>

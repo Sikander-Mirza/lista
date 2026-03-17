@@ -163,3 +163,36 @@
   scrollbar-width: thin;
   scrollbar-color: #8000ff transparent;
 }
+
+
+
+/* ✅ Prevent layout thrashing globally */
+#root {
+  contain: layout style;
+}
+
+/* ✅ Optimize pagination container */
+nav[aria-label="Pagination"] {
+  contain: layout style paint;
+}
+
+nav[aria-label="Pagination"] button,
+nav[aria-label="Pagination"] span {
+  contain: layout style paint;
+}
+
+/* ✅ Optimize animated elements */
+.animate-spin {
+  will-change: transform;
+  contain: layout style paint;
+}
+
+/* ✅ Prevent reflow from lazy-loaded images */
+img {
+  content-visibility: auto;
+}
+
+/* ✅ Optimize card grids */
+.grid {
+  contain: layout style;
+}

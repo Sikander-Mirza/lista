@@ -1,5 +1,5 @@
 import React from "react";
-import EmptyCard from "../../assets/Illustration/MyOfferPage.png";
+import EmptyCard from "../../assets/Illustration/MyOfferPage.webp";
 import { Link } from "react-router-dom";
 
 const EmptyCards = ({ Title , type  }) => {

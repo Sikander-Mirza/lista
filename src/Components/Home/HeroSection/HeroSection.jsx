@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SearchBar from '../../SearchBar/SearchBar';
 
 // ✅ Import WebP versions (convert your images to WebP)
-import HeroBgWebp from "../../../assets/Banners/bg-image.webp";
+import HeroBgWebp from "../../../assets/Banners/bg-image.jpg";
 import MobileBgWebp from "../../../assets/Banners/HeroSectionMobile.webp";
 
 // Fallback for older browsers

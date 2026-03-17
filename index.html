@@ -5,18 +5,15 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Preconnect to external domains -->
+    <!-- MAX 3 preconnects — no duplicates -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://admin.newlista.com" />
     
-    <!-- Meta tags for SEO -->
-    <meta name="description" content="Newlista - Find commercial real estate properties for sale and lease" />
     <meta name="theme-color" content="#7C3AED" />
-    
-    <title>Newlista - Commercial Real Estate</title>
+    <title></title>
 
-    <!-- Critical CSS -->
+    <!-- Critical CSS inlined -->
     <style>
       *,*::before,*::after{box-sizing:border-box}
       body{margin:0;font-family:'Urbanist',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
@@ -26,13 +23,45 @@
       @keyframes spin{to{transform:rotate(360deg)}}
     </style>
     
-    <!-- Load fonts async -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <!-- Fonts loaded async — NO duplicate preconnects -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
     <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet"
+      />
     </noscript>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://www.newlista.com/#organization",
+        "name": "Newlista Ventures LLC",
+        "url": "https://www.newlista.com/",
+        "logo": "https://www.newlista.com/assets/NewlistaLogo-BV7NO06Q.png",
+        "description": "Newlista Ventures LLC is an online commercial real estate investor network connecting investors, sponsors, and opportunities across the United States.",
+        "telephone": "+1-713-659-9670",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "5900 Balcones Drive, #23371",
+          "addressLocality": "Austin",
+          "addressRegion": "TX",
+          "postalCode": "78731",
+          "addressCountry": "US"
+        },
+        "sameAs": [
+          "https://www.facebook.com/Newlista",
+          "https://x.com/newlista",
+          "https://www.linkedin.com/in/newlista"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root">

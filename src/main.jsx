@@ -1,20 +1,32 @@
 import "./index.css";
-import App from "./App.jsx";
 import { StrictMode } from "react";
-import store from "./Store/store.js";
-import { Provider } from "react-redux";
-import { HelmetProvider } from 'react-helmet-async';
 import { createRoot } from "react-dom/client";
-import { ErrorProvider } from "./CustomHook/ErrorContext/ErrorContext.jsx";
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Provider store={store}>
-      <ErrorProvider>
-        <HelmetProvider>
-          <App />
-        </HelmetProvider>
-      </ErrorProvider>
-    </Provider>
-  </StrictMode>
-);
+const root = createRoot(document.getElementById("root"));
+
+// Parallel dynamic imports — reduces initial JS parse time
+Promise.all([
+  import("./App.jsx"),
+  import("react-redux"),
+  import("./Store/store.js"),
+  import("react-helmet-async"),
+  import("./CustomHook/ErrorContext/ErrorContext.jsx"),
+]).then(([
+  { default: App },
+  { Provider },
+  { default: store },
+  { HelmetProvider },
+  { ErrorProvider },
+]) => {
+  root.render(
+    <StrictMode>
+      <Provider store={store}>
+        <ErrorProvider>
+          <HelmetProvider>
+            <App />
+          </HelmetProvider>
+        </ErrorProvider>
+      </Provider>
+    </StrictMode>
+  );
+});

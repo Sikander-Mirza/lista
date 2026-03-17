@@ -263,7 +263,48 @@ const ViewProperty = () => {
     });
   };
 
-
+ const itemListSchema =
+    Properties && Properties.length
+      ? {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id":
+                "https://www.newlista.com/properties/#webpage",
+              url: "https://www.newlista.com/properties",
+              name: "Commercial Property Listings | Newlista",
+              description:
+                "Browse available commercial real estate listings including medical offices, mixed-use buildings and specialty commercial properties.",
+              isPartOf: {
+                "@id": "https://www.newlista.com/#website",
+              },
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.newlista.com/#website",
+              url: "https://www.newlista.com",
+              name: "Newlista",
+            },
+            {
+              "@type": "ItemList",
+              "@id":
+                "https://www.newlista.com/properties/#itemlist",
+              name: "Newlista Property Listings",
+              url: "https://www.newlista.com/properties",
+              numberOfItems: Properties.length,
+              itemListOrder:
+                "https://schema.org/ItemListOrderAscending",
+              itemListElement: Properties.map((p, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                url: `https://www.newlista.com/properties/${p.id}`,
+                name: p.property_name,
+              })),
+            },
+          ],
+        }
+      : null;
 
  return (
   <>
@@ -274,6 +315,11 @@ const ViewProperty = () => {
           name="description"
           content="Explore off‑market commercial property listings and investment opportunities on Newlista’s investor‑only network, and connect with sellers and fellow investors."
         />
+        {itemListSchema && (
+          <script type="application/ld+json">
+            {JSON.stringify(itemListSchema)}
+          </script>
+        )}
       </Helmet>
 
     {/* BANNER START  */}

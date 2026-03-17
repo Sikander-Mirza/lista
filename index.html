@@ -1,20 +1,19 @@
-<head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Preconnects — exactly 3, no duplicates -->
+    <!-- MAX 3 preconnects — no duplicates -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://admin.newlista.com" crossorigin />
-    
-    <!-- DNS prefetch fallback -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://admin.newlista.com" />
+    <link rel="preconnect" href="https://admin.newlista.com" />
     
     <meta name="theme-color" content="#7C3AED" />
     <title></title>
 
+    <!-- Critical CSS inlined -->
     <style>
       *,*::before,*::after{box-sizing:border-box}
       body{margin:0;font-family:'Urbanist',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
@@ -24,6 +23,7 @@
       @keyframes spin{to{transform:rotate(360deg)}}
     </style>
     
+    <!-- Fonts loaded async — NO duplicate preconnects -->
     <link
       href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
@@ -62,4 +62,13 @@
         ]
       }
     </script>
-</head>
+  </head>
+  <body>
+    <div id="root">
+      <div class="initial-loader">
+        <div class="initial-loader-spinner"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

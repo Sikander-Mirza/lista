@@ -95,18 +95,8 @@ function TransparentNavbar() {
         <div className="flex lg:flex-1">
           <Link to={"/"} className="-m-1.5 p-1">
             <span className="sr-only">NewLista</span>
-            <img
-  alt="Newlista"
-  width="200"
-  height="72"
-  className="h-18 sm:h-16 lg:h-18 w-[200px]"
-  src="../../assets/NewlistaLogo.webp"
-  loading="eager"
-  decoding="async"
-  fetchPriority="high"
-  srcSet="../../assets/NewlistaLogo.webp 500w"
-  sizes="200px"
-/>
+            <img alt="Newlista" src={Logo}  width={200}
+  height={72} className="h-18 sm:h-16 lg:h-18 w-[200px]" />
           </Link>
         </div>
         <div className="flex items-center md:gap-8 lg:gap-5 xl:gap-8 justify-between">

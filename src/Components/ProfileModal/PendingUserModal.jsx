@@ -9,7 +9,7 @@ import {
   UserRoundCheck,
   X,
 } from "lucide-react";
-import UnkownUser from "../../assets/fallback/UnknowUser.png";
+import UnkownUser from "../../assets/fallback/UnknowUser.webp";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
 const PendingUserModal = ({

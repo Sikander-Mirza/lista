@@ -1,6 +1,6 @@
 // IMAGES
 import InvestorIcon1 from "../../../../../assets/Icons/InvestorIcon1.png";
-import DummyLogo from "../../../../../assets/fallback/UnknowUser.png";
+import DummyLogo from "../../../../../assets/fallback/UnknowUser.webp";
 // REDUX
 import { useSelector } from "react-redux";
 // COMPONENTS 

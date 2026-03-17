@@ -8,7 +8,7 @@ import { Dialog, DialogPanel, PopoverGroup } from "@headlessui/react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 // IMAGES
 import Logo from "../../assets/NewlistaLogo.webp";
-import DummyLogo from "../../assets/fallback/UnknowUser.png";
+import DummyLogo from "../../assets/fallback/UnknowUser.webp";
 // COMPONENTS
 import Spinner from "../Spinner/Spinner";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";

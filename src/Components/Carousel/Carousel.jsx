@@ -9,7 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-import DummyLogo from "../../assets/fallback/UnknowUser.png";
+import DummyLogo from "../../assets/fallback/UnknowUser.webp";
 import { useConfirmation } from "../../Screens/Admin/AccountSetting/Fields/Confirmation";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import { UserRoundCheck } from "lucide-react";

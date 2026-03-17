@@ -2,7 +2,7 @@
   import { getDatabase, ref, onValue } from "firebase/database";
   import TruncatedText from "../TruncatedText/TruncatedText";
 
-  import UnkownUser from "../../assets/fallback/UnknowUser.png";
+  import UnkownUser from "../../assets/fallback/UnknowUser.webp";
 
   export default function UserList({
     users,

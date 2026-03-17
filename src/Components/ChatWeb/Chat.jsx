@@ -25,7 +25,7 @@ import {
 
 import RightSideImage1_2 from "../../assets/Icons/RightSideImage1.2.png";
 import { Menu } from "@headlessui/react";
-import UnkownUser from "../../assets/fallback/UnknowUser.png";
+import UnkownUser from "../../assets/fallback/UnknowUser.webp";
 import axios from "axios";
 import ReportUserModal from "../ReportModal/ReportModal";
 // other imports...

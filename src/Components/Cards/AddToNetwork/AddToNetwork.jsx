@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 // IMAGES
-import UnkownUser from "../../../assets/fallback/UnknowUser.png";
+import UnkownUser from "../../../assets/fallback/UnknowUser.webp";
 
 // COMPONENTS
 import TruncatedText from "../../TruncatedText/TruncatedText";

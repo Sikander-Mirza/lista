@@ -15,7 +15,7 @@ import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import { useConfirmation } from "../../Screens/Admin/AccountSetting/Fields/Confirmation";
 
 // IMAGES
-import DummyLogo from "../../assets/fallback/UnknowUser.png";
+import DummyLogo from "../../assets/fallback/UnknowUser.webp";
 import axios from "axios";
 import Spinner from "../Spinner/Spinner";
 import Notification from "../Notification/Notification";

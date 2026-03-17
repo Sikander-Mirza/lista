@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import TruncatedText from "../../../Components/TruncatedText/TruncatedText";
-import UnkownUser from "../../../assets/fallback/UnknowUser.png";
+import UnkownUser from "../../../assets/fallback/UnknowUser.webp";
 import axios from "axios";
 import Spinner from "../../../Components/Spinner/Spinner";
 import { ChevronLeft, RotateCcw } from "lucide-react";

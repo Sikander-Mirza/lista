@@ -9,7 +9,7 @@ import {
   MapPin,
   Phone,
 } from "lucide-react";
-import UnkownUser from "../../assets/fallback/UnknowUser.png";
+import UnkownUser from "../../assets/fallback/UnknowUser.webp";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import BlockUserIcon from "../../assets/Icons/BlockUserIcon.png";
 import ReportUserModal from "../ReportModal/ReportModal";

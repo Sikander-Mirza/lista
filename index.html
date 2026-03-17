@@ -8,10 +8,11 @@
     <!-- Preconnects -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://admin.newlista.com" />
     
-    <!-- DNS prefetch -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <!-- ✅ FIX: Add crossorigin for API calls via fetch/axios -->
+    <link rel="preconnect" href="https://admin.newlista.com" crossorigin />
+    
+    <!-- DNS prefetch as fallback -->
     <link rel="dns-prefetch" href="https://admin.newlista.com" />
     
     <meta name="theme-color" content="#7C3AED" />

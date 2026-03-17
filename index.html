@@ -5,7 +5,10 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Preconnects — exactly 3, no duplicates -->
+    <!-- ✅ PRELOAD critical assets FIRST — before anything else -->
+    <link rel="modulepreload" href="/src/main.jsx" />
+    
+    <!-- Preconnects — exactly 3 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://admin.newlista.com" crossorigin />
@@ -47,7 +50,7 @@
         "name": "Newlista Ventures LLC",
         "url": "https://www.newlista.com/",
         "logo": "https://www.newlista.com/assets/NewlistaLogo-BV7NO06Q.png",
-        "description": "Newlista Ventures LLC is an online commercial real estate investor network connecting investors, sponsors, and opportunities across the United States.",
+        "description": "Newlista Ventures LLC is an online commercial real estate investor network.",
         "telephone": "+1-713-659-9670",
         "address": {
           "@type": "PostalAddress",

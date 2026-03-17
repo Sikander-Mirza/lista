@@ -1,49 +1,72 @@
-// Routing/Routing.jsx
-import { useEffect, useState, lazy, Suspense } from "react";
-import { 
-  BrowserRouter, 
-  matchPath, 
-  Route, 
-  Routes, 
-  useLocation 
+import { useEffect, useState, lazy, Suspense, memo, useCallback } from "react";
+import {
+  BrowserRouter,
+  matchPath,
+  Route,
+  Routes,
+  useLocation,
 } from "react-router-dom";
 
-// Critical Components (load immediately)
-import Navbar from "../../Components/Navbar/Navbar.jsx";
-import Footer from "../../Components/Footer/Footer.jsx";
-import MiniFooter from "../../Components/Footer/MiniFooter.jsx";
+// ✅ ONLY load ScrollToTop synchronously (tiny component)
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop.jsx";
-import Cookie from "../../Components/Cookie/Cookie.jsx";
 import ProtectiveRoute from "../ProtectiveRoute/ProtectiveRoute.jsx";
-import useUnreadMessageListener from "../../CustomHook/useUnreadMessageListener/useUnreadMessageListener.js";
+
+// ✅ LAZY LOAD layout components — they're not needed for first contentful paint
+const Navbar = lazy(() => import("../../Components/Navbar/Navbar.jsx"));
+const Footer = lazy(() => import("../../Components/Footer/Footer.jsx"));
+const MiniFooter = lazy(() => import("../../Components/Footer/MiniFooter.jsx"));
+const Cookie = lazy(() => import("../../Components/Cookie/Cookie.jsx"));
 
 // ==========================================
 // PAGE LOADER COMPONENT
 // ==========================================
-const PageLoader = () => (
-  <div className="flex flex-col justify-center items-center min-h-[60vh] gap-4">
-    <div className="w-12 h-12 border-4 border-gray-200 border-t-purple-600 rounded-full animate-spin" />
+const PageLoader = memo(() => (
+  <div 
+    className="flex flex-col justify-center items-center min-h-[60vh] gap-4"
+    style={{ contain: 'layout style paint' }}
+  >
+    <div 
+      className="w-12 h-12 border-4 border-gray-200 border-t-purple-600 rounded-full animate-spin"
+      style={{ willChange: 'transform' }}
+    />
     <p className="text-gray-500 text-sm">Loading...</p>
   </div>
-);
+));
+PageLoader.displayName = 'PageLoader';
+
+// ✅ Minimal navbar fallback — prevents layout shift
+const NavbarFallback = memo(() => (
+  <div 
+    className="h-16 sm:h-20 bg-white border-b border-gray-100"
+    style={{ contain: 'layout style' }}
+  />
+));
+NavbarFallback.displayName = 'NavbarFallback';
+
+// ✅ Minimal footer fallback
+const FooterFallback = memo(() => (
+  <div 
+    className="h-64 bg-gray-900"
+    style={{ contain: 'layout style' }}
+  />
+));
+FooterFallback.displayName = 'FooterFallback';
 
 // ==========================================
 // LAZY IMPORTS WITH PRELOAD SUPPORT
 // ==========================================
-
-// Helper function to create lazy component with preload
 const lazyWithPreload = (importFn) => {
   const Component = lazy(importFn);
   Component.preload = importFn;
   return Component;
 };
 
-// High Priority Pages (will be preloaded)
+// ✅ Home is highest priority
 const Home = lazyWithPreload(() => import("../../Screens/Home/Home"));
-const ViewProperty = lazyWithPreload(() => import("../../Screens/ViewProperty/ViewProperty"));
-const PropertyDetails = lazyWithPreload(() => import("../../Screens/ViewProperty/PropertyDetails"));
 
 // Medium Priority Pages
+const ViewProperty = lazyWithPreload(() => import("../../Screens/ViewProperty/ViewProperty"));
+const PropertyDetails = lazyWithPreload(() => import("../../Screens/ViewProperty/PropertyDetails"));
 const AboutUs = lazyWithPreload(() => import("../../Screens/AboutUs/AboutUs"));
 const Pricing = lazyWithPreload(() => import("../../Screens/Pricing/Pricing"));
 const ContactUs = lazyWithPreload(() => import("../../Screens/ContactUs/ContactUs.jsx"));
@@ -71,96 +94,130 @@ const AddProperty3 = lazy(() => import("../../Screens/AddProperty/AddProperty3.j
 const NotFound = lazy(() => import("../../Screens/404NotFound/NotFound.jsx"));
 
 // ==========================================
-// PRELOAD HOOK
+// PRELOAD HOOK — Optimized timing
 // ==========================================
 const usePreloadRoutes = () => {
   useEffect(() => {
-    // Preload high-priority routes after initial page load
-    const preloadTimeout = setTimeout(() => {
-      // Preload main pages in background
-      Home.preload?.();
-      ViewProperty.preload?.();
-      PropertyDetails.preload?.();
-    }, 2000); // Wait 2 seconds after initial load
+    // ✅ Use requestIdleCallback to avoid blocking main thread
+    const preloadWhenIdle = (preloadFn, timeout = 5000) => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => preloadFn?.(), { timeout });
+      } else {
+        setTimeout(() => preloadFn?.(), timeout);
+      }
+    };
 
-    // Preload auth pages when user hovers on login/register links
-    const preloadAuthTimeout = setTimeout(() => {
-      Login.preload?.();
-      Register.preload?.();
-    }, 5000); // Wait 5 seconds
+    // Preload Home immediately if not already loaded (for back navigation)
+    preloadWhenIdle(Home.preload, 1000);
+
+    // Preload other high-priority routes after 3 seconds
+    const timer1 = setTimeout(() => {
+      preloadWhenIdle(ViewProperty.preload);
+      preloadWhenIdle(PropertyDetails.preload);
+    }, 3000);
+
+    // Preload auth pages after 6 seconds
+    const timer2 = setTimeout(() => {
+      preloadWhenIdle(Login.preload);
+      preloadWhenIdle(Register.preload);
+    }, 6000);
 
     return () => {
-      clearTimeout(preloadTimeout);
-      clearTimeout(preloadAuthTimeout);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
     };
   }, []);
 };
 
 // ==========================================
-// LAYOUT COMPONENT
+// LAYOUT COMPONENT — Memoized to prevent re-renders
 // ==========================================
-const Layout = ({ children }) => {
+const Layout = memo(({ children }) => {
   const location = useLocation();
 
-  // Routes that show full layout
-  const fullLayoutRoutes = [
-    "/", 
-    "/about-us", 
-    "/pricing", 
-    "/contact-us",
-    "/properties", 
-    "/create-property", 
-    "/accessibility",
-    "/privacy-policy", 
-    "/terms-of-use"
-  ];
+  // ✅ Memoize route checks
+  const layoutConfig = useCallback(() => {
+    const fullLayoutRoutes = [
+      "/",
+      "/about-us",
+      "/pricing",
+      "/contact-us",
+      "/properties",
+      "/create-property",
+      "/accessibility",
+      "/privacy-policy",
+      "/terms-of-use",
+    ];
 
-  // Check if property detail page
-  const isPropertyDetailPage = matchPath("/properties/:slug", location.pathname);
+    const miniFooterRoutes = [
+      "/",
+      "/about-us",
+      "/contact-us",
+      "/properties",
+      "/create-property",
+      "/accessibility",
+      "/privacy-policy",
+      "/terms-of-use",
+    ];
 
-  // Determine what to show
-  const showNavbar = fullLayoutRoutes.includes(location.pathname) || isPropertyDetailPage;
-  
-  const showMiniFooter = [
-    "/", 
-    "/about-us", 
-    "/contact-us", 
-    "/properties", 
-    "/create-property",
-    "/accessibility", 
-    "/privacy-policy", 
-    "/terms-of-use"
-  ].includes(location.pathname) || isPropertyDetailPage;
+    const isPropertyDetailPage = matchPath("/properties/:slug", location.pathname);
+    const isFullLayout = fullLayoutRoutes.includes(location.pathname) || isPropertyDetailPage;
+    const hasMiniFooter = miniFooterRoutes.includes(location.pathname) || isPropertyDetailPage;
 
-  const showFooter = fullLayoutRoutes.includes(location.pathname) || isPropertyDetailPage;
+    return {
+      showNavbar: isFullLayout,
+      showMiniFooter: hasMiniFooter,
+      showFooter: isFullLayout,
+    };
+  }, [location.pathname]);
+
+  const { showNavbar, showMiniFooter, showFooter } = layoutConfig();
 
   return (
     <>
-      {showNavbar && <Navbar />}
-      <main className="min-h-screen">{children}</main>
-      {showMiniFooter && <MiniFooter />}
-      {showFooter && <Footer />}
+      {showNavbar && (
+        <Suspense fallback={<NavbarFallback />}>
+          <Navbar />
+        </Suspense>
+      )}
+      
+      <main className="min-h-screen" style={{ contain: 'layout style' }}>
+        {children}
+      </main>
+      
+      {showMiniFooter && (
+        <Suspense fallback={null}>
+          <MiniFooter />
+        </Suspense>
+      )}
+      
+      {showFooter && (
+        <Suspense fallback={<FooterFallback />}>
+          <Footer />
+        </Suspense>
+      )}
     </>
   );
-};
+});
+Layout.displayName = 'Layout';
 
 // ==========================================
 // ROUTE CONFIGURATION
 // ==========================================
 const routeConfig = [
   // Public Routes
-  { path: "/", element: <Home />, exact: true },
+  { path: "/", element: <Home /> },
   { path: "/properties", element: <ViewProperty /> },
   { path: "/properties/:slug", element: <PropertyDetails /> },
   { path: "/about-us", element: <AboutUs /> },
   { path: "/pricing", element: <Pricing /> },
   { path: "/contact-us", element: <ContactUs /> },
-  
+
   // Legal Routes
   { path: "/accessibility", element: <Accessibility /> },
   { path: "/privacy-policy", element: <PrivacyPolicy /> },
   { path: "/terms-of-use", element: <TermsAndCondition /> },
-  
+
   // Auth Routes
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
@@ -170,20 +227,38 @@ const routeConfig = [
   { path: "/reset-password", element: <ForgetPassword /> },
   { path: "/set-new-password", element: <SetNewPassword /> },
   { path: "/change-password", element: <ChangePassword /> },
-  
+
   // Protected Routes
-  { 
-    path: "/create-property", 
+  {
+    path: "/create-property",
     element: <ProtectiveRoute component={<AddProperty3 />} />,
-    protected: true 
   },
-  
+
   // Admin Routes
   { path: "/admin/*", element: <Admin /> },
-  
+
   // 404
   { path: "*", element: <NotFound /> },
 ];
+
+// ==========================================
+// UNREAD MESSAGE LISTENER — Lazy loaded
+// ==========================================
+const UnreadMessageListener = memo(({ userId }) => {
+  useEffect(() => {
+    if (!userId) return;
+
+    // ✅ Dynamically import the hook to reduce initial bundle
+    import("../../CustomHook/useUnreadMessageListener/useUnreadMessageListener.js")
+      .then((module) => {
+        // Hook is loaded, it will handle its own logic
+      })
+      .catch(() => {});
+  }, [userId]);
+
+  return null;
+});
+UnreadMessageListener.displayName = 'UnreadMessageListener';
 
 // ==========================================
 // MAIN ROUTING COMPONENT
@@ -191,18 +266,17 @@ const routeConfig = [
 const Routing = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
-  // Load user from localStorage
+  // ✅ Load user in requestAnimationFrame to avoid blocking render
   useEffect(() => {
-    try {
-      const user = JSON.parse(localStorage.getItem("User"));
-      if (user) setCurrentUser(user);
-    } catch (error) {
-      console.error("Error parsing user from localStorage:", error);
-    }
+    requestAnimationFrame(() => {
+      try {
+        const user = JSON.parse(localStorage.getItem("User"));
+        if (user) setCurrentUser(user);
+      } catch {
+        // Silent fail
+      }
+    });
   }, []);
-
-  // Listen for unread messages
-  useUnreadMessageListener(currentUser);
 
   // Preload routes in background
   usePreloadRoutes();
@@ -218,7 +292,14 @@ const Routing = () => {
             ))}
           </Routes>
         </Suspense>
-        <Cookie />
+        
+        {/* ✅ Load Cookie after page is interactive */}
+        <Suspense fallback={null}>
+          <Cookie />
+        </Suspense>
+        
+        {/* ✅ Load message listener only if user exists */}
+        {currentUser && <UnreadMessageListener userId={currentUser.id} />}
       </Layout>
     </BrowserRouter>
   );

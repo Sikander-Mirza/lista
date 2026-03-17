@@ -7,17 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { ErrorProvider } from "./CustomHook/ErrorContext/ErrorContext.jsx";
 import App from "./App.jsx";
 
-// ✅ Warm up API connection immediately (non-blocking)
-const API_URL = import.meta.env.VITE_API_KEY;
-if (API_URL) {
-  fetch(`${API_URL}/health`, { 
-    method: 'HEAD',
-    mode: 'cors',
-    credentials: 'omit',
-  }).catch(() => {
-    // Silent fail — just warming up connection
-  });
-}
+// ❌ REMOVE the health check — it's blocking render!
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

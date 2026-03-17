@@ -1,4 +1,4 @@
-import { memo, useEffect, useState, useCallback } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from '../../SearchBar/SearchBar';
 
@@ -12,19 +12,15 @@ import HeroBgJpg from "../../../assets/Banners/bg-image.jpg";
 const HeroSection = memo(() => {
   const token = localStorage.getItem('token');
   
-  // ✅ Use CSS media query approach instead of JS resize listener
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // ✅ Check once on mount, no resize listener needed
-    // CSS handles responsive background via picture element
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
     
     checkMobile();
     
-    // ✅ Debounced resize handler (only if absolutely needed)
     let timeoutId;
     const handleResize = () => {
       clearTimeout(timeoutId);
@@ -43,12 +39,11 @@ const HeroSection = memo(() => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      {/* ✅ Hero section with optimized image */}
       <section
         className="relative max-[400px]:px-6 px-10 -mt-[40%] sm:pt-10 sm:-mt-[18%] max-[891px]:pt-20 min-[891px]:pt-18 md:-mt-[15%] lg:px-8 lg:pt-18 xl:-mt-[10%] xl:pt-14 2xl:pt-40 w-full overflow-hidden"
         style={{ contain: 'layout style paint' }}
       >
-        {/* ✅ LCP Image — Using <img> with fetchpriority for better LCP */}
+        {/* ✅ LCP Image — NO overlay, NO filter */}
         <picture>
           <source
             media="(max-width: 768px)"
@@ -68,17 +63,8 @@ const HeroSection = memo(() => {
             loading="eager"
             decoding="async"
             className="absolute inset-0 w-full h-full object-cover object-center -z-10"
-            style={{
-              filter: 'brightness(0.7)',
-            }}
           />
         </picture>
-
-        {/* ✅ Overlay for text readability */}
-        <div 
-          className="absolute inset-0 bg-black/30 -z-10" 
-          aria-hidden="true"
-        />
 
         {/* Hero spacer */}
         <div 
@@ -88,7 +74,6 @@ const HeroSection = memo(() => {
 
         {/* Hero content */}
         <div className="flex flex-col justify-center items-center pb-28 sm:pb-36 md:pb-20 lg:pb-20">
-          {/* ✅ LCP Text — Add specific class for critical rendering */}
           <h1 
             className="text-[28px] leading-[40px] min-[370px]:!text-[37.5px] min-[370px]:!leading-[47px] sm:!text-[37px] sm:!leading-[46px] md:!text-[42px] md:!leading-[53px] lg:!text-[53px] lg:!leading-[65px] xl:!text-[68px] font-[600] font-Poppins tracking-tight text-white text-center 2xl:w-[66%] 2xl:!leading-[1.2em]"
             style={{ 

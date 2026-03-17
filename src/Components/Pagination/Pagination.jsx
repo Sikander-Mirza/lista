@@ -1,6 +1,5 @@
 import { memo, useMemo, useCallback } from 'react';
 
-// Pre-render SVG strings as constants outside component to avoid re-creation
 const ChevronLeft = memo(() => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -15,119 +14,23 @@ const ChevronRight = memo(() => (
 ));
 ChevronRight.displayName = 'ChevronRight';
 
-// Static styles as constants - prevents style recalculation on each render
-const STYLES = {
-  wrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  nav: {
-    isolation: 'isolate',
-    display: 'inline-flex',
-    borderRadius: '0.375rem',
-    boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-  },
-  buttonBase: {
-    position: 'relative',
-    display: 'inline-flex',
-    alignItems: 'center',
-    padding: '0.5rem 1rem',
-    fontSize: '0.875rem',
-    fontWeight: 600,
-    boxShadow: 'inset 0 0 0 1px #d1d5db',
-    cursor: 'pointer',
-    border: 'none',
-    backgroundColor: 'transparent',
-    color: '#111827',
-    // Prevent layout shift by using fixed dimensions
-    minWidth: '40px',
-    minHeight: '40px',
-    // Use contain to isolate layout/paint
-    contain: 'layout style',
-  },
-  buttonActive: {
-    position: 'relative',
-    display: 'inline-flex',
-    alignItems: 'center',
-    padding: '0.5rem 1rem',
-    fontSize: '0.875rem',
-    fontWeight: 600,
-    boxShadow: 'inset 0 0 0 1px #d1d5db',
-    cursor: 'pointer',
-    border: 'none',
-    backgroundColor: '#4f46e5',
-    color: '#ffffff',
-    zIndex: 10,
-    minWidth: '40px',
-    minHeight: '40px',
-    contain: 'layout style',
-  },
-  navButton: {
-    position: 'relative',
-    display: 'inline-flex',
-    alignItems: 'center',
-    padding: '0.5rem 0.75rem',
-    color: '#000000',
-    boxShadow: 'inset 0 0 0 1px #d1d5db',
-    border: 'none',
-    backgroundColor: 'transparent',
-    cursor: 'pointer',
-    minWidth: '40px',
-    minHeight: '40px',
-    contain: 'layout style',
-  },
-  navButtonLeft: {
-    borderTopLeftRadius: '0.375rem',
-    borderBottomLeftRadius: '0.375rem',
-  },
-  navButtonRight: {
-    borderTopRightRadius: '0.375rem',
-    borderBottomRightRadius: '0.375rem',
-  },
-  ellipsis: {
-    position: 'relative',
-    display: 'inline-flex',
-    alignItems: 'center',
-    padding: '0.5rem 1rem',
-    fontSize: '0.875rem',
-    fontWeight: 600,
-    color: '#374151',
-    boxShadow: 'inset 0 0 0 1px #d1d5db',
-    minWidth: '40px',
-    minHeight: '40px',
-    contain: 'layout style',
-  },
-  disabled: {
-    opacity: 0.5,
-    cursor: 'not-allowed',
-  },
-};
-
-// Pre-compute merged styles
-const prevButtonStyle = { ...STYLES.navButton, ...STYLES.navButtonLeft };
-const nextButtonStyle = { ...STYLES.navButton, ...STYLES.navButtonRight };
-const prevButtonDisabledStyle = { ...prevButtonStyle, ...STYLES.disabled };
-const nextButtonDisabledStyle = { ...nextButtonStyle, ...STYLES.disabled };
-
-// Separate PageButton component to minimize re-renders
 const PageButton = memo(({ pageNum, isActive, onClick }) => (
   <button
     onClick={onClick}
-    style={isActive ? STYLES.buttonActive : STYLES.buttonBase}
     aria-current={isActive ? 'page' : undefined}
+    className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 min-w-[40px] min-h-[40px] ${
+      isActive
+        ? "z-10 bg-indigo-600 text-white"
+        : "text-gray-900 hover:bg-gray-50"
+    }`}
+    style={{ contain: 'layout style' }}
   >
     {pageNum}
   </button>
 ));
 PageButton.displayName = 'PageButton';
 
-const Pagination = memo(({
-  currentPage,
-  totalPages,
-  onPageChange,
-}) => {
+const Pagination = memo(({ currentPage, totalPages, onPageChange }) => {
   const pageNumbers = useMemo(() => {
     if (totalPages <= 7) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -152,32 +55,25 @@ const Pagination = memo(({
     return pages;
   }, [totalPages, currentPage]);
 
+  // ✅ Batch page changes with requestAnimationFrame to prevent forced reflows
   const handlePrevious = useCallback(() => {
     if (currentPage > 1) {
-      // Use requestAnimationFrame to batch DOM updates and avoid forced reflow
-      requestAnimationFrame(() => {
-        onPageChange(currentPage - 1);
-      });
+      requestAnimationFrame(() => onPageChange(currentPage - 1));
     }
   }, [currentPage, onPageChange]);
 
   const handleNext = useCallback(() => {
     if (currentPage < totalPages) {
-      requestAnimationFrame(() => {
-        onPageChange(currentPage + 1);
-      });
+      requestAnimationFrame(() => onPageChange(currentPage + 1));
     }
   }, [currentPage, totalPages, onPageChange]);
 
-  // Create stable click handlers for each page number
   const pageClickHandlers = useMemo(() => {
     const handlers = {};
     pageNumbers.forEach((pageNum) => {
       if (typeof pageNum === 'number') {
         handlers[pageNum] = () => {
-          requestAnimationFrame(() => {
-            onPageChange(pageNum);
-          });
+          requestAnimationFrame(() => onPageChange(pageNum));
         };
       }
     });
@@ -186,17 +82,19 @@ const Pagination = memo(({
 
   if (totalPages <= 1) return null;
 
-  const isPrevDisabled = currentPage === 1;
-  const isNextDisabled = currentPage === totalPages;
-
   return (
-    <div style={STYLES.wrapper}>
-      <nav style={STYLES.nav} aria-label="Pagination">
+    <div className="flex items-center justify-center w-full">
+      <nav
+        className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+        aria-label="Pagination"
+        style={{ contain: 'layout style' }}
+      >
         <button
           onClick={handlePrevious}
-          disabled={isPrevDisabled}
-          style={isPrevDisabled ? prevButtonDisabledStyle : prevButtonStyle}
+          disabled={currentPage === 1}
+          className="relative inline-flex items-center rounded-l-md px-3 py-2 text-black ring-1 ring-gray-300 ring-inset hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed min-w-[40px] min-h-[40px]"
           aria-label="Previous page"
+          style={{ contain: 'layout style' }}
         >
           <ChevronLeft />
         </button>
@@ -204,7 +102,12 @@ const Pagination = memo(({
         {pageNumbers.map((pageNum, idx) => {
           if (pageNum === '...') {
             return (
-              <span key={`ellipsis-${idx}`} style={STYLES.ellipsis} aria-hidden="true">
+              <span
+                key={`ellipsis-${idx}`}
+                className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 min-w-[40px] min-h-[40px]"
+                aria-hidden="true"
+                style={{ contain: 'layout style' }}
+              >
                 …
               </span>
             );
@@ -222,9 +125,10 @@ const Pagination = memo(({
 
         <button
           onClick={handleNext}
-          disabled={isNextDisabled}
-          style={isNextDisabled ? nextButtonDisabledStyle : nextButtonStyle}
+          disabled={currentPage === totalPages}
+          className="relative inline-flex items-center rounded-r-md px-3 py-2 text-black ring-1 ring-gray-300 ring-inset hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed min-w-[40px] min-h-[40px]"
           aria-label="Next page"
+          style={{ contain: 'layout style' }}
         >
           <ChevronRight />
         </button>

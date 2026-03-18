@@ -29,7 +29,13 @@ import DummyLogo from "../../assets/fallback/UnknowUser2.png";
 import { FlagOff, MapPin } from "lucide-react";
 
 // Utils
-import { slugify, generatePropertyUrl, extractIdFromSlug } from "../../utils/urlHelpers";
+import {
+  slugify,
+  generatePropertyUrl,
+  generateCanonicalUrl,
+  extractIdFromSlug,
+  parsePropertyParams,
+} from "../../utils/slugify";
 
 const visibleFieldsByType = {
   Default: [
@@ -59,15 +65,16 @@ const visibleFieldsByType = {
 };
 
 const PropertyDetails = () => {
+  // URL params: /:listingType/:city/:propertyType/:propertyName
   const params = useParams();
   const navigate = useNavigate();
-  
+
   const token = localStorage.getItem("token");
   const ApiKey = import.meta.env.VITE_API_KEY;
-  const SiteUrl = import.meta.env.VITE_SITE_URL || 'https://www.newlista.com';
+  const SiteUrl = import.meta.env.VITE_SITE_URL || "https://www.newlista.com";
   const ImageKey = import.meta.env.VITE_IMAGE_KEY;
   const status = localStorage.getItem("status");
-  
+
   const [UserId, setUserId] = useState("");
   const [showReportModal, setShowReportModal] = useState(false);
   const [Properties, setProperties] = useState([]);
@@ -75,33 +82,38 @@ const PropertyDetails = () => {
   const [Loading, setLoading] = useState(true);
   const [ErrorMessage, setErrorMessage] = useState("");
 
-  // Extract property ID from slug parameter
+  // Extract property ID from the last URL segment (propertyName)
+  // e.g., "scuba-shop-202" → "202"
   const propertyId = useMemo(() => {
-    // params.slug could be "holden-beach-scuba-202" or just "202"
-    return extractIdFromSlug(params.slug);
-  }, [params.slug]);
+    return extractIdFromSlug(params.propertyName);
+  }, [params.propertyName]);
 
-  // Generate canonical URL
+  // Parse URL params for breadcrumbs / display
+  const parsedParams = useMemo(() => {
+    return parsePropertyParams(params);
+  }, [params]);
+
+  // Generate canonical URL using the new structure
   const canonicalUrl = useMemo(() => {
-    if (!SingleProperty) return '';
-    const slug = slugify(SingleProperty.property_name);
-    return `${SiteUrl}/properties/${slug}`;
-  }, [SingleProperty, SiteUrl]);
+    if (!SingleProperty) return "";
+    return generateCanonicalUrl(SingleProperty);
+  }, [SingleProperty]);
 
   // Generate SEO description
   const seoDescription = useMemo(() => {
-    if (!SingleProperty) return '';
-    
-    const price = SingleProperty.listing_type === "For Sale" 
-      ? `$${SingleProperty.sale_price}` 
-      : `$${SingleProperty.lease_rate}/month`;
-    
-    return `${SingleProperty.property_name} - ${SingleProperty.property_type} ${SingleProperty.listing_type} at ${SingleProperty.address}, ${SingleProperty.city}, ${SingleProperty.state}. ${price}. ${SingleProperty.description?.substring(0, 150) || ''}`;
+    if (!SingleProperty) return "";
+
+    const price =
+      SingleProperty.listing_type === "For Sale"
+        ? `$${SingleProperty.sale_price}`
+        : `$${SingleProperty.lease_rate}/month`;
+
+    return `${SingleProperty.property_name} - ${SingleProperty.property_type} ${SingleProperty.listing_type} at ${SingleProperty.address}, ${SingleProperty.city}, ${SingleProperty.state}. ${price}. ${SingleProperty.description?.substring(0, 150) || ""}`;
   }, [SingleProperty]);
 
   // Generate OG Image
   const ogImage = useMemo(() => {
-    if (!SingleProperty?.images?.[0]) return '';
+    if (!SingleProperty?.images?.[0]) return "";
     return `${ImageKey}${SingleProperty.images[0]}`;
   }, [SingleProperty, ImageKey]);
 
@@ -116,32 +128,33 @@ const PropertyDetails = () => {
 
       try {
         setLoading(true);
-        
+
         const response = await axios.get(
           `${ApiKey}/view-property/${propertyId}`
         );
         const propertyData = response.data.data;
         setSingleProperty(propertyData);
 
-        // Check if URL has correct slug, if not redirect
-        const correctSlug = `${slugify(propertyData.property_name)}-${propertyData.id}`;
-        if (params.slug !== correctSlug) {
-          // Redirect to correct SEO-friendly URL
-          navigate(`/properties/${correctSlug}`, { replace: true });
+        // Build the correct URL path for this property
+        const correctPath = generatePropertyUrl(propertyData);
+        const currentPath = `/${params.listingType}/${params.city}/${params.propertyType}/${params.propertyName}`;
+
+        // Redirect to canonical URL if current URL doesn't match
+        if (currentPath !== correctPath) {
+          navigate(correctPath, { replace: true });
         }
 
         const propertiesResponse = await axios.get(`${ApiKey}/properties`);
         setProperties(propertiesResponse.data.data);
-        
       } catch (error) {
         setErrorMessage(error.message);
       } finally {
         setLoading(false);
       }
     }
-    
+
     GetSingleProperty();
-  }, [propertyId, ApiKey, navigate, params.slug]);
+  }, [propertyId, ApiKey, navigate, params.listingType, params.city, params.propertyType, params.propertyName]);
 
   // Get user ID and track view
   useEffect(() => {
@@ -204,8 +217,8 @@ const PropertyDetails = () => {
     <>
       {/* SEO Component */}
       {SingleProperty && (
-        <SEO 
-          title={`${SingleProperty.property_name} | ${SingleProperty.property_type} ${SingleProperty.listing_type}`}
+        <SEO
+          title={`${SingleProperty.property_name} | ${SingleProperty.property_type} ${SingleProperty.listing_type} in ${SingleProperty.city}, ${SingleProperty.state}`}
           description={seoDescription}
           canonicalUrl={canonicalUrl}
           ogImage={ogImage}
@@ -217,8 +230,52 @@ const PropertyDetails = () => {
       <section className="flex flex-col justify-center items-center">
         {SingleProperty && (
           <>
+            {/* BREADCRUMBS */}
+            <section className="pt-16 w-[100%] lg:px-20 2xl:w-[87%]">
+              <nav className="max-[400px]:px-5 px-8 sm:px-10 lg:px-0">
+                <ol className="flex items-center gap-1.5 text-[13px] font-Urbanist text-[#666] flex-wrap">
+                  <li>
+                    <Link to="/" className="hover:text-[#222] transition-colors">
+                      Home
+                    </Link>
+                  </li>
+                  <li>/</li>
+                  <li>
+                    <Link
+                      to={`/${params.listingType}`}
+                      className="hover:text-[#222] transition-colors capitalize"
+                    >
+                      {parsedParams.listingLabel}
+                    </Link>
+                  </li>
+                  <li>/</li>
+                  <li>
+                    <Link
+                      to={`/${params.listingType}/${params.city}`}
+                      className="hover:text-[#222] transition-colors"
+                    >
+                      {parsedParams.city}
+                    </Link>
+                  </li>
+                  <li>/</li>
+                  <li>
+                    <Link
+                      to={`/${params.listingType}/${params.city}/${params.propertyType}`}
+                      className="hover:text-[#222] transition-colors"
+                    >
+                      {parsedParams.propertyType}
+                    </Link>
+                  </li>
+                  <li>/</li>
+                  <li className="text-[#222] font-semibold">
+                    {parsedParams.propertyName}
+                  </li>
+                </ol>
+              </nav>
+            </section>
+
             {/* PROPERTY DETAIL */}
-            <section className="pt-20 pb-10 w-[100%] lg:px-20 2xl:w-[87%]">
+            <section className="pt-4 pb-10 w-[100%] lg:px-20 2xl:w-[87%]">
               {/* ADDRESS AND SOCIAL ICONS */}
               <div className="flex flex-col lg:flex-row justify-between max-[400px]:px-5 px-8 sm:px-10 lg:px-0">
                 <div className="w-[70%] flex flex-col flex-wrap md:flex-row gap-3 xl:justify-start md:items-center">
@@ -228,7 +285,8 @@ const PropertyDetails = () => {
                   <div className="flex flex-wrap gap-3">
                     <p className="border-solid border-[1px] border-[#222222] flex items-center font-Urbanist gap-1 font-[550] px-2 text-[12.5px] sm:text-[13.5px] lg:text-[13px] py-1 w-max rounded-[5px]">
                       <MapPin size={15} />
-                      {SingleProperty.address} {SingleProperty.state} {SingleProperty.city}
+                      {SingleProperty.address} {SingleProperty.state}{" "}
+                      {SingleProperty.city}
                     </p>
 
                     <div className="top-8 end-8">
@@ -277,20 +335,21 @@ const PropertyDetails = () => {
                   <h5 className="font-Urbanist text-[#222222] font-semibold text-[20px]">
                     Price
                   </h5>
-                  
+
                   {SingleProperty.listing_type === "For Sale" && (
                     <h1 className="font-Poppins text-[#222222] font-[650] text-[30px] sm:text-[36px] flex gap-6 items-center relative">
                       ${SingleProperty.sale_price}
                     </h1>
                   )}
-                  
+
                   {SingleProperty.listing_type === "For Lease" && (
                     <h1 className="font-Poppins text-[#222222] font-[650] text-[30px] sm:text-[36px] flex gap-6 items-center relative">
                       ${formatNumber(SingleProperty.lease_rate)}
                     </h1>
                   )}
-                  
-                  {SingleProperty.listing_type === "Both (For Sale & For Lease)" && (
+
+                  {SingleProperty.listing_type ===
+                    "Both (For Sale & For Lease)" && (
                     <div className="mb-6">
                       <h1 className="font-Poppins text-[#222222] font-[650] text-[30px] sm:text-[36px] flex gap-10 items-center relative">
                         <div className="flex flex-col leading-[40px]">
@@ -351,12 +410,19 @@ const PropertyDetails = () => {
                       />
                       <span>
                         <h1 className="font-Urbanist text-[18.5px] sm:text-[21px] font-[700]">
-                          {SingleProperty.user.first_name} {SingleProperty.user.last_name}
+                          {SingleProperty.user.first_name}{" "}
+                          {SingleProperty.user.last_name}
                         </h1>
-                        {(SingleProperty.user.city || SingleProperty.user.state) && (
+                        {(SingleProperty.user.city ||
+                          SingleProperty.user.state) && (
                           <p className="font-Urbanist text-[15px] sm:text-[16px] flex items-center gap-1">
-                            <img className="w-[15px] h-[14px]" src={SocialIcons7} alt="" />
-                            {SingleProperty.user.city} {SingleProperty.user.state}
+                            <img
+                              className="w-[15px] h-[14px]"
+                              src={SocialIcons7}
+                              alt=""
+                            />
+                            {SingleProperty.user.city}{" "}
+                            {SingleProperty.user.state}
                           </p>
                         )}
                       </span>
@@ -399,7 +465,11 @@ const PropertyDetails = () => {
                     {SingleProperty.custom_fields?.YearBuilt && (
                       <div className="flex flex-col gap-1 border-b sm:border-b-0 lg:mr-5 lg:border-r border-[#BBBBBB] pb-4 lg:pb-0 xl:w-[25%]">
                         <span className="flex gap-2 items-center">
-                          <img className="w-[20px] h-5" src={PropertyIcon} alt="" />
+                          <img
+                            className="w-[20px] h-5"
+                            src={PropertyIcon}
+                            alt=""
+                          />
                           <p className="font-Urbanist font-[500] text-[15px] text-[#222222]">
                             Year Built
                           </p>
@@ -412,7 +482,11 @@ const PropertyDetails = () => {
 
                     <div className="flex flex-col gap-1 border-b sm:border-b-0 pb-4 lg:border-r border-[#BBBBBB] lg:pb-0 xl:w-[40%] justify-start">
                       <span className="flex gap-2 items-center">
-                        <img className="w-[20px] h-5" src={PropertyIcon2} alt="" />
+                        <img
+                          className="w-[20px] h-5"
+                          src={PropertyIcon2}
+                          alt=""
+                        />
                         <p className="font-Urbanist font-[500] text-[15px] text-[#222222]">
                           Property Type
                         </p>
@@ -425,14 +499,19 @@ const PropertyDetails = () => {
                     {SingleProperty.building_size && (
                       <div className="flex flex-col gap-1 pl-4 xl:w-[30%]">
                         <span className="flex gap-2 items-center">
-                          <img className="w-[20px] h-5" src={PropertyIcon} alt="" />
+                          <img
+                            className="w-[20px] h-5"
+                            src={PropertyIcon}
+                            alt=""
+                          />
                           <p className="font-Urbanist font-[500] text-[15px] text-[#222222]">
                             Area
                           </p>
                         </span>
                         <p className="font-Urbanist font-[700] text-[20px] sm:text-[21px] text-[#222222]">
                           {SingleProperty.building_size}
-                          {SingleProperty.custom_fields?.BuildingSize && ` ${SingleProperty.custom_fields.BuildingSize}`}
+                          {SingleProperty.custom_fields?.BuildingSize &&
+                            ` ${SingleProperty.custom_fields.BuildingSize}`}
                         </p>
                       </div>
                     )}
@@ -445,37 +524,55 @@ const PropertyDetails = () => {
                     Property Overview
                   </h1>
 
-                  {(SingleProperty.listing_type === "For Sale" || 
-                    SingleProperty.listing_type === "Both (For Sale & For Lease)") && (
+                  {(SingleProperty.listing_type === "For Sale" ||
+                    SingleProperty.listing_type ===
+                      "Both (For Sale & For Lease)") && (
                     <>
                       <p className="font-Urbanist font-[600] text-[14px] sm:text-[16px] text-[#222222]">
-                        💰 Net Operating Income (NOI): 
-                        <span className="font-bold"> ${SingleProperty.noi || "None"}</span>
+                        💰 Net Operating Income (NOI):
+                        <span className="font-bold">
+                          {" "}
+                          ${SingleProperty.noi || "None"}
+                        </span>
                       </p>
                       <p className="font-Urbanist font-[600] text-[14px] sm:text-[16px] text-[#222222]">
-                        📈 Cap Rate: 
-                        <span className="font-bold"> {Math.round(SingleProperty.cap_rate) || "0"}%</span>
+                        📈 Cap Rate:
+                        <span className="font-bold">
+                          {" "}
+                          {Math.round(SingleProperty.cap_rate) || "0"}%
+                        </span>
                       </p>
                     </>
                   )}
 
-                  {(SingleProperty.listing_type === "For Lease" || 
-                    SingleProperty.listing_type === "Both (For Sale & For Lease)") && (
+                  {(SingleProperty.listing_type === "For Lease" ||
+                    SingleProperty.listing_type ===
+                      "Both (For Sale & For Lease)") && (
                     <>
                       <p className="font-Urbanist font-[600] text-[14px] sm:text-[16px] text-[#222222]">
-                        ✔ Lease Type: 
-                        <span className="font-bold"> {SingleProperty.lease_type || "N/A"}</span>
+                        ✔ Lease Type:
+                        <span className="font-bold">
+                          {" "}
+                          {SingleProperty.lease_type || "N/A"}
+                        </span>
                       </p>
                       <p className="font-Urbanist font-[600] text-[14px] sm:text-[16px] text-[#222222]">
-                        〽 Lease Rate & Unit: 
-                        <span className="font-bold"> {SingleProperty.lease_rate} {SingleProperty.lease_rate_unit}</span>
+                        〽 Lease Rate & Unit:
+                        <span className="font-bold">
+                          {" "}
+                          {SingleProperty.lease_rate}{" "}
+                          {SingleProperty.lease_rate_unit}
+                        </span>
                       </p>
                     </>
                   )}
 
                   <p className="font-Urbanist font-[600] text-[14px] sm:text-[16px] text-[#222222]">
-                    💳 Owner Financing: 
-                    <span className="font-bold"> {SingleProperty.owner_financing ? "Yes" : "No"}</span>
+                    💳 Owner Financing:
+                    <span className="font-bold">
+                      {" "}
+                      {SingleProperty.owner_financing ? "Yes" : "No"}
+                    </span>
                   </p>
                 </div>
 
@@ -513,11 +610,20 @@ const PropertyDetails = () => {
                         PropertyType={item.property_type}
                         Area={item.building_size}
                         Heading={item.property_name}
-                        desc={<TruncatedText text={item.description} maxLength={90} />}
+                        desc={
+                          <TruncatedText
+                            text={item.description}
+                            maxLength={90}
+                          />
+                        }
                         Status={item.listing_type}
                         Price={
                           <TruncatedText
-                            text={item.listing_type === "For Sale" ? item.sale_price : item.lease_rate}
+                            text={
+                              item.listing_type === "For Sale"
+                                ? item.sale_price
+                                : item.lease_rate
+                            }
                             maxLength={9}
                           />
                         }
@@ -525,6 +631,8 @@ const PropertyDetails = () => {
                         forlease={item.lease_rate}
                         id={item.id}
                         images={item.images[0]}
+                        // Pass the new URL structure to the card
+                        propertyUrl={generatePropertyUrl(item)}
                       />
                     </div>
                   ) : null

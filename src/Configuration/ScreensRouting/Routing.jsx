@@ -1,3 +1,4 @@
+// Routing.jsx
 import { useEffect, useState, lazy, Suspense, memo } from "react";
 import {
   BrowserRouter,
@@ -47,8 +48,16 @@ const TermsAndCondition = lazy(() => import("../../Screens/Terms/TermsAndCondito
 const Admin = lazy(() => import("../../Screens/Admin/Admin"));
 const AddProperty3 = lazy(() => import("../../Screens/AddProperty/AddProperty3.jsx"));
 
+// Redirects
+// const OldUrlRedirect = lazy(() => import("../../Components/Redirects/OldUrlRedirect.jsx"));
+
 // Error Page
 const NotFound = lazy(() => import("../../Screens/404NotFound/NotFound.jsx"));
+
+// ==========================================
+// VALID LISTING TYPES — Used to distinguish property URLs from other routes
+// ==========================================
+const VALID_LISTING_TYPES = ["buy", "rent"];
 
 // ==========================================
 // FALLBACK COMPONENTS
@@ -64,11 +73,31 @@ const NavbarFallback = () => <div className="h-16 sm:h-20 bg-white" />;
 const FooterFallback = () => <div className="h-64 bg-gray-900" />;
 
 // ==========================================
+// HELPER: Check if current path is a property detail page
+// ==========================================
+const isPropertyDetailPath = (pathname) => {
+  // Match: /buy/city/type/name OR /rent/city/type/name
+  const segments = pathname.split("/").filter(Boolean);
+
+  if (segments.length === 4 && VALID_LISTING_TYPES.includes(segments[0])) {
+    return true;
+  }
+
+  // Also match category pages: /buy, /rent, /buy/city, /buy/city/type
+  if (segments.length >= 1 && VALID_LISTING_TYPES.includes(segments[0])) {
+    return true;
+  }
+
+  return false;
+};
+
+// ==========================================
 // LAYOUT COMPONENT
 // ==========================================
 const Layout = memo(({ children }) => {
   const location = useLocation();
 
+  // Routes that should show full layout (Navbar + Footer)
   const fullLayoutRoutes = [
     "/",
     "/about-us",
@@ -81,8 +110,12 @@ const Layout = memo(({ children }) => {
     "/terms-of-use",
   ];
 
-  const isPropertyDetailPage = matchPath("/properties/:slug", location.pathname);
-  const showLayout = fullLayoutRoutes.includes(location.pathname) || isPropertyDetailPage;
+  // Check if current path should show layout
+  const showLayout =
+    fullLayoutRoutes.includes(location.pathname) ||
+    isPropertyDetailPath(location.pathname) ||
+    // Support old URL format during transition
+    matchPath("/properties/:slug", location.pathname);
 
   return (
     <>
@@ -130,20 +163,61 @@ const Routing = () => {
         <ScrollToTop />
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            {/* Public Routes */}
+            {/* ================================ */}
+            {/* Public Routes                    */}
+            {/* ================================ */}
             <Route path="/" element={<Home />} />
-            <Route path="/properties" element={<ViewProperty />} />
-            <Route path="/properties/:slug" element={<PropertyDetails />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/contact-us" element={<ContactUs />} />
 
-            {/* Legal Routes */}
+            {/* ================================ */}
+            {/* Property Routes — New Structure  */}
+            {/* ================================ */}
+
+            {/* All properties listing page */}
+            <Route path="/properties" element={<ViewProperty />} />
+
+            {/* 
+              Property Detail Page
+              URL: /buy/holden-beach/commercial/scuba-shop-202
+              URL: /rent/wilmington/office/downtown-suite-55
+            */}
+            <Route
+              path="/:listingType/:city/:propertyType/:propertyName"
+              element={<PropertyDetails />}
+            />
+
+            {/* 
+              Optional: Category/Filter pages
+              URL: /buy → All properties for sale
+              URL: /rent → All properties for rent
+              URL: /buy/holden-beach → All for-sale in Holden Beach
+              URL: /buy/holden-beach/commercial → All commercial for-sale in Holden Beach
+            */}
+            Uncomment these when you create the category pages:
+            <Route path="/buy" element={<ViewProperty />} />
+            <Route path="/rent" element={<ViewProperty />} />
+            <Route path="/:listingType/:city" element={<ViewProperty />} />
+            <Route path="/:listingType/:city/:propertyType" element={<ViewProperty />} />
+           
+
+            {/* 
+              Old URL Redirect — Maintains SEO during transition
+              /properties/scuba-shop-202 → /buy/holden-beach/commercial/scuba-shop-202
+            */}
+            {/* <Route path="/properties/:slug" element={<OldUrlRedirect />} /> */}
+
+            {/* ================================ */}
+            {/* Legal Routes                     */}
+            {/* ================================ */}
             <Route path="/accessibility" element={<Accessibility />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-use" element={<TermsAndCondition />} />
 
-            {/* Auth Routes */}
+            {/* ================================ */}
+            {/* Auth Routes                      */}
+            {/* ================================ */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/registercopy" element={<RegisterCopy />} />
@@ -153,16 +227,22 @@ const Routing = () => {
             <Route path="/set-new-password" element={<SetNewPassword />} />
             <Route path="/change-password" element={<ChangePassword />} />
 
-            {/* Protected Routes */}
+            {/* ================================ */}
+            {/* Protected Routes                 */}
+            {/* ================================ */}
             <Route
               path="/create-property"
               element={<ProtectiveRoute component={<AddProperty3 />} />}
             />
 
-            {/* Admin Routes */}
+            {/* ================================ */}
+            {/* Admin Routes                     */}
+            {/* ================================ */}
             <Route path="/admin/*" element={<Admin />} />
 
-            {/* 404 */}
+            {/* ================================ */}
+            {/* 404 — Must be last               */}
+            {/* ================================ */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

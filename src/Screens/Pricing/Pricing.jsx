@@ -411,7 +411,7 @@ const Pricing = () => {
             className="absolute left-[74%]  w-[50%]  inset-x-0 -top-[10%] -z-10 transform-gpu overflow-hidden  blur-3xl"
             aria-hidden="true"
           >
-            <img src={Shape} alt="" />
+            <img src={Shape} alt="Newlista" />
 
           </div>
 
@@ -419,7 +419,7 @@ const Pricing = () => {
             className="absolute -left-[15%]  w-[50%]  inset-x-0 top-[25%] -z-10 transform-gpu overflow-hidden  blur-3xl"
             aria-hidden="true"
           >
-            <img src={Shape2} alt="" />
+            <img src={Shape2} alt="Newlista" />
           </div>
 
           {/* SHAPE END  */}
@@ -572,19 +572,19 @@ const Pricing = () => {
 
             <div className="w-[55%] sm:w-[35%]  md:w-[24%] sm:h-[90%] xl:-mb-2">
 
-              <img className="" src={PricingSec2_1} alt="" />
+              <img className="" src={PricingSec2_1} alt="Newlista" />
 
             </div>
 
             <div className="flex flex-col justify-center items-center text-center gap-5 py-2 px-5 sm:px-10 md:w-[50%] md:px-3 lg:px-5 xl:px-16 ">
 
-              <h1 className="font-Inter font-bold text-[16.5px] leading-[22px] sm:text-[24px] md:text-[20px] lg:text-[22px] sm:leading-[25px] min-[1780px]:!text-[28px] min-[1780px]:!leading-[32px]">
+              <h2 className="font-Inter font-bold text-[16.5px] leading-[22px] sm:text-[24px] md:text-[20px] lg:text-[22px] sm:leading-[25px] min-[1780px]:!text-[28px] min-[1780px]:!leading-[32px]">
 
                 Not sure which plan is right for you? Contact Us for a
 
                 personalized recommendation.{" "}
 
-              </h1>
+              </h2>
 
               <Link className="w-full" to={"/contact-us"}>
 
@@ -600,7 +600,7 @@ const Pricing = () => {
 
             <div className="hidden md:block  w-[25%] h-[90%]">
 
-              <img className="" src={HomeSec5_2} alt="" />
+              <img className="" src={HomeSec5_2} alt="Newlista" />
 
             </div>
 

@@ -15,7 +15,7 @@ export const slugify = (text) => {
 // Generate SEO-friendly URL for property
 export const generatePropertyUrl = (property) => {
   const slug = slugify(property.property_name || property.Heading);
-  return `/properties/${slug}-${property.id}`;
+  return `/properties/${slug}`;
 };
 
 // Extract ID from slug (e.g., "holden-beach-scuba-202" → "202")

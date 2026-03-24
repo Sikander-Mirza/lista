@@ -249,7 +249,7 @@ export default function PropertyViewChartCards() {
                   <img
                     className="h-4 w-5"
                     src={card.today > 0 ? UpIcon : DownIcon}
-                    alt=""
+                    alt="Newlista"
                   />
                 </span>
                 <span>

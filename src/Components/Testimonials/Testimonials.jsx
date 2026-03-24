@@ -66,7 +66,7 @@ const Testimonials = ({
             <img
               className="w-12 h-12 object-cover rounded-full"
               src={RevImage}
-              alt=""
+              alt="Newlista"
             />
           </span>
           <span>

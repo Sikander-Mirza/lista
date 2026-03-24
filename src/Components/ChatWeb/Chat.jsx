@@ -216,7 +216,7 @@ export default function PrivateChat({
                     ? import.meta.env.VITE_IMAGE_KEY + chatUser.headshot
                     : UnkownUser
                 }
-                alt=""
+                alt="Newlista"
               />
               <span
                 className={`absolute bottom-0.5 right-0 w-3 h-3 border-2 border-white rounded-full ${isChatUserOnline ? "bg-green-500" : "bg-red-600"
@@ -427,7 +427,7 @@ export default function PrivateChat({
                             ? import.meta.env.VITE_IMAGE_KEY + chatUser.headshot
                             : UnkownUser
                         }
-                        alt=""
+                        alt="Newlista"
                       />{" "}
                     </div>{" "}
                     {chatUser.banner ? (
@@ -436,7 +436,7 @@ export default function PrivateChat({
                         <img
                           className="object-cover"
                           src={import.meta.env.VITE_IMAGE_KEY + chatUser.banner}
-                          alt=""
+                          alt="Newlista"
                         />{" "}
                       </div>
                     ) : (

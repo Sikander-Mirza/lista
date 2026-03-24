@@ -59,7 +59,7 @@ const ProfileSection = () => {
           </h6>
           <ul className="flex flex-wrap max-[400px]:items-center justify-center gap-4 sm:justify-start sm:items-start sm:gap-5 ">
             <li className="flex gap-2 justify-center items-center">
-              <img className="w-4 h-4 2xl:w-5 2xl:h-5" src={InvestorIcon1} alt="" />
+              <img className="w-4 h-4 2xl:w-5 2xl:h-5" src={InvestorIcon1} alt="Newlista" />
               <p className="font-Inter text-[12px] sm:text-[13px] xl:text-[14px] 2xl:text-[18px] text-Paracolor font-[600]">
                 {user.city + ", " + user.state || "Not Provided"}
               </p>

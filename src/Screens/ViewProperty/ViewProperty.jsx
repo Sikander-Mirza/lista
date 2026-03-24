@@ -591,49 +591,36 @@ const ViewProperty = () => {
                         }
                       />
                     </div>
-                  ) : (
+                  ) : 
                     filteredProperties.map((items) => (
-                      <PropertiesCards2
-                        key={items.id}
-                        PropertyType={items.property_type}
-                        Area={items.building_size}
-                        type={items.listing_type}
-                        Img={items.images[0]}
-                        Heading={items.property_name}
-                        desc={
-                          <TruncatedText
-                            text={items.description}
-                            maxLength={90}
-                          />
-                        }
-                        Status={items.listing_type}
-                        Price={
-                          <TruncatedText
-                            text={
-                              items.listing_type === "For Sale"
-                                ? items.sale_price
-                                : formatNumber(items.lease_rate)
-                            }
-                            maxLength={10}
-                          />
-                        }
-                        forsale={items.sale_price && items.sale_price}
-                        forlease={
-                          items.lease_rate && formatNumber(items.lease_rate)
-                        }
-                        id={items.id}
-                        images={items.images[0]}
-                        CheckProperty={
-                          items.off_market_listing ? "Off Market Property" : ""
-                        }
-                        featured_listing={
-                          items.featured_listing && "Featured Listing"
-                        }
-                        // Pass new URL structure to card
-                        propertyUrl={generatePropertyUrl(items)}
-                      />
-                    ))
-                  )}
+  <PropertiesCards2
+    key={items.id}
+    propertyData={items}  // ← Pass full property object
+    PropertyType={items.property_type}
+    Area={items.building_size}
+    type={items.listing_type}
+    Img={items.images[0]}
+    Heading={items.property_name}
+    desc={<TruncatedText text={items.description} maxLength={90} />}
+    Status={items.listing_type}
+    Price={
+      <TruncatedText
+        text={
+          items.listing_type === "For Sale"
+            ? items.sale_price
+            : formatNumber(items.lease_rate)
+        }
+        maxLength={10}
+      />
+    }
+    forsale={items.sale_price}
+    forlease={items.lease_rate && formatNumber(items.lease_rate)}
+    id={items.id}
+    images={items.images[0]}
+    CheckProperty={items.off_market_listing ? "Off Market Property" : ""}
+    featured_listing={items.featured_listing && "Featured Listing"}
+  />
+))}
                 </div>
               ) : (
                 <div className="flex justify-center items-center !h-[75vh]">

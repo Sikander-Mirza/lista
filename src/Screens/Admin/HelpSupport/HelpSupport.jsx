@@ -83,7 +83,7 @@ const HelpSupport = () => {
       <section className=" relative gap-48 py-7 min-[380px]:!px-3 sm:!py-10 md:!py-12 lg:!py-10 overflow-x-hidden flex justify-center items-center  ">
         {/* SHAPE  */}
         <div className="absolute -z-10 -end-30 overflow -top-10">
-          <img className="w-[80%]" src={ContactImage1_2} alt="" />
+          <img className="w-[80%]" src={ContactImage1_2} alt="Newlista" />
         </div>
 
         <div className="flex justify-cente sm:px-6 lg:px-0 lg:pl-5 2xl:w-[100%]">
@@ -183,7 +183,7 @@ const HelpSupport = () => {
 
           <div className="w-[42%] 2xl:w-[60%] hidden 2xl:flex lg:ml-10 xl:ml-0 justify-center 2xl:justify-center items-center">
             <span>
-              <img src={ContactImage1_1} alt="" />
+              <img src={ContactImage1_1} alt="Newlista" />
             </span>
           </div>
         </div>

@@ -169,7 +169,7 @@ const ForgetPassOtp = () => {
           <img
             className="w-[100%] object-cover h-[20vh] sm:h-[30vh] md:h-full"
             src={Image}
-            alt=""
+            alt="Newlista"
           />
         </div>
 

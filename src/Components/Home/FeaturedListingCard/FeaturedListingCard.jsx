@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import PropertyIcon from "../../../assets/Icons/PropertyIcon.png";
 import PropertyIcon2 from "../../../assets/Icons/PropertyIcon2.png";
 import TruncatedText from "../../TruncatedText/TruncatedText";
+import { generatePropertyUrl } from "../../../utils/slugify";
 
 const FeaturedListingCard = ({
   Img,
@@ -15,10 +16,17 @@ const FeaturedListingCard = ({
   Area,
   forsale,
   forlease,
+  propertyData,
 }) => {
+
+    const propertyUrl = propertyData
+      ? generatePropertyUrl(propertyData)
+
+      : propertyUrl; // Fallback
+
   return (
     <div className="max-[400px]:w-[100%] w-[330px] sm:w-[100%] bg-white border border-gray-200 rounded-lg shadow-sm relative">
-      <Link to={`/properties/${id}`}>
+      <Link to={`propertyUrl`}>
         <img
           src={import.meta.env.VITE_IMAGE_KEY + Img}
           alt={typeof Heading === 'string' ? Heading : "Property"}
@@ -58,10 +66,10 @@ const FeaturedListingCard = ({
             )}
           </div>
           <div>
-            <Link to={`/properties/${id}`}>
-              <h1 className="mb-1 text-[22px] font-[600] font-Inter tracking-tight leading-[27px] mt-3 text-gray-900 sm:text-[19.5px] md:text-[22px] min-[870px]:!text-[20px] min-[1080px]:!text-[22px] min-[1780px]:!text-[26px] min-[1780px]:mb-3">
+            <Link to={propertyUrl}>
+              <h2 className="mb-1 text-[22px] font-[600] font-Inter tracking-tight leading-[27px] mt-3 text-gray-900 sm:text-[19.5px] md:text-[22px] min-[870px]:!text-[20px] min-[1080px]:!text-[22px] min-[1780px]:!text-[26px] min-[1780px]:mb-3">
                 {Heading}
-              </h1>
+              </h2>
             </Link>
             <p className="mb-2 break-all font-Inter text-[13.5px] sm:text-[12.5px] sm:leading-[15.5px] font-normal text-gray-700 min-[870px]:!text-[12px] min-[1080px]:!text-[12.5px] min-[1780px]:!text-[15px]">
               {desc}
@@ -71,7 +79,7 @@ const FeaturedListingCard = ({
             <span className="bg-[#E3E3E3] text-Paracolor font-semibold font-Inter px-3 py-1 text-[13px] flex rounded-full w-max gap-1 sm:text-[12.5px] min-[1780px]:!text-[15px]">
               <img 
                 src={PropertyIcon} 
-                alt="" 
+                alt="Newlista" 
                 width={18}
                 height={18}
                 className="w-[18px] h-4.5 sm:w-[16px] sm:h-4 min-[1780px]:!w-[20px] min-[1780px]:!h-6" 
@@ -81,7 +89,7 @@ const FeaturedListingCard = ({
             <span className="bg-[#E3E3E3] text-Paracolor font-semibold font-Inter px-3 py-1 text-[13px] flex rounded-full w-max gap-1 sm:text-[12.5px] min-[1780px]:!text-[15px]">
               <img 
                 src={PropertyIcon2} 
-                alt="" 
+                alt="Newlista" 
                 width={18}
                 height={18}
                 className="w-[18px] h-4.5 sm:w-[16px] sm:h-4 min-[1780px]:!w-[20px] min-[1780px]:!h-6" 
@@ -96,22 +104,22 @@ const FeaturedListingCard = ({
               <h5 className="font-Inter text-[16px] sm:text-[14px] min-[1780px]:!text-[15px] font-[500]">
                 Price
               </h5>
-              <h1 className="font-Inter text-[18px] font-bold">
+              <h2 className="font-Inter text-[18px] font-bold">
                 $<TruncatedText text={forsale} maxLength={6} />/sale
-              </h1>
-              <h1 className="font-Inter text-[18px] font-bold">
+              </h2>
+              <h2 className="font-Inter text-[18px] font-bold">
                 $<TruncatedText text={forlease} maxLength={6} />/lease
-              </h1>
+              </h2>
             </div>
           ) : (
             <div>
               <h5 className="font-Inter text-[18px] sm:text-[16px] min-[1780px]:!text-[18px] font-[500]">Price</h5>
-              <h1 className="font-Inter text-[18px] sm:text-[16px] min-[1780px]:!text-[20px] font-bold">${Price}</h1>
+              <h2 className="font-Inter text-[18px] sm:text-[16px] min-[1780px]:!text-[20px] font-bold">${Price}</h2>
             </div>
           )}
           <div>
             <Link
-              to={`/properties/${id}`}
+              to={propertyUrl}
               className="inline-flex font-Inter text-[13px] items-center px-5 py-2.5 rounded-full text-sm font-medium text-center focus:outline-none hover-btn-purple hover-btn sm:text-[12.5px] md:text-[14px] min-[870px]:!text-[13px] min-[1780px]:!text-[15px]"
             >
               <span>View Property Details</span>

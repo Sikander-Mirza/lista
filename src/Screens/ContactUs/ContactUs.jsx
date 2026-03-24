@@ -96,7 +96,7 @@ const ContactUs = () => {
       <section className=" relative px-6 sm:px-16 md:px-20 gap-28 py-20 sm:py-24 md:py-32 overflow-x-hidden flex justify-center items-center ">
         {/* SHAPE  */}
         <div className="absolute -z-10 -end-30 overflow -top-10">
-          <img className="w-[80%]" src={ContactImage1_2} alt="" />
+          <img className="w-[80%]" src={ContactImage1_2} alt="Newlista" />
         </div>
 
         <div className="flex justify-center 2xl:w-[85%] min-[1780px]:!w-[75%]">
@@ -216,7 +216,7 @@ const ContactUs = () => {
           {/* IMAGE SECTION  */}
           <div className="w-[42%] 2xl:w-[40%] hidden lg:flex lg:ml-10 xl:ml-0 justify-center 2xl:justify-end items-center">
             <span>
-              <img src={ContactImage1_1} alt="" />
+              <img src={ContactImage1_1} alt="Newlista" />
             </span>
           </div>
         </div>

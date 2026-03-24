@@ -15,7 +15,7 @@ const PropertySell = () => {
                 </div>
                 <div className="md:w-[84%] min-[870px]:!w-[91%] lg:!w-[84%] border-solid border-[1px] border-[#BBBBBB] flex flex-col items-center rounded-[10px] pb-7 pt-3 md:py-4 lg:py-5 xl:py-0  md:flex-row relative">
                     <div className="w-[65%] sm:w-[32%]  md:w-[25%] sm:h-[90%]">
-                        <img className="" src={HomeSec5_1} alt="" />
+                        <img className="" src={HomeSec5_1} alt="Newlista" />
                     </div>
                     <div className="flex flex-col justify-center items-center text-center gap-5 py-2 px-5 sm:px-10 md:w-[50%] md:px-3 lg:px-5 xl:px-20 ">
                         <h1 className="font-Inter font-bold text-[20px] leading-[25px] sm:text-[22px] md:text-[20px] lg:text-[22px] sm:leading-[25px]">
@@ -29,7 +29,7 @@ const PropertySell = () => {
                         </Link>
                     </div>
                     <div className="hidden md:block  w-[25%] h-[90%]">
-                        <img className="" src={HomeSec5_2} alt="" />
+                        <img className="" src={HomeSec5_2} alt="Newlista" />
                     </div>
                 </div>
             </section></>

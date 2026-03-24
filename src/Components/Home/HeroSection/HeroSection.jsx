@@ -52,11 +52,11 @@ const HeroSection = () => {
 
                     <div className="flex flex-col justify-center items-center pb-28  sm:pb-36 md:pb-20 lg:pb-20">
                         <h1 className="text-[28px] leading-[40px] min-[370px]:!text-[37.5px] min-[370px]:!leading-[47px] sm:!text-[37px] sm:!leading-[46px] md:!text-[42px] md:!leading-[53px] lg:!text-[53px] lg:!leading-[65px] xl:!text-[68px] font-[600] font-Poppins tracking-tight text-white text-center 2xl:w-[66%] 2xl:!leading-[1.2em]">
-                            Investor-Only Commercial Real Estate Network
+                            Connect with Commercial Real Estate Investors
                         </h1>
 
                         <p className='text-[16px] sm:text-[16.5px] lg:text-[20px] font-[500] mt-4 text-white text-center sm:w-[80%]  lg:w-[60%] leading-relaxed'>
-                           Newlista is an investor-only commercial real estate network where investors connect, share off-market opportunities, and build acquisition partnerships.
+                           Join an exclusive commercial real estate investor network to discover off market opportunities, connect with capital partners, and build high value acquisition partnerships
                         </p>
 
                         <div className="mt-8">

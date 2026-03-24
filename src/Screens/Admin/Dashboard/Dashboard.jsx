@@ -160,7 +160,7 @@ const Dashboard = () => {
                   <img
                     className="max-[390px]:w-14 w-16"
                     src={DashboardIcon1_1}
-                    alt=""
+                    alt="Newlista"
                   />
                 </span>
               </div>
@@ -173,7 +173,7 @@ const Dashboard = () => {
                         ? DashboardIcon1_11
                         : DashboardIcon1_22
                     }
-                    alt=""
+                    alt="Newlista"
                   />
                 </span>
                 <span>
@@ -198,7 +198,7 @@ const Dashboard = () => {
                   <img
                     className="max-[390px]:w-14 w-16"
                     src={DashboardIcon2_1}
-                    alt=""
+                    alt="newlista"
                   />
                 </span>
               </div>
@@ -211,7 +211,7 @@ const Dashboard = () => {
                         ? DashboardIcon1_11
                         : DashboardIcon1_22
                     }
-                    alt=""
+                    alt="Newlista"
                   />
                 </span>
                 <span>
@@ -236,7 +236,7 @@ const Dashboard = () => {
                   <img
                     className="max-[390px]:w-14 w-16"
                     src={DashboardIcon3_1}
-                    alt=""
+                    alt="Newlista"
                   />
                 </span>
               </div>
@@ -249,7 +249,7 @@ const Dashboard = () => {
                         ? DashboardIcon1_11
                         : DashboardIcon1_22
                     }
-                    alt=""
+                    alt="Newlista"
                   />
                 </span>
                 <span>
@@ -274,7 +274,7 @@ const Dashboard = () => {
                   <img
                     className="max-[390px]:w-14 w-16"
                     src={DashboardIcon4_1}
-                    alt=""
+                    alt="Newlista"
                   />
                 </span>
               </div>
@@ -287,7 +287,7 @@ const Dashboard = () => {
                         ? DashboardIcon1_11
                         : DashboardIcon1_22
                     }
-                    alt=""
+                    alt="Newlista"
                   />
                 </span>
                 <span>

@@ -22,7 +22,7 @@ const AuthScreenLayout = ({ children, BannerImage, Heading, Description, SocialL
                     <img
                         className="w-[100%] object-cover h-[20vh] sm:h-[30vh] md:h-full opacity-0"
                         src={BannerImage}
-                        alt=""
+                        alt="Newlista"
                     />
                 </div>
 
@@ -31,7 +31,7 @@ const AuthScreenLayout = ({ children, BannerImage, Heading, Description, SocialL
                         {BackLogin &&
                             <p className="font-Urbanist  text-Paracolor font-[700] text-[15px] mb-2 sm:mb-1">
                                 <Link to={"/login"} className="flex items-center gap-1.5">
-                                    <img className="h-3 w-2" src={ListingRightArrow} alt="" />{" "}
+                                    <img className="h-3 w-2" src={ListingRightArrow} alt="Newlista" />{" "}
                                     Back to login
                                 </Link>
                             </p>

@@ -195,7 +195,7 @@ const SearchFilters = ({ watch, setValue, register, control }) => {
           <div className="hidden xl:flex gap- px-0 bg-white  w-[100%] border-[1px] border-solid border-[#1E1E1E] rounded-[10px]">
             {/* FILTER BUTTON  */}
             <button className=" font-Inter bg-[#1E1E1E] text-white py-2.5 rounded-l-[7px] flex items-center px-4 gap-1 w-[15%]">
-              <img className="w-5 h-5" src={SortIcon} alt="" />{" "}
+              <img className="w-5 h-5" src={SortIcon} alt="Newlista" />{" "}
               <span className="font-Urbanist font-[500] text-[15px]">
                 Filter
               </span>

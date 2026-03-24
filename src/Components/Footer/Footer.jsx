@@ -28,7 +28,7 @@ const Footer = () => {
               <form className="w-[100%] bg-[#262626] rounded-lg  py-0.5 border-[1px] border-solid border-[#5f5f5f] sm:w-[80%] md:w-[55%] lg:w-[90%]">
                 <div className="relative flex justify-center items-center">
                   <div className=" inset-y-0  start-0 flex items-center pl-4 pointer-events-none">
-                    <img src={FooterIcon} alt="" />
+                    <img src={FooterIcon} alt="Newlista" />
                   </div>
                   <input
                     type="search"
@@ -41,7 +41,7 @@ const Footer = () => {
                     type="submit"
                     className="text-white absolute end-4  bottom-3 sm:bottom-3.5 "
                   >
-                    <img className="w-6 h-6 sm:w-5 sm:h-5" src={FooterIcon2} alt="" />
+                    <img className="w-6 h-6 sm:w-5 sm:h-5" src={FooterIcon2} alt="Newlista" />
                   </button>
                 </div>
               </form>

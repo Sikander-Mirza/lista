@@ -27,7 +27,7 @@ const MyNetworkCard = ({ InvesImage, InvesUserName, InvesDesc ,setShowModal  ,sh
             <img
               className="w-[60px] h-[60px] object-cover rounded-full"
               src={InvesImage}
-              alt=""
+              alt="Newlista"
             />
           </span>
           <span>
@@ -41,31 +41,31 @@ const MyNetworkCard = ({ InvesImage, InvesUserName, InvesDesc ,setShowModal  ,sh
           {/* FEATURES  */}
           <ul className="flex justify-start items-start flex-col gap-3">
             <li className="flex gap-3 justify-center items-center">
-              <img className="w-5 h-5 " src={InvestorIcon1} alt="" />
+              <img className="w-5 h-5 " src={InvestorIcon1} alt="Newlista" />
               <p className="font-Inter text-[15px] text-Paracolor font-[600]">
                 New York
               </p>
             </li>
             <li className="flex gap-3 justify-center items-center">
-              <img className="w-5 h-5 " src={InvestorIcon2} alt="" />
+              <img className="w-5 h-5 " src={InvestorIcon2} alt="Newlista" />
               <p className="font-Inter text-[15px] text-Paracolor font-[600]">
                 Multifamily - Retail - Industrial
               </p>
             </li>
             <li className="flex gap-3 justify-center items-center">
-              <img className="w-5 h-5 " src={InvestorIcon3} alt="" />
+              <img className="w-5 h-5 " src={InvestorIcon3} alt="Newlista" />
               <p className="font-Inter text-[15px] text-Paracolor font-[600]">
                 Member since 2022
               </p>
             </li>
             <li className="flex gap-3 justify-center items-center">
-              <img className="w-5 h-5 " src={MessageIcon2} alt="" />
+              <img className="w-5 h-5 " src={MessageIcon2} alt="Newlista" />
               <p className="font-Inter text-[15px] text-Paracolor font-[600]">
                 johndoe@gmail.com
               </p>
             </li>
             <li className="flex gap-3 justify-center items-center">
-              <img className="w-5 h-5 " src={CallIcon} alt="" />
+              <img className="w-5 h-5 " src={CallIcon} alt="Newlista" />
               <p className="font-Inter text-[15px] text-Paracolor font-[600]">
                 (224) 523 321
               </p>

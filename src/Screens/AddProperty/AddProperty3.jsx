@@ -192,7 +192,7 @@ const PropertyForm = () => {
           <img
             className="h-[25vh] sm:h-[40vh] object-cover w-[100%]"
             src={AddPropertyBanner}
-            alt=""
+            alt="Newlista"
           />
         </div>
       </section>

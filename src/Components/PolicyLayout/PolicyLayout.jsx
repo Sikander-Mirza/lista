@@ -61,9 +61,9 @@ export default function PolicyLayout({
       {/* Content */}
       <section className="scroll-smooth flex justify-center">
         <div className="max-[380px]:px-6 px-7.5 sm:px-10 md:px-12 lg:px-16 pb-20 md:pb-28 2xl:w-[85%] min-[1780px]:!w-[75%]">
-          <h1 className="font-Urbanist text-3xl sm:text-4xl xl:text-[39px] 2xl:text-[45px] font-extrabold tracking-tight text-[#111] mb-10">
+          <h2 className="font-Urbanist text-3xl sm:text-4xl xl:text-[39px] 2xl:text-[45px] font-extrabold tracking-tight text-[#111] mb-10">
             {heading}
-          </h1>
+          </h2>
 
           <div className="grid grid-cols-12 xl:grid-cols-11 2xl:grid-cols-11 gap-6 lg:gap-10">
             {/* Sidebar (TOC) */}

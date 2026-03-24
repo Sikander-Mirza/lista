@@ -15,15 +15,15 @@ const EmptyCards = ({ Title , type  }) => {
       {/* PAGE TITTLE  */}
       <section id={'Off-market'} className="flex flex-col justify-center items-center py-4 text-center absolute top-0  ">
         <div className="flex justify-center">
-          <img className="w-[100%]" src={EmptyCard} alt="" />
+          <img className="w-[100%]" src={EmptyCard} alt="Newlista" />
         </div>
         <div className="flex flex-col justify-center items-center w-[100%]">
-          <h1 className="font-Urbanist font-[600] text-[#00000] text-[20px]">
+          <h2 className="font-Urbanist font-[600] text-[#00000] text-[20px]">
             {
               type && status !== "active" ?  Title : "Not Found"
             }
            
-          </h1>
+          </h2>
         </div>
         <div className="mt-5" >
           {

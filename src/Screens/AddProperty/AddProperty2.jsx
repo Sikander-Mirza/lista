@@ -55,7 +55,7 @@ function AddProperty2() {
           <img
             className="h-[40vh] object-cover w-[100%]"
             src={AddPropertyBanner}
-            alt=""
+            alt="Newlista"
           />
         </div>
       </section>

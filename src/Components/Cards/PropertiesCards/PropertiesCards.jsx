@@ -69,11 +69,11 @@ const PropertiesCards = ({
             </div>
             <div className="flex flex-wrap gap-3">
               <span className="bg-[#E3E3E3] text-Paracolor font-semibold font-Inter px-3 py-1 text-[13px] flex rounded-full w-max gap-1 sm:text-[12.5px] min-[1780px]:!text-[15px]">
-                <img className="w-[18px] h-4.5 sm:w-[16px] sm:h-4 min-[1780px]:!w-[20px] min-[1780px]:!h-6" src={PropertyIcon} alt="" />{" "}
+                <img className="w-[18px] h-4.5 sm:w-[16px] sm:h-4 min-[1780px]:!w-[20px] min-[1780px]:!h-6" src={PropertyIcon} alt="Newlista" />{" "}
                 {Area} Sq
               </span>
               <span className="bg-[#E3E3E3] text-Paracolor font-semibold font-Inter px-3 py-1 text-[13px] flex rounded-full w-max gap-1 sm:text-[12.5px] min-[1780px]:!text-[15px]">
-                <img className="w-[18px] h-4.5 sm:w-[16px] sm:h-4 min-[1780px]:!w-[20px] min-[1780px]:!h-6" src={PropertyIcon2} alt="" />{" "}
+                <img className="w-[18px] h-4.5 sm:w-[16px] sm:h-4 min-[1780px]:!w-[20px] min-[1780px]:!h-6" src={PropertyIcon2} alt="Newlista" />{" "}
                 {PropertyType}
               </span>
             </div>

@@ -30,7 +30,7 @@ const InvestorCards = ({
             <img
               className="w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] object-cover rounded-full"
               src={InvesImage}
-              alt=""
+              alt="Newlista"
             />
           </span>
           <span>
@@ -44,19 +44,19 @@ const InvestorCards = ({
           {/* FEATURES  */}
           <ul className="flex justify-start items-start flex-col gap-3">
             <li className="flex gap-3 justify-center items-center">
-              <img className="w-5 h-5 " src={InvestorIcon1} alt="" />
+              <img className="w-5 h-5 " src={InvestorIcon1} alt="Newlista" />
               <p className="font-Inter text-[15px] text-Paracolor font-[600]">
                 {state || "Not Provided "}
               </p>
             </li>
             <li className="flex gap-3 justify-center items-center">
-              <img className="w-5 h-5 " src={InvestorIcon2} alt="" />
+              <img className="w-5 h-5 " src={InvestorIcon2} alt="Newlista" />
               <p className="font-Inter text-[15px] text-Paracolor font-[600]">
                 {PropertyInterest}
               </p>
             </li>
             <li className="flex gap-3 justify-center items-center">
-              <img className="w-5 h-5 " src={InvestorIcon3} alt="" />
+              <img className="w-5 h-5 " src={InvestorIcon3} alt="Newlista" />
               <p className="font-Inter text-[15px] text-Paracolor font-[600]">
                 Member {year}
               </p>

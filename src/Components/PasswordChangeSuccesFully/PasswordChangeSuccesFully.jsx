@@ -7,7 +7,7 @@ const PasswordChangeSuccesFully = () => {
     <>
       <div className="flex flex-col justify-center items-center min-h-screen">
         <div className="flex items-center justify-center -mt-10">
-          <img className="h-[70%] w-[70%]" src={PasswordChangeIllustration} alt="" />
+          <img className="h-[70%] w-[70%]" src={PasswordChangeIllustration} alt="Newlista" />
         </div>
         <div className="flex flex-col items-center gap-2">
           <h1 className="font-Poppins font-[700] text-[50px]">

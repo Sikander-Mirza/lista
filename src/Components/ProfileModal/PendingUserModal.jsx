@@ -181,7 +181,7 @@ const PendingUserModal = ({
                       ? import.meta.env.VITE_IMAGE_KEY + profileData.headshot
                       : UnkownUser
                   }
-                  alt=""
+                  alt="Newlista"
                 />
               </div>
               {profileData.banner ? (
@@ -189,7 +189,7 @@ const PendingUserModal = ({
                   <img
                     className="object-cover"
                     src={import.meta.env.VITE_IMAGE_KEY + profileData.banner}
-                    alt=""
+                    alt="Newlista"
                   />
                 </div>
               ) : (

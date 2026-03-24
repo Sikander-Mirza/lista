@@ -100,13 +100,13 @@ It is a commercial real estate investor ecosystem designed to facilitate investo
       >
         <div>
           <img className="sm:w-[28%]"    width={80}
-  height={80} src={items.image} alt="" />
+  height={80} src={items.image} alt="Newlista" />
         </div>
 
         <div className="flex flex-col gap-3">
-          <h1 className="text-textColor font-Inter font-semibold text-[23px] sm:text-[20px] min-[890px]:!text-[19px] min-[1080px]:!text-[20px] min-[1280px]:!text-[22px] leading-[26px] min-[1780px]:!text-[27px] min-[1780px]:!leading-[33px]">
+          <h2 className="text-textColor font-Inter font-semibold text-[23px] sm:text-[20px] min-[890px]:!text-[19px] min-[1080px]:!text-[20px] min-[1280px]:!text-[22px] leading-[26px] min-[1780px]:!text-[27px] min-[1780px]:!leading-[33px]">
             {items.name}
-          </h1>
+          </h2>
           <p className="whitespace-pre-line text-textColor font-Inter text-[15px] sm:text-[15px] min-[890px]:!text-[13.5px] min-[1080px]:!text-[15px] min-[1280px]:!text-[15.5px] min-[1780px]:!text-[17px]">
             {items.desc}
           </p>

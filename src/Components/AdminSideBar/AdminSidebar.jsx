@@ -157,13 +157,13 @@ const AdminSidebar = ({ screen }) => {
                     <img
                       className="h-4.5 w-4.5 sm:h-4.5 sm:w-5 2xl:w-6 2xl:h-6"
                       src={Dashboardicon1_1}
-                      alt=""
+                      alt="Newlista"
                     />
                   ) : (
                     <img
                       className="h-4.5 w-4.5 sm:h-4.5 sm:w-5 2xl:w-6 2xl:h-6"
                       src={Dashboardicon1_11}
-                      alt=""
+                      alt="Newlista"
                     />
                   )}
                   <h1 className="font-Urbanist font-[500] text-[15px] sm:mt-1 sm:text-[16px] 2xl:text-[19px]">
@@ -236,13 +236,13 @@ const AdminSidebar = ({ screen }) => {
                     <img
                       className="h-4.5 w-4.5 sm:h-4.5 sm:w-5 2xl:w-6 2xl:h-6"
                       src={Dashboardicon1_31}
-                      alt=""
+                      alt="Newlista"
                     />
                   ) : (
                     <img
                       className="h-4.5 w-4.5 sm:h-4.5 sm:w-5 2xl:w-6 2xl:h-6"
                       src={Dashboardicon1_3}
-                      alt=""
+                      alt="Newlista"
                     />
                   )}
                   <h1 className="font-Urbanist font-[500] text-[15px] sm:mt-1 sm:text-[16px] 2xl:text-[18px]">

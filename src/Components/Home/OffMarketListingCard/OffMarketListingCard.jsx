@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import TruncatedText from "../../TruncatedText/TruncatedText";
+import { generatePropertyUrl } from "../../../utils/slugify";
 
 const OffMarketListingCard = ({
   Img,
@@ -13,7 +14,13 @@ const OffMarketListingCard = ({
   OffMarketProperties,
   forsale,
   forlease,
+  propertyData
 }) => {
+
+   // Generate URL from property data (NO ID in URL)
+    const propertyUrl = propertyData
+      ? generatePropertyUrl(propertyData)
+      : `/properties/${id}`; // Fallback
   return (
     <div className="max-[400px]:w-[100%] w-[330px] sm:w-full bg-white border border-gray-200 rounded-lg shadow-sm relative">
       <img
@@ -61,12 +68,12 @@ const OffMarketListingCard = ({
         </div>
 
         <div>
-          <h1 className="text-[23px] leading-[30px] mb-3 font-[700] font-Inter tracking-tight sm:leading-[24px] mt-3 text-gray-900 sm:text-[19.5px] md:text-[21.5px] min-[870px]:!text-[18.5px] lg:!text-[23px] xl:leading-[28px]">
+          <h2 className="text-[23px] leading-[30px] mb-3 font-[700] font-Inter tracking-tight sm:leading-[24px] mt-3 text-gray-900 sm:text-[19.5px] md:text-[21.5px] min-[870px]:!text-[18.5px] lg:!text-[23px] xl:leading-[28px]">
             {Heading}
-          </h1>
-          <h1 className="mb-2 text-[18px] sm:text-[15px] min-[870px]:!text-[14px] lg:!text-[15px] font-[600] font-Inter tracking-tight leading-[24px] mt-1 text-gray-900">
+          </h2>
+          <h2 className="mb-2 text-[18px] sm:text-[15px] min-[870px]:!text-[14px] lg:!text-[15px] font-[600] font-Inter tracking-tight leading-[24px] mt-1 text-gray-900">
             {MiniHeading}
-          </h1>
+          </h2>
           <p className="mb-2 break-all font-Inter text-[14px] sm:text-[12.5px] min-[870px]:!text-[11.5px] lg:!text-[12.5px] font-normal text-gray-700">
             {desc}
           </p>
@@ -78,25 +85,25 @@ const OffMarketListingCard = ({
               <h5 className="font-Inter text-[15px] sm:text-[14px] min-[870px]:!text-[13.5px] lg:!text-[14px] font-[500]">
                 Starting from
               </h5>
-              <h1 className="font-Inter text-[20px] sm:text-[18px] min-[870px]:!text-[16.5px] lg:!text-[18px] font-bold">
+              <h2 className="font-Inter text-[20px] sm:text-[18px] min-[870px]:!text-[16.5px] lg:!text-[18px] font-bold">
                 $<TruncatedText text={forsale} maxLength={6} />/sale
-              </h1>
-              <h1 className="font-Inter text-[20px] sm:text-[18px] min-[870px]:!text-[16.5px] lg:!text-[18px] font-bold">
+              </h2>
+              <h2 className="font-Inter text-[20px] sm:text-[18px] min-[870px]:!text-[16.5px] lg:!text-[18px] font-bold">
                 $<TruncatedText text={forlease} maxLength={6} />/lease
-              </h1>
+              </h2>
             </div>
           ) : (
             <div>
               <h5 className="font-Inter text-[15px] sm:text-[14px] min-[870px]:!text-[13.5px] lg:!text-[14px] font-[500]">
                 Starting from
               </h5>
-              <h1 className="font-Inter text-[20px] sm:text-[18px] min-[870px]:!text-[15.5px] lg:!text-[18px] font-bold">
+              <h2 className="font-Inter text-[20px] sm:text-[18px] min-[870px]:!text-[15.5px] lg:!text-[18px] font-bold">
                 ${Price}
-              </h1>
+              </h2>
             </div>
           )}
 
-          <Link to={`/properties/${id}`}>
+          <Link to={propertyUrl}>
             <button className="inline-flex font-Inter text-[12.5px] sm:text-[13px] min-[870px]:!text-[11.5px] lg:!text-[13px] items-center px-5 py-2.5 rounded-full text-sm font-medium text-center focus:outline-none hover-btn-purple hover-btn">
               <span>View Property Details</span>
             </button>

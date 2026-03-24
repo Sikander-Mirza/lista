@@ -307,6 +307,7 @@ const Home = () => {
                     forlease={items.lease_rate}
                     Status={items.listing_status}
                     type={items.listing_type}
+                    propertyData={items}
                     id={items.id}
                     OffMarketProperties="Off Market Property"
                   />
@@ -365,6 +366,7 @@ const Home = () => {
                       PropertyType={items.property_type}
                       Area={items.building_size}
                       Img={items.images[0]}
+                      propertyData={items}
                       Heading={
                         <InlineTruncate
                           text={items.property_name}

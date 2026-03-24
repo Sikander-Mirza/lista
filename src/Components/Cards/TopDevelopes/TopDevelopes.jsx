@@ -19,7 +19,7 @@ const TopDevelopes = ({
         <img
           className="rounded-t-lg h-[245px] lg:h-[270px] 2xl:h-[300px] object-cover w-[100%] "
           src={import.meta.env.VITE_IMAGE_KEY + Img}
-          alt=""
+          alt="Newlista"
         />
         <div className="pt-4 flex flex-col gap-3 sm:!gap-0 px-5 py-7 min-[870px]:!px-3.5 lg:!px-5 justify-between sm:h-[39.5ch] md:h-[38ch] xl:h-[41ch] xl:!gap-4">
           <div className="flex flex-col gap-2 ">

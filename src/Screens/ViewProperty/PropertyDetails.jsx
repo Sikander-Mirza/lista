@@ -33,39 +33,10 @@ import {
   slugify,
   generatePropertyUrl,
   generateCanonicalUrl,
-  extractIdFromSlug,
   parsePropertyParams,
 } from "../../utils/slugify";
 
-const visibleFieldsByType = {
-  Default: [
-    "Currency",
-    "MonthlyRental",
-    "BuildingLevels",
-    "Tenancy",
-    "ParkingSpace",
-    "CAM",
-    "NumberOfUnits",
-    "BuildingClass",
-    "PercentageLeased",
-    "HVAC",
-    "Parking",
-  ],
-  Land: [
-    "Currency",
-    "Monthly-Rental",
-    "Fenced",
-    "LandScape",
-    "LandScapeNumber",
-    "LandScapeAcres",
-    "LandScapeNumber2",
-    "HVAC",
-    "Parking",
-  ],
-};
-
 const PropertyDetails = () => {
-  // URL params: /:listingType/:city/:propertyType/:propertyName
   const params = useParams();
   const navigate = useNavigate();
 
@@ -82,18 +53,12 @@ const PropertyDetails = () => {
   const [Loading, setLoading] = useState(true);
   const [ErrorMessage, setErrorMessage] = useState("");
 
-  // Extract property ID from the last URL segment (propertyName)
-  // e.g., "scuba-shop-202" → "202"
-  const propertyId = useMemo(() => {
-    return extractIdFromSlug(params.propertyName);
-  }, [params.propertyName]);
-
-  // Parse URL params for breadcrumbs / display
+  // Parse URL params
   const parsedParams = useMemo(() => {
     return parsePropertyParams(params);
   }, [params]);
 
-  // Generate canonical URL using the new structure
+  // Generate canonical URL
   const canonicalUrl = useMemo(() => {
     if (!SingleProperty) return "";
     return generateCanonicalUrl(SingleProperty);
@@ -117,10 +82,12 @@ const PropertyDetails = () => {
     return `${ImageKey}${SingleProperty.images[0]}`;
   }, [SingleProperty, ImageKey]);
 
-  // Fetch property data
+  // Fetch property data by SLUG (not ID)
   useEffect(() => {
     async function GetSingleProperty() {
-      if (!propertyId) {
+      const { listingType, city, propertyType, propertyName } = params;
+
+      if (!listingType || !city || !propertyType || !propertyName) {
         setErrorMessage("Invalid property URL");
         setLoading(false);
         return;
@@ -129,36 +96,62 @@ const PropertyDetails = () => {
       try {
         setLoading(true);
 
+        // First, fetch all properties
+        const propertiesResponse = await axios.get(`${ApiKey}/properties`);
+        const allProperties = propertiesResponse.data.data;
+        setProperties(allProperties);
+
+        // Find the property that matches the URL slugs
+        const matchedProperty = allProperties.find((p) => {
+          const expectedListingType = p.listing_type?.toLowerCase().includes('lease') || 
+                                       p.listing_type?.toLowerCase().includes('rent') 
+                                       ? 'rent' : 'buy';
+          const expectedCitySlug = slugify(p.city);
+          const expectedTypeSlug = slugify(p.property_type);
+          const expectedNameSlug = slugify(p.property_name);
+
+          return (
+            listingType === expectedListingType &&
+            city === expectedCitySlug &&
+            propertyType === expectedTypeSlug &&
+            propertyName === expectedNameSlug
+          );
+        });
+
+        if (!matchedProperty) {
+          setErrorMessage("Property not found");
+          setLoading(false);
+          return;
+        }
+
+        // Fetch full property details using the matched ID
         const response = await axios.get(
-          `${ApiKey}/view-property/${propertyId}`
+          `${ApiKey}/view-property/${matchedProperty.id}`
         );
         const propertyData = response.data.data;
         setSingleProperty(propertyData);
 
-        // Build the correct URL path for this property
+        // Verify URL is canonical (correct casing/format)
         const correctPath = generatePropertyUrl(propertyData);
-        const currentPath = `/${params.listingType}/${params.city}/${params.propertyType}/${params.propertyName}`;
+        const currentPath = `/${listingType}/${city}/${propertyType}/${propertyName}`;
 
-        // Redirect to canonical URL if current URL doesn't match
         if (currentPath !== correctPath) {
           navigate(correctPath, { replace: true });
         }
-
-        const propertiesResponse = await axios.get(`${ApiKey}/properties`);
-        setProperties(propertiesResponse.data.data);
       } catch (error) {
-        setErrorMessage(error.message);
+        console.error("Error fetching property:", error);
+        setErrorMessage(error.response?.data?.message || error.message);
       } finally {
         setLoading(false);
       }
     }
 
     GetSingleProperty();
-  }, [propertyId, ApiKey, navigate, params.listingType, params.city, params.propertyType, params.propertyName]);
+  }, [params, ApiKey, navigate]);
 
   // Get user ID and track view
   useEffect(() => {
-    if (!propertyId) return;
+    if (!SingleProperty?.id) return;
 
     const FindId = async () => {
       try {
@@ -169,15 +162,15 @@ const PropertyDetails = () => {
           setUserId(res.data.id);
         }
       } catch (error) {
-        // User not logged in, ignore
+        // User not logged in
       }
     };
 
     const ViewCounter = async () => {
       try {
-        await axios.post(`${ApiKey}/listing/view/${propertyId}`, {});
+        await axios.post(`${ApiKey}/listing/view/${SingleProperty.id}`, {});
       } catch (error) {
-        // Ignore view counter errors
+        // Ignore
       }
     };
 
@@ -185,7 +178,7 @@ const PropertyDetails = () => {
       FindId();
     }
     ViewCounter();
-  }, [propertyId, token, ApiKey]);
+  }, [SingleProperty?.id, token, ApiKey]);
 
   const formatNumber = (num) => {
     if (num == null || isNaN(num)) return "0.00";
@@ -195,7 +188,7 @@ const PropertyDetails = () => {
     });
   };
 
-  // Show loading spinner
+  // Loading state
   if (Loading) {
     return (
       <div className="flex justify-center items-center py-60">
@@ -204,18 +197,25 @@ const PropertyDetails = () => {
     );
   }
 
-  // Show error
+  // Error state
   if (ErrorMessage) {
     return (
-      <div className="flex justify-center items-center py-60">
-        <p className="text-red-500">Error: {ErrorMessage}</p>
+      <div className="flex flex-col justify-center items-center py-60 gap-4">
+        <h1 className="text-2xl font-bold text-gray-800">Property Not Found</h1>
+        <p className="text-gray-600">{ErrorMessage}</p>
+        <Link
+          to="/properties"
+          className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+        >
+          Browse All Properties
+        </Link>
       </div>
     );
   }
 
   return (
     <>
-      {/* SEO Component */}
+      {/* SEO */}
       {SingleProperty && (
         <SEO
           title={`${SingleProperty.property_name} | ${SingleProperty.property_type} ${SingleProperty.listing_type} in ${SingleProperty.city}, ${SingleProperty.state}`}
@@ -307,7 +307,7 @@ const PropertyDetails = () => {
                   </div>
                 </div>
                 <div className="w-[30%]">
-                  <SocialPage setLoading={setLoading} id={propertyId} />
+                  <SocialPage setLoading={setLoading} id={SingleProperty.id} />
                 </div>
               </div>
             </section>
@@ -373,12 +373,12 @@ const PropertyDetails = () => {
                     <div className="flex gap-4">
                       <InquiryForm
                         ListingType={SingleProperty.listing_type}
-                        id={propertyId}
+                        id={SingleProperty.id}
                         propertyAddress={`${SingleProperty.address} ${SingleProperty.city} ${SingleProperty.state}`}
                       />
                       <PropertyChat
                         propertyName={SingleProperty.property_name}
-                        id={propertyId}
+                        id={SingleProperty.id}
                       />
                     </div>
                   )}
@@ -419,7 +419,7 @@ const PropertyDetails = () => {
                             <img
                               className="w-[15px] h-[14px]"
                               src={SocialIcons7}
-                              alt=""
+                              alt="Newlista"
                             />
                             {SingleProperty.user.city}{" "}
                             {SingleProperty.user.state}
@@ -445,7 +445,7 @@ const PropertyDetails = () => {
                   )}
 
                   {UserId !== SingleProperty.user.id && (
-                    <MakeOffer id={propertyId} />
+                    <MakeOffer id={SingleProperty.id} />
                   )}
                 </div>
 
@@ -468,7 +468,7 @@ const PropertyDetails = () => {
                           <img
                             className="w-[20px] h-5"
                             src={PropertyIcon}
-                            alt=""
+                            alt="Newlista"
                           />
                           <p className="font-Urbanist font-[500] text-[15px] text-[#222222]">
                             Year Built
@@ -485,7 +485,7 @@ const PropertyDetails = () => {
                         <img
                           className="w-[20px] h-5"
                           src={PropertyIcon2}
-                          alt=""
+                          alt="Newlista"
                         />
                         <p className="font-Urbanist font-[500] text-[15px] text-[#222222]">
                           Property Type
@@ -502,7 +502,7 @@ const PropertyDetails = () => {
                           <img
                             className="w-[20px] h-5"
                             src={PropertyIcon}
-                            alt=""
+                            alt="Newlista"
                           />
                           <p className="font-Urbanist font-[500] text-[15px] text-[#222222]">
                             Area
@@ -601,12 +601,13 @@ const PropertyDetails = () => {
               </div>
               <div className="w-[100%] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-5 gap-5 sm:mt-5 lg:mt-10 place-items-center sm:place-items-start">
                 {Properties?.slice(0, 4).map((item) =>
-                  Number(item.id) !== Number(propertyId) ? (
+                  Number(item.id) !== Number(SingleProperty.id) ? (
                     <div
                       key={item.id}
                       className="max-[400px]:w-[270px] w-[300px] sm:w-[275px] md:w-[300px] xl:w-[275px]"
                     >
                       <PropertiesCards2
+                        propertyData={item}
                         PropertyType={item.property_type}
                         Area={item.building_size}
                         Heading={item.property_name}
@@ -631,8 +632,6 @@ const PropertyDetails = () => {
                         forlease={item.lease_rate}
                         id={item.id}
                         images={item.images[0]}
-                        // Pass the new URL structure to the card
-                        propertyUrl={generatePropertyUrl(item)}
                       />
                     </div>
                   ) : null

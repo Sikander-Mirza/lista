@@ -162,9 +162,10 @@ const ContactUs = () => {
                 </div>
 
                 {/* Phone Number*/}
-                <Controller
+         <Controller
   name="phone"
   control={control}
+  defaultValue=""
   render={({ field }) => (
     <CountrySelector
       phone={field.value}

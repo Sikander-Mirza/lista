@@ -163,15 +163,16 @@ const ContactUs = () => {
 
                 {/* Phone Number*/}
                 <Controller
-                  name="phone"
-                  control={control}
-                  render={({ field }) => (
-                    <CountrySelector
-                    setPhone={setPhone}
-                      error={errors.phone?.message}
-                    />
-                  )}
-                />
+  name="phone"
+  control={control}
+  render={({ field }) => (
+    <CountrySelector
+      phone={field.value}
+      setPhone={field.onChange}
+      error={errors.phone?.message}
+    />
+  )}
+/>
                 {/* Location  */}
                 <div>
                   <Inputs

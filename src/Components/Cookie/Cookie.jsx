@@ -55,9 +55,9 @@ const Cookie = () => {
         ].join(" ")}
       >
         <div className="text-black">
-          <h1 className="font-Urbanist font-[600] text-[15px] leading-[20px]">
+          <h2 className="font-Urbanist font-[600] text-[15px] leading-[20px]">
             We use cookies to enhance your browsing experience and gather insights for performance improvements.
-          </h1>
+          </h2>
           <h4 className="font-Urbanist font-[500] text-[#353434] text-[13.5px] leading-[19px]">
             By continuing to use this site, you agree to our{" "}
             <span className="border-b border-black/40">

@@ -248,9 +248,9 @@ const SearchBar = ({ ByDefault }) => {
         </div>
         
         <div className="hidden lg:flex lg:w-[21%] px-8 py-1 md:border-r-[1px] border-solid border-Paracolor flex-col">
-          <h1 className="text-[14px] font-semibold font-Inter text-black">
+          <h2 className="text-[14px] font-semibold font-Inter text-black">
             Property Type
-          </h1>
+          </h2>
           <select
             {...register("propertyName")}
             className="text-[13px] font-Inter text-Paracolor font-[500] -mt-0.5 -ml-1"
@@ -265,9 +265,9 @@ const SearchBar = ({ ByDefault }) => {
         {/* } */}
         {/* State Selector */}
         <div className="hidden lg:flex lg:w-[20%] whitespace-nowrap text-ellipsis px-8 py-1 lg:border-r-[1px] border-solid border-Paracolor flex-col">
-          <h1 className="text-[14px] font-Inter text-black font-[600]">
+          <h2 className="text-[14px] font-Inter text-black font-[600]">
             State
-          </h1>
+          </h2>
           <ComboboxSelector
             options={statesArray}
             onSelect={StateSelectionHandler}
@@ -290,7 +290,7 @@ const SearchBar = ({ ByDefault }) => {
 
         {/* City Selector */}
         <div className="hidden lg:w-[20%] xl:w-[19%] px-8 py-1 border-r-[1px] border-solid border-Paracolor lg:flex flex-col">
-          <h1 className="text-[14px] font-Inter text-black font-[600]">City</h1>
+          <h2 className="text-[14px] font-Inter text-black font-[600]">City</h2>
           <ComboboxSelector
             options={cities}
             onSelect={CitySelectionHandler}
@@ -300,9 +300,9 @@ const SearchBar = ({ ByDefault }) => {
 
         {/* Price Range */}
         <div className="hidden lg:w-[23%] xl:w-[21.5%] px-8 py-1 lg:flex flex-col">
-          <h1 className="text-[14px] font-Inter text-black font-[600]">
+          <h2 className="text-[14px] font-Inter text-black font-[600]">
             Price Range
-          </h1>
+          </h2>
           <select
             {...register("priceRange")}
             className="text-[13px] font-Inter text-Paracolor font-[500] -mt-0.5 -ml-1"

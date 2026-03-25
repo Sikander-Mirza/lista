@@ -38,9 +38,9 @@ const ConfirmationModal = ({
           <div className="flex justify-center items-center text-2xl">
             {icon}
           </div>
-          <h1 className="font-Inter font-[700] text-[#3d3d3d] text-[23px]">
+          <h2 className="font-Inter font-[700] text-[#3d3d3d] text-[23px]">
            {title && title || "Are You Sure?"}
-          </h1>
+          </h2>
           <h3 className="font-Inter text-[16px] font-medium text-gray-700">
             {message}
           </h3>

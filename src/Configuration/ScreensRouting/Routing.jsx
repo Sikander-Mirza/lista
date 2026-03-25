@@ -10,6 +10,7 @@ import {
 
 import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop.jsx";
 import ProtectiveRoute from "../ProtectiveRoute/ProtectiveRoute.jsx";
+import Error from "../../Screens/NotFound/Error.jsx";
 
 // ==========================================
 // LAZY IMPORTS — Simple, no preload complexity
@@ -243,7 +244,8 @@ const Routing = () => {
             {/* ================================ */}
             {/* 404 — Must be last               */}
             {/* ================================ */}
-            <Route path="*" element={<NotFound />} />
+            {/* <Route path="*" element={<NotFound />} /> */}
+            <Route path="*" element={<Error/>}></Route>
           </Routes>
         </Suspense>
 

@@ -434,9 +434,9 @@ const Pricing = () => {
               Pricing
             </h2>
 
-            <p className="lg:mt-2 max-[350px]:text-[28px] max-[350px]:leading-[33px] text-[33px] leading-[36px] sm:leading-[45px] sm:text-[40px] font-Urbanist  tracking-tight text-balanc text-gray-900 lg:text-5xl font-[700]">
+            <h1 className="lg:mt-2 max-[350px]:text-[28px] max-[350px]:leading-[33px] text-[33px] leading-[36px] sm:leading-[45px] sm:text-[40px] font-Urbanist  tracking-tight text-balanc text-gray-900 lg:text-5xl font-[700]">
               Investor Membership Pricing & Off‑Market Access
-            </p>
+            </h1>
           </div>
 
           <p className="mx-auto mt-4 lg:mt-6 max-w-3xl text-center text-[14.5px] sm:text-lg font-medium text-pretty text-gray-600 sm:text-md/8 font-Urbanist">
@@ -560,11 +560,11 @@ const Pricing = () => {
 
           <div className="md:w-[84%]">
 
-            <h1 className=" text-center md:text-start text-[28px]  leading-[38px] font-[700] font-Urbanist  text-[#1E1E1E] sm:text-[37px] sm:leading-[48px] xl:text-[34px] xl:-mb-5 2xl:mb-0">
+            <h2 className=" text-center md:text-start text-[28px]  leading-[38px] font-[700] font-Urbanist  text-[#1E1E1E] sm:text-[37px] sm:leading-[48px] xl:text-[34px] xl:-mb-5 2xl:mb-0">
 
               Unlock Your Full Real Estate Potential
 
-            </h1>
+            </h2>
 
           </div>
 

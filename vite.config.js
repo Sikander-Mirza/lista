@@ -80,4 +80,10 @@ export default defineConfig({
     ],
     exclude: ['yet-another-react-lightbox', 'react-phone-input-2'],
   },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 });

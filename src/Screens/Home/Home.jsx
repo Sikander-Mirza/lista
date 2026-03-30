@@ -82,6 +82,14 @@ const InlineTruncate = ({ text, maxLength }) => {
   return `${text.substring(0, maxLength)}…`;
 };
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.newlista.com/#organization",
+  name: "Newlista Ventures LLC",
+  url: "https://www.newlista.com/",
+};
+
 const Home = () => {
   const navigate = useNavigate();
   const ApiKey = import.meta.env.VITE_API_KEY;
@@ -91,6 +99,23 @@ const Home = () => {
 
   const [Properties, setProperties] = useState([]);
   const [searchFilters, setSearchFilters] = useState(null);
+
+ useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "organization-schema";
+    script.text = JSON.stringify(organizationSchema);
+
+    const existing = document.getElementById("organization-schema");
+    if (existing) existing.remove();
+
+    document.head.appendChild(script);
+
+    return () => {
+      const addedScript = document.getElementById("organization-schema");
+      if (addedScript) addedScript.remove();
+    };
+  }, []);
 
   useEffect(() => {
     // ✅ Abort controller for cleanup
@@ -224,46 +249,50 @@ const Home = () => {
 
   return (
     <>
-    <Helmet>
-  <title>Investor-Only Commercial Real Estate Network | Newlista</title>
+<Helmet>
+        <title>Investor-Only Commercial Real Estate Network | Newlista</title>
+        <meta
+          name="description"
+          content="Newlista is a commercial real estate investor network where investors discover off-market opportunities and connect with capital partners to execute deals."
+        />
+        <link rel="canonical" href="https://www.newlista.com/" />
 
-  <meta
-    name="description"
-    content="Newlista is a commercial real estate investor network where investors discover off-market opportunities and connect with capital partners to execute deals."
-  />
-  <link rel="canonical" href="https://www.newlista.com/" />
+        <meta
+          property="og:title"
+          content="Investor-Only Commercial Real Estate Network | Newlista"
+        />
+        <meta
+          property="og:description"
+          content="Newlista is an online commercial real estate investor network where investors discover off-market opportunities and connect with capital partners across the United States."
+        />
+        <meta property="og:url" content="https://www.newlista.com/" />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:image"
+          content="https://www.newlista.com/bg-image.jpg"
+        />
 
-  {/* Open Graph */}
-  <meta
-    property="og:title"
-    content="Investor-Only Commercial Real Estate Network | Newlista"
-  />
-  <meta
-    property="og:description"
-    content="Newlista is an online commercial real estate investor network where investors discover off-market opportunities and connect with capital partners across the United States."
-  />
-  <meta property="og:url" content="https://www.newlista.com/" />
-  <meta property="og:type" content="website" />
-  <meta
-    property="og:image"
-    content="https://www.newlista.com/bg-image.jpg"
-  />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Investor-Only Commercial Real Estate Network | Newlista"
+        />
+        <meta
+          name="twitter:description"
+          content="Newlista is an online commercial real estate investor network where investors discover off-market opportunities and connect with capital partners across the United States."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.newlista.com/bg-image.jpg"
+        />
+      </Helmet>
 
-  {/* Twitter */}
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta
-    name="twitter:title"
-    content="Investor-Only Commercial Real Estate Network | Newlista"
-  />
-  <meta
-    name="twitter:description"
-    content="Newlista is an online commercial real estate investor network where investors discover off-market opportunities and connect with capital partners across the United States."
-  />
-  <meta
-    name="twitter:image"
-    content="https://www.newlista.com/bg-image.jpg"
-  />
-</Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(organizationSchema),
+        }}
+      />
 
       {/* ✅ Above the fold — loads synchronously */}
       <HeroSection />

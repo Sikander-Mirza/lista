@@ -401,119 +401,166 @@ const ViewProperty = () => {
   // ==========================================
   // Schema.org Structured Data with new URLs
   // ==========================================
-  const itemListSchema = useMemo(() => {
-    if (!Properties || Properties.length === 0) return null;
+ const itemListSchema = useMemo(() => {
+  if (!filteredProperties || filteredProperties.length === 0) return null;
 
-    return {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebPage",
-          "@id": `${canonicalUrl}#webpage`,
-          url: canonicalUrl,
-          name: pageTitle,
-          description: pageDescription,
-          isPartOf: {
-            "@id": `${SiteUrl}/#website`,
-          },
-        },
-        {
-          "@type": "WebSite",
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${canonicalUrl}#webpage`,
+        url: canonicalUrl,
+        name: pageTitle,
+        description: pageDescription,
+        isPartOf: {
           "@id": `${SiteUrl}/#website`,
-          url: SiteUrl,
-          name: "Newlista",
         },
-        {
-          "@type": "ItemList",
-          "@id": `${canonicalUrl}#itemlist`,
-          name: "Newlista Property Listings",
-          url: canonicalUrl,
-          numberOfItems: filteredProperties.length,
-          itemListOrder: "https://schema.org/ItemListOrderAscending",
-          itemListElement: filteredProperties.map((p, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            url: `${SiteUrl}${generatePropertyUrl(p)}`,
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SiteUrl}/#website`,
+        url: SiteUrl,
+        name: "Newlista",
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${canonicalUrl}#itemlist`,
+        name: "Newlista Property Listings",
+        url: canonicalUrl,
+        numberOfItems: filteredProperties.length,
+        itemListOrder: "https://schema.org/ItemListOrderAscending",
+        itemListElement: filteredProperties.map((p, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${SiteUrl}${generatePropertyUrl(p)}`,
+          name: p.property_name,
+          item: {
+            "@type": "RealEstateListing",
             name: p.property_name,
-            item: {
-              "@type": "RealEstateListing",
-              name: p.property_name,
-              url: `${SiteUrl}${generatePropertyUrl(p)}`,
-              description: p.description?.substring(0, 200),
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: p.address,
-                addressLocality: p.city,
-                addressRegion: p.state,
-              },
-              ...(p.listing_type === "For Sale" && p.sale_price
-                ? {
-                    offers: {
-                      "@type": "Offer",
-                      price: p.sale_price?.replace(/,/g, ""),
-                      priceCurrency: "USD",
-                    },
-                  }
-                : {}),
+            url: `${SiteUrl}${generatePropertyUrl(p)}`,
+            description: p.description?.substring(0, 200) || "",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: p.address || "",
+              addressLocality: p.city || "",
+              addressRegion: p.state || "",
             },
-          })),
-        },
-      ],
-    };
-  }, [Properties, filteredProperties, canonicalUrl, pageTitle, pageDescription, SiteUrl]);
+            ...(p.listing_type === "For Sale" && p.sale_price
+              ? {
+                  offers: {
+                    "@type": "Offer",
+                    price: String(p.sale_price).replace(/,/g, ""),
+                    priceCurrency: "USD",
+                  },
+                }
+              : {}),
+          },
+        })),
+      },
+    ],
+  };
+}, [filteredProperties, canonicalUrl, pageTitle, pageDescription, SiteUrl]);
 
-  // ==========================================
-  // Breadcrumb data for category pages
-  // ==========================================
-  const breadcrumbs = useMemo(() => {
-    if (!urlFilters) return null;
+const breadcrumbs = useMemo(() => {
+  if (!urlFilters) return null;
 
-    const items = [{ name: "Home", url: "/" }];
+  const items = [{ name: "Home", url: "/" }];
 
-    if (params.listingType) {
-      items.push({
-        name: params.listingType === "buy" ? "Buy" : "Rent",
-        url: `/${params.listingType}`,
-      });
-    }
+  if (params.listingType) {
+    items.push({
+      name: params.listingType === "buy" ? "Buy" : "Rent",
+      url: `/${params.listingType}`,
+    });
+  }
 
-    if (params.city) {
-      items.push({
-        name: urlFilters.city,
-        url: `/${params.listingType}/${params.city}`,
-      });
-    }
+  if (params.city) {
+    items.push({
+      name: urlFilters.city,
+      url: `/${params.listingType}/${params.city}`,
+    });
+  }
 
-    if (params.propertyType) {
-      items.push({
-        name: urlFilters.propertyType,
-        url: `/${params.listingType}/${params.city}/${params.propertyType}`,
-      });
-    }
+  if (params.propertyType) {
+    items.push({
+      name: urlFilters.propertyType,
+      url: `/${params.listingType}/${params.city}/${params.propertyType}`,
+    });
+  }
 
-    return items;
-  }, [urlFilters, params]);
+  return items;
+}, [urlFilters, params]);
+
+const breadcrumbSchema = useMemo(() => {
+  if (!breadcrumbs || breadcrumbs.length === 0) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: `${SiteUrl}${crumb.url}`,
+    })),
+  };
+}, [breadcrumbs, SiteUrl]);
+console.log("filteredProperties length:", filteredProperties?.length);
+console.log("itemListSchema:", itemListSchema);
+console.log("breadcrumbSchema:", breadcrumbSchema);
+
+useEffect(() => {
+  const existing = document.getElementById("property-list-schema");
+  if (existing) existing.remove();
+
+  if (!itemListSchema) return;
+
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.id = "property-list-schema";
+  script.text = JSON.stringify(itemListSchema);
+
+  document.head.appendChild(script);
+
+  return () => {
+    const addedScript = document.getElementById("property-list-schema");
+    if (addedScript) addedScript.remove();
+  };
+}, [itemListSchema]);
+
+useEffect(() => {
+  const existing = document.getElementById("property-breadcrumb-schema");
+  if (existing) existing.remove();
+
+  if (!breadcrumbSchema) return;
+
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.id = "property-breadcrumb-schema";
+  script.text = JSON.stringify(breadcrumbSchema);
+
+  document.head.appendChild(script);
+
+  return () => {
+    const addedScript = document.getElementById("property-breadcrumb-schema");
+    if (addedScript) addedScript.remove();
+  };
+}, [breadcrumbSchema]);
 
   return (
     <>
       <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <link rel="canonical" href={canonicalUrl} />
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
+  <link rel="canonical" href={canonicalUrl} />
 
-        {/* Open Graph */}
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:type" content="website" />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDescription} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:type" content="website" />
+</Helmet>
 
-        {/* Schema */}
-        {itemListSchema && (
-          <script type="application/ld+json">
-            {JSON.stringify(itemListSchema)}
-          </script>
-        )}
-      </Helmet>
+
 
       {/* BANNER START */}
       <section

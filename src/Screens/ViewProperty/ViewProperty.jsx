@@ -401,7 +401,7 @@ const ViewProperty = () => {
   // ==========================================
   // Schema.org Structured Data with new URLs
   // ==========================================
- const itemListSchema = useMemo(() => {
+const itemListSchema = useMemo(() => {
   if (!filteredProperties || filteredProperties.length === 0) return null;
 
   return {
@@ -431,32 +431,23 @@ const ViewProperty = () => {
         numberOfItems: filteredProperties.length,
         itemListOrder: "https://schema.org/ItemListOrderAscending",
         itemListElement: filteredProperties.map((p, index) => ({
-  "@type": "ListItem",
-  position: index + 1,
-  url: `${SiteUrl}${generatePropertyUrl(p)}`,
-  name: p.property_name,
-  item: {
-    "@type": "Place",
-    name: p.property_name,
-    url: `${SiteUrl}${generatePropertyUrl(p)}`,
-    description: p.description?.substring(0, 200) || "",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: p.address || "",
-      addressLocality: p.city || "",
-      addressRegion: p.state || "",
-    },
-    ...(p.listing_type === "For Sale" && p.sale_price
-      ? {
-          offers: {
-            "@type": "Offer",
-            price: String(p.sale_price).replace(/,/g, ""),
-            priceCurrency: "USD",
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${SiteUrl}${generatePropertyUrl(p)}`,
+          name: p.property_name,
+          item: {
+            "@type": "Place",
+            name: p.property_name,
+            url: `${SiteUrl}${generatePropertyUrl(p)}`,
+            description: p.description?.substring(0, 200) || "",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: p.address || "",
+              addressLocality: p.city || "",
+              addressRegion: p.state || "",
+            },
           },
-        }
-      : {}),
-  },
-}))
+        })),
       },
     ],
   };

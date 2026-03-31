@@ -436,18 +436,15 @@ const ViewProperty = () => {
   url: `${SiteUrl}${generatePropertyUrl(p)}`,
   name: p.property_name,
   item: {
-    "@type": "RealEstateListing",
+    "@type": "Place",
     name: p.property_name,
     url: `${SiteUrl}${generatePropertyUrl(p)}`,
     description: p.description?.substring(0, 200) || "",
-    itemOffered: {
-      "@type": "Place",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: p.address || "",
-        addressLocality: p.city || "",
-        addressRegion: p.state || "",
-      },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: p.address || "",
+      addressLocality: p.city || "",
+      addressRegion: p.state || "",
     },
     ...(p.listing_type === "For Sale" && p.sale_price
       ? {

@@ -1,0 +1,5 @@
+import{j as x}from"./vendor-ui-6lrfi3qi.js";import"./vendor-core-Cfy86vm1.js";const h=({labels:n,placeholder:o,type:s="text",style:a="",error:t,name:p,register:e,maxle:l,onInput:m})=>{const d=typeof e=="function"&&p?e(p):e||{};return x.jsxs(x.Fragment,{children:[x.jsx("label",{htmlFor:p,className:"block mb-1 font-[700] text-PurpleColor w-full max-[1280px]:text-[14px] max-[1666px]:text-[15px] min-[1666px]:text-[16px]",children:n}),x.jsx("input",{name:p,type:s,maxLength:l,onInput:m,...d,className:`bg-[#F3EEFF] border border-solid text-[#1d1d1d] font-[600] font-Urbanist text-[14px] placeholder:text-[12.5px] sm:placeholder:text-[14px] w-full px-4 rounded-[6px] outline-none
+            max-[481px]:h-11 max-[891px]:h-12 max-[1000px]:h-10.5 max-[1100px]:h-11
+            max-[1280px]:h-11.5 max-[1666px]:h-12 min-[1666px]:h-14 min-[1666px]:text-[15px] min-[1666px]:placeholder:text-[15px]
+            ${a} ${t?"border-red-500":"border-[#F3EEFF]"}
+          `,placeholder:o}),t&&x.jsx("p",{className:"text-red-500 font-[500] text-[14px] pt-1 font-Urbanist tracking-wide",children:typeof t=="string"?t:t.message})]})};export{h as I};

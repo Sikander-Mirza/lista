@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DB804EZ1GQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DB804EZ1GQ');
+    </script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- ✅ Preload LCP image for faster loading -->
+    <link 
+      rel="preload" 
+      as="image" 
+      href="/assets/Banners/HeroSectionMobile.webp"
+      media="(max-width: 768px)"
+      fetchpriority="high"
+    />
+    <link 
+      rel="preload" 
+      as="image" 
+      href="/assets/Banners/bg-image.webp"
+      media="(min-width: 769px)"
+      fetchpriority="high"
+    />
+    
+    <!-- Preconnects -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://admin.newlista.com" crossorigin />
+    
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://admin.newlista.com" />
+    
+    <meta name="theme-color" content="#7C3AED" />
+    <title></title>
+
+    <!-- Critical CSS -->
+    <style>
+      *,*::before,*::after{box-sizing:border-box}
+      body{margin:0;font-family:'Urbanist',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+      #root{min-height:100vh;contain:layout style}
+      .initial-loader{display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f9fafb}
+      .initial-loader-spinner{width:40px;height:40px;border:3px solid #e5e7eb;border-top-color:#7C3AED;border-radius:50%;animation:spin 1s linear infinite;will-change:transform}
+      @keyframes spin{to{transform:rotate(360deg)}}
+    </style>
+    
+    <!-- Reduced font weights -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&family=Poppins:wght@600&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&family=Poppins:wght@600&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+
+    <script type="module" crossorigin src="/assets/index-jlTSnoxE.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-core-Cfy86vm1.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-state-QLlHNGUV.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-ui-6lrfi3qi.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-utils-CPf3tDT8.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-B0XHl7jE.css">
+  </head>
+  <body>
+    <div id="root">
+      <div class="initial-loader">
+        <div class="initial-loader-spinner"></div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -12,9 +12,7 @@ import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop.jsx";
 import ProtectiveRoute from "../ProtectiveRoute/ProtectiveRoute.jsx";
 import Error from "../../Screens/NotFound/Error.jsx";
 
-// ==========================================
-// LAZY IMPORTS — Simple, no preload complexity
-// ==========================================
+
 
 // Layout Components
 const Navbar = lazy(() => import("../../Components/Navbar/Navbar.jsx"));
@@ -55,14 +53,10 @@ const AddProperty3 = lazy(() => import("../../Screens/AddProperty/AddProperty3.j
 // Error Page
 const NotFound = lazy(() => import("../../Screens/404NotFound/NotFound.jsx"));
 
-// ==========================================
-// VALID LISTING TYPES — Used to distinguish property URLs from other routes
-// ==========================================
+
 const VALID_LISTING_TYPES = ["buy", "rent"];
 
-// ==========================================
-// FALLBACK COMPONENTS
-// ==========================================
+
 const PageLoader = memo(() => (
   <div className="flex flex-col justify-center items-center min-h-[60vh] gap-4">
     <div className="w-12 h-12 border-4 border-gray-200 border-t-purple-600 rounded-full animate-spin" />
@@ -92,9 +86,7 @@ const isPropertyDetailPath = (pathname) => {
   return false;
 };
 
-// ==========================================
-// LAYOUT COMPONENT
-// ==========================================
+
 const Layout = memo(({ children }) => {
   const location = useLocation();
 

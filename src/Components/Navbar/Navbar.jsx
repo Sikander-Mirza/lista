@@ -77,7 +77,7 @@ function TransparentNavbar() {
     };
     FindUser();
   }, []);
-
+ 
   const totalUnreadCount = useSelector(
     (state) => state.unread.totalUnreadCount
   );
@@ -147,6 +147,8 @@ function TransparentNavbar() {
             >
               Contact
             </Link>
+             
+            
           </PopoverGroup>
           {/* MAIN MENU SECTION  END  */}
           {/* BUTTONS  */}

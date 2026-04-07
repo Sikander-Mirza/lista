@@ -173,6 +173,36 @@ const Login = () => {
           content="Sign in to Newlista to connect with other investors, review off‑market commercial listings and manage capital partnerships on our investor‑only network."
         />
         <link rel="canonical" href="https://www.newlista.com/login" />
+
+         <meta
+          property="og:title"
+          content="Investor-Only Commercial Real Estate Network | Newlista"
+        />
+        <meta
+          property="og:description"
+          content="Newlista is an online commercial real estate investor network where investors discover off-market opportunities and connect with capital partners across the United States."
+        />
+        <meta property="og:url" content="https://www.newlista.com/login" />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:image"
+          content="https://www.newlista.com/bg-image.jpg"
+        />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Investor-Only Commercial Real Estate Network | Newlista"
+        />
+        <meta
+          name="twitter:description"
+          content="Newlista is an online commercial real estate investor network where investors discover off-market opportunities and connect with capital partners across the United States."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.newlista.com/bg-image.jpg"
+        />
+
       </Helmet>
 
     <Navbar></Navbar>

@@ -397,7 +397,7 @@ const Pricing = () => {
           name="description"
           content="Explore Newlista’s flexible membership plans. Choose the pricing tier that fits your investing goals and access our investor‑only network for off‑market deals."
         />
-        <link rel="canonical" href="https://www.newlista.com/" />
+        <link rel="canonical" href="https://www.newlista.com/pricing" />
 
          <meta
           property="og:title"

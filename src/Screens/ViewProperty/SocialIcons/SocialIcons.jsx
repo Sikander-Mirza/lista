@@ -98,9 +98,9 @@ const SocialPage = ({ id, setLoading }) => {
 
   return (
     <div className="flex lg:justify-center md:items-center flex-col sm:flex-row mt-4 lg:mt-0 gap-2">
-      <h1 className="font-Poppins text-[20px] font-[500] text-[#222222]">
+      <h2 className="font-Poppins text-[20px] font-[500] text-[#222222]">
         Share Links
-      </h1>
+      </h2>
       <div className="flex gap-2">
         <div onClick={() => openShare("facebook")} className="cursor-pointer">
           <img src={SocialIcons1} className="w-[30px]" alt="Facebook" />

@@ -337,21 +337,21 @@ const PropertyDetails = () => {
                   </h5>
 
                   {SingleProperty.listing_type === "For Sale" && (
-                    <h1 className="font-Poppins text-[#222222] font-[650] text-[30px] sm:text-[36px] flex gap-6 items-center relative">
+                    <h2 className="font-Poppins text-[#222222] font-[650] text-[30px] sm:text-[36px] flex gap-6 items-center relative">
                       ${SingleProperty.sale_price}
-                    </h1>
+                    </h2>
                   )}
 
                   {SingleProperty.listing_type === "For Lease" && (
-                    <h1 className="font-Poppins text-[#222222] font-[650] text-[30px] sm:text-[36px] flex gap-6 items-center relative">
+                    <h2 className="font-Poppins text-[#222222] font-[650] text-[30px] sm:text-[36px] flex gap-6 items-center relative">
                       ${formatNumber(SingleProperty.lease_rate)}
-                    </h1>
+                    </h2>
                   )}
 
                   {SingleProperty.listing_type ===
                     "Both (For Sale & For Lease)" && (
                     <div className="mb-6">
-                      <h1 className="font-Poppins text-[#222222] font-[650] text-[30px] sm:text-[36px] flex gap-10 items-center relative">
+                      <h2 className="font-Poppins text-[#222222] font-[650] text-[30px] sm:text-[36px] flex gap-10 items-center relative">
                         <div className="flex flex-col leading-[40px]">
                           <span className="text-[23px]">Sale:</span>
                           <span>${SingleProperty.sale_price}</span>
@@ -365,7 +365,7 @@ const PropertyDetails = () => {
                             </span>
                           </div>
                         </div>
-                      </h1>
+                      </h2>
                     </div>
                   )}
 
@@ -409,10 +409,10 @@ const PropertyDetails = () => {
                         alt={SingleProperty.user.first_name}
                       />
                       <span>
-                        <h1 className="font-Urbanist text-[18.5px] sm:text-[21px] font-[700]">
+                        <h2 className="font-Urbanist text-[18.5px] sm:text-[21px] font-[700]">
                           {SingleProperty.user.first_name}{" "}
                           {SingleProperty.user.last_name}
-                        </h1>
+                        </h2>
                         {(SingleProperty.user.city ||
                           SingleProperty.user.state) && (
                           <p className="font-Urbanist text-[15px] sm:text-[16px] flex items-center gap-1">
@@ -452,9 +452,9 @@ const PropertyDetails = () => {
                 {/* Description */}
                 <div className="border-[1px] border-solid border-[#BBBBBB] rounded-[8px] px-5 py-6 flex flex-col justify-center gap-2">
                   <div className="border-b-[1px] border-solid border-[#BBBBBB] pb-7">
-                    <h1 className="text-[#222222] font-Urbanist text-[22px] sm:text-[25px] font-[700] mb-3">
+                    <h2 className="text-[#222222] font-Urbanist text-[22px] sm:text-[25px] font-[700] mb-3">
                       Description
-                    </h1>
+                    </h2>
                     <p className="font-Urbanist font-[500] break-all text-[13.5px] sm:text-[15px] text-[#222222]">
                       {SingleProperty.description}
                     </p>
@@ -520,9 +520,9 @@ const PropertyDetails = () => {
 
                 {/* Property Overview */}
                 <div className="border-[1px] border-solid border-[#BBBBBB] rounded-[8px] px-5 py-6 flex flex-col justify-center gap-2">
-                  <h1 className="text-[#222222] font-Urbanist text-[22px] sm:text-[25px] font-[700] sm:mb-3">
+                  <h2 className="text-[#222222] font-Urbanist text-[22px] sm:text-[25px] font-[700] sm:mb-3">
                     Property Overview
-                  </h1>
+                  </h2>
 
                   {(SingleProperty.listing_type === "For Sale" ||
                     SingleProperty.listing_type ===
@@ -595,9 +595,9 @@ const PropertyDetails = () => {
             {/* Other Properties Section */}
             <section className="max-[370px]:px-5 px-8 py-14 sm:px-10 lg:px-20 sm:py-28 w-[100%] 2xl:w-[88%]">
               <div>
-                <h1 className="text-center sm:text-start max-[370px]:text-[28px] text-[32px] leading-[35px] font-[700] font-Urbanist text-[#1E1E1E] sm:text-[33px] lg:text-[38px] sm:leading-[48px]">
+                <h2 className="text-center sm:text-start max-[370px]:text-[28px] text-[32px] leading-[35px] font-[700] font-Urbanist text-[#1E1E1E] sm:text-[33px] lg:text-[38px] sm:leading-[48px]">
                   Other Properties you might like
-                </h1>
+                </h2>
               </div>
               <div className="w-[100%] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-5 gap-5 sm:mt-5 lg:mt-10 place-items-center sm:place-items-start">
                 {Properties?.slice(0, 4).map((item) =>

@@ -429,7 +429,7 @@ const Pricing = () => {
         />
 
       </Helmet>
-
+    
 
       {/* PRICING SECTION  */}
 
@@ -652,4 +652,3 @@ const Pricing = () => {
 
 
 export default Pricing;
-

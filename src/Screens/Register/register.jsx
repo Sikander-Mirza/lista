@@ -665,27 +665,30 @@ const Register = () => {
             onSubmit={handleSubmit(onFormSubmit)}
             className="flex flex-col gap-4"
           >
-            {/* Name row */}
-            <div className="grid min-[400px]:grid-cols-2 gap-5 w-full">
-              <Inputs
-                name="FirstName"
-                register={register("FirstName", {
-                  required: "First name is required",
-                })}
-                labels="First Name"
-                error={errors.FirstName?.message}
-                placeholder="Enter your first name"
-              />
-              <Inputs
-                name="LastName"
-                register={register("LastName", {
-                  required: "Last name is required",
-                })}
-                labels="Last Name"
-                error={errors.LastName?.message}
-                placeholder="Enter your last name"
-              />
-            </div>
+                    <div className="grid  min-[400px]:grid-cols-2 gap-5 w-[100%]">
+          <span className="">
+            <Inputs
+              name={"FirstName"}
+              register={register("FirstName", {
+                required: "First name is required",
+              })}
+              labels={"First Name"}
+              error={errors.FirstName?.message}
+              placeholder={"Enter your first name"}
+            ></Inputs>
+          </span>
+          <span className="">
+            <Inputs
+              name={"LastName"}
+              register={register("LastName", {
+                required: "Last name is required",
+              })}
+              labels={"Last Name"}
+              error={errors.LastName?.message}
+              placeholder={"Enter your last name"}
+            ></Inputs>
+          </span>
+        </div>
 
             {/* Email */}
             <Inputs

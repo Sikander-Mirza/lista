@@ -651,11 +651,10 @@ const Register = () => {
             <span className="text-[#703bf7] text-lg shrink-0 mt-0.5">🔒</span>
             <div>
               <p className="font-Inter text-xs sm:text-sm font-semibold text-violet-800">
-                Free account · Request investor access after signup
+                Already have an account? Please do not create a second account.
               </p>
               <p className="font-Inter text-[11px] sm:text-xs text-violet-600 mt-0.5 font-medium">
-                Founding Investor Access is granted by admin approval. Create your
-                free account first, then request access from your dashboard.
+                 To access the investor network, contact us and we will help activate Founding Investor Access for your existing account.
               </p>
             </div>
           </div>

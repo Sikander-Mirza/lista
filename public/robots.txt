@@ -1,0 +1,10 @@
+# robots.txt for https://www.newlista.com
+
+User-agent: *
+
+
+
+Disallow: 
+
+
+Sitemap: https://www.newlista.com/sitemap.xml

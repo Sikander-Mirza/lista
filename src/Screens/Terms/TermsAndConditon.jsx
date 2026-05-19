@@ -673,7 +673,7 @@ export default function TermsAndCondition() {
 
         <PolicyLayout
             title="Terms of Use"
-            lastUpdated="October 1, 2025"
+            lastUpdated="April 1 2026"
             heading="Newlista Terms of Use for Investors"
             desc="We may update or modify these Terms from time to time. It is your responsibility to review them periodically"
             bannerImage={AddPropertyBanner}

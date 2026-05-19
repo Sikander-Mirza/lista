@@ -105,7 +105,7 @@ const AgreementModal = ({
             </ul>
           </div>
 
-          {/* What happens next – sets correct expectations */}
+          {/* What happens next – sets correct expectations
           <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 p-4">
             <p className="font-Inter text-xs sm:text-sm font-semibold text-blue-800">
               📋 What happens after you sign up?
@@ -120,7 +120,7 @@ const AgreementModal = ({
                 🔒 Founding Investor Access is granted by admin approval only.
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Checkbox */}
           <label className="mt-5 flex items-start gap-3 cursor-pointer">

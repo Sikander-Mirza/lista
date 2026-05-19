@@ -327,7 +327,7 @@ export default function PrivacyPolicy() {
 
         <PolicyLayout
             title="Privacy Policy"
-            lastUpdated="December 24, 2025"
+            lastUpdated="April 1 2026"
             heading="Privacy Policy – Investor Data Protection on Newlista"
             bannerImage={AddPropertyBanner}
             sections={sections}

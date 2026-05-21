@@ -113,7 +113,16 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
 
   // Reset every time modal opens
   useEffect(() => {
-    if (isOpen) setSubmitted(false);
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    // Cleanup on unmount — safety net
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isOpen]);
 
   const handleRequest = async () => {
@@ -282,9 +291,7 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
             </div>
 
             <p className="font-Inter text-xs sm:text-sm text-gray-600 leading-5">
-              Click below to submit your access request. Our team will review
-              your profile and reach out within{" "}
-              <span className="font-semibold">1–3 business days</span>.
+              Click below to submit your access request. 
             </p>
 
             {/* Actions */}

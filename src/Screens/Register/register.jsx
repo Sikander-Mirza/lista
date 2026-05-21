@@ -31,10 +31,16 @@ const AgreementModal = ({
   const [agreed, setAgreed] = useState(false);
 
   // Reset checkbox every time modal opens
-  useEffect(() => {
-    if (isOpen) setAgreed(false);
+ useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isOpen]);
-
   if (!isOpen) return null;
 
   return (

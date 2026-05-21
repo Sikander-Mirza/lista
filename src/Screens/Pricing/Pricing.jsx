@@ -130,34 +130,9 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
     if (isOpen) setSubmitted(false);
   }, [isOpen]);
 
-  const handleRequest = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("token");
-      await axios.post(
-        `${ApiKey}/request-investor-access`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      setSubmitted(true);
-    } catch (error) {
-      const status = error?.response?.status;
-      if (status === 409) {
-        setSubmitted(true);
-      } else {
-        alert(
-          error?.response?.data?.message ||
-            "Something went wrong. Please try again."
-        );
-      }
-    } finally {
-      setLoading(false);
-    }
+ const handleRequest = () => {
+    onClose();
+    navigate("/contact-us");
   };
 
   const handleClose = () => {

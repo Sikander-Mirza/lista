@@ -111,26 +111,26 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
   const ApiKey = import.meta.env.VITE_API_KEY;
 
-  // Reset every time modal opens
+  // Lock body scroll
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-
-    // Cleanup on unmount — safety net
     return () => {
       document.body.style.overflow = "";
     };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) setSubmitted(false);
   }, [isOpen]);
 
   const handleRequest = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-
-      // POST to backend – creates a pending investor-access request
       await axios.post(
         `${ApiKey}/request-investor-access`,
         {},
@@ -141,12 +141,9 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
           },
         }
       );
-
       setSubmitted(true);
     } catch (error) {
       const status = error?.response?.status;
-
-      // 409 = already requested → treat as success (idempotent UX)
       if (status === 409) {
         setSubmitted(true);
       } else {
@@ -177,6 +174,7 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
       <div
         className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl
                     ring-1 ring-black/5 p-6 sm:p-8
+                    my-auto max-h-[90vh] overflow-y-auto
                     animate-[pop_180ms_cubic-bezier(0.2,0.7,0.3,1)_both]"
         onClick={(e) => e.stopPropagation()}
       >
@@ -191,16 +189,14 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
         </button>
 
         {submitted ? (
-          // ── Success state ──────────────────────────────────
+          // ── Success state ──
           <div className="flex flex-col items-center text-center gap-4 py-4">
             <div className="grid h-16 w-16 place-items-center rounded-full bg-green-100">
               <CheckCircle className="text-green-600" size={36} />
             </div>
-
             <h3 className="font-Urbanist text-xl font-bold text-gray-900">
               Request Received!
             </h3>
-
             <p className="font-Inter text-sm text-gray-600 leading-6">
               Your request for{" "}
               <span className="font-semibold text-gray-800">
@@ -213,18 +209,16 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
               </span>
               .
             </p>
-
             <div
               className="mt-1 flex items-center gap-2 rounded-lg
-                          bg-amber-50 border border-amber-200 px-4 py-3 text-left"
+                          bg-amber-50 border border-amber-200 px-4 py-3"
             >
               <Clock size={16} className="text-amber-600 shrink-0" />
-              <p className="font-Inter text-xs text-amber-700 font-medium">
+              <p className="font-Inter text-xs text-amber-700 font-medium text-left">
                 No action needed on your end. We'll email you once access is
                 approved.
               </p>
             </div>
-
             <button
               onClick={handleClose}
               className="mt-2 w-full font-Urbanist text-sm font-semibold
@@ -235,9 +229,8 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
             </button>
           </div>
         ) : (
-          // ── Default state ──────────────────────────────────
+          // ── Default state ──
           <div className="flex flex-col gap-5">
-            {/* Header */}
             <div className="flex items-start gap-3">
               <div
                 className="shrink-0 grid h-11 w-11 place-items-center
@@ -264,7 +257,6 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
                   <circle cx="12" cy="15.5" r="1" fill="currentColor" />
                 </svg>
               </div>
-
               <div>
                 <h3 className="font-Urbanist text-lg sm:text-xl font-bold text-gray-900">
                   Founding Investor Access
@@ -275,7 +267,6 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            {/* What you get */}
             <div className="rounded-xl border border-violet-200 bg-violet-50 p-4">
               <p className="font-Inter text-xs sm:text-sm font-semibold text-violet-800">
                 🔒 This tier is by invitation / approval only.
@@ -292,10 +283,9 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
             </div>
 
             <p className="font-Inter text-xs sm:text-sm text-gray-600 leading-5">
-              Click below to submit your access request. 
+              Click below to submit your access request.
             </p>
 
-            {/* Actions */}
             <div className="flex gap-3">
               <button
                 onClick={handleClose}
@@ -306,7 +296,6 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
               >
                 Cancel
               </button>
-
               <button
                 onClick={handleRequest}
                 disabled={loading}

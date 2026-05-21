@@ -111,7 +111,8 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const ApiKey = import.meta.env.VITE_API_KEY;
-
+ const navigate = useNavigate();
+ 
   // Lock scroll on BOTH html and body
   useEffect(() => {
     if (isOpen) {

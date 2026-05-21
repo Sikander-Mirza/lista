@@ -7,10 +7,10 @@ import axios from "axios";
 import CountrySelector from "../../Components/RegisterCountrySelector/CountrySelection";
 import Inputs from "../../Components/InputFields/Inputs";
 import Image from "../../assets/Banners/LoginPage.jpg";
-import { Eye, EyeOff, CheckCircle, Clock } from "lucide-react";
+import { Eye, EyeOff, CheckCircle, Clock,X } from "lucide-react";
 import Navbar from "../../Components/Navbar/Navbar";
 import { Helmet } from "react-helmet-async";
-
+import { createPortal } from "react-dom";
 // ─────────────────────────────────────────────
 // Small reusable sub-components (keep in same
 // file or extract – your call)
@@ -31,33 +31,52 @@ const AgreementModal = ({
   const [agreed, setAgreed] = useState(false);
 
   // Reset checkbox every time modal opens
- useEffect(() => {
+  useEffect(() => {
+    if (isOpen) setAgreed(false);
+  }, [isOpen]);
+
+  // Lock body + html scroll
+  useEffect(() => {
     if (isOpen) {
+      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     }
     return () => {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     };
   }, [isOpen]);
+
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center 
-                 bg-black/50 backdrop-blur-sm p-4 sm:p-8"
       onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        backdropFilter: "blur(4px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "1rem",
+        overflowY: "auto",
+      }}
     >
       <div
-        className="relative w-full max-w-lg md:max-w-2xl bg-white shadow-2xl
-                    ring-1 ring-black/5 rounded-2xl flex flex-col
-                    animate-[pop_180ms_cubic-bezier(0.2,0.7,0.3,1)_both]
-                    max-h-[90dvh]"
         onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-lg md:max-w-2xl bg-white shadow-2xl
+                   ring-1 ring-black/5 rounded-2xl flex flex-col
+                   animate-[pop_180ms_cubic-bezier(0.2,0.7,0.3,1)_both]"
+        style={{ maxHeight: "90vh" }}
       >
         {/* ── Header ── */}
-        <div className="bg-[#703bf7] text-white px-5 py-5 sm:px-6 rounded-t-2xl">
+        <div className="bg-[#703bf7] text-white px-5 py-5 sm:px-6 rounded-t-2xl shrink-0">
           <div className="flex items-start gap-3">
             <div className="shrink-0 grid h-11 w-11 place-items-center rounded-full bg-white/20">
               <svg
@@ -93,8 +112,11 @@ const AgreementModal = ({
           </div>
         </div>
 
-        {/* ── Body ── */}
-        <div className="px-5 sm:px-6 pt-5 pb-3 overflow-y-auto">
+        {/* ── Body (scrollable) ── */}
+        <div
+          className="px-5 sm:px-6 pt-5 pb-3"
+          style={{ overflowY: "auto", flex: 1 }}
+        >
           <div className="rounded-xl border border-red-400 bg-red-50 p-4">
             <p className="font-Inter text-sm sm:text-[15px] font-semibold text-red-700">
               Newlista is exclusively for bona fide real-estate investors.
@@ -161,16 +183,17 @@ const AgreementModal = ({
 
         {/* ── Footer ── */}
         <div
-          className="mt-2 flex items-center justify-end gap-3
-                      border-t border-gray-200 bg-slate-50 px-5 sm:px-6 py-4
-                      rounded-b-2xl"
+          className="flex items-center justify-end gap-3
+                     border-t border-gray-200 bg-slate-50 px-5 sm:px-6 py-4
+                     rounded-b-2xl shrink-0"
         >
           <button
             onClick={onClose}
             className="font-Urbanist text-sm font-semibold inline-flex items-center
                        justify-center rounded-lg border border-slate-300 bg-white
                        px-4 py-2.5 text-slate-700 hover:bg-slate-50
-                       focus:outline-none focus:ring-2 focus:ring-slate-200"
+                       focus:outline-none focus:ring-2 focus:ring-slate-200
+                       cursor-pointer"
           >
             Cancel
           </button>
@@ -181,13 +204,15 @@ const AgreementModal = ({
             className="font-Urbanist text-sm font-semibold inline-flex items-center
                        justify-center rounded-lg bg-[#703bf7] px-4 py-2.5 text-white
                        hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60
-                       focus:outline-none focus:ring-2 focus:ring-violet-300"
+                       focus:outline-none focus:ring-2 focus:ring-violet-300
+                       cursor-pointer"
           >
             {loading ? "Processing…" : "Agree & Create Account"}
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
@@ -197,176 +222,144 @@ const AgreementModal = ({
 // "Founding Investor Access" on the Pricing page.
 // ─────────────────────────────────────────────
 export const RequestAccessModal = ({ isOpen, onClose }) => {
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const ApiKey = import.meta.env.VITE_API_KEY;
+  const navigate = useNavigate();
 
-  const handleRequest = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("token");
-
-      // POST to your backend – create a pending access request
-      await axios.post(
-        `${ApiKey}/request-investor-access`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      setSubmitted(true);
-    } catch (error) {
-      // If already requested, treat as success (idempotent UX)
-      const status = error?.response?.status;
-      if (status === 409) {
-        setSubmitted(true); // already requested
-      } else {
-        alert(
-          error?.response?.data?.message ||
-            "Something went wrong. Please try again."
-        );
-      }
-    } finally {
-      setLoading(false);
+  // ── Lock html + body scroll while open ──
+  useEffect(() => {
+    if (isOpen) {
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
     }
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // ── Redirect user to contact page instead of API call ──
+  const handleRequest = () => {
+    onClose();
+    navigate("/contact-us");
   };
 
-  // Reset state when modal closes
   const handleClose = () => {
-    setSubmitted(false);
     onClose();
   };
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center
-                 bg-black/50 backdrop-blur-sm p-4"
       onClick={handleClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        backdropFilter: "blur(4px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "1rem",
+        overflowY: "auto",
+      }}
     >
       <div
-        className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl
-                    ring-1 ring-black/5 p-6 sm:p-8
-                    animate-[pop_180ms_cubic-bezier(0.2,0.7,0.3,1)_both]"
         onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl
+                   ring-1 ring-black/5 p-6 sm:p-8
+                   animate-[pop_180ms_cubic-bezier(0.2,0.7,0.3,1)_both]"
+        style={{ maxHeight: "90vh", overflowY: "auto" }}
       >
-        {submitted ? (
-          // ── Success state ──
-          <div className="flex flex-col items-center text-center gap-4 py-4">
-            <div className="grid h-16 w-16 place-items-center rounded-full bg-green-100">
-              <CheckCircle className="text-green-600" size={36} />
+        {/* ── Close button ── */}
+        <button
+          onClick={handleClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600
+                     focus:outline-none cursor-pointer"
+          aria-label="Close modal"
+        >
+          <X size={20} />
+        </button>
+
+        {/* ── Content ── */}
+        <div className="flex flex-col gap-5">
+          {/* Header */}
+          <div className="flex items-start gap-3">
+            <div className="shrink-0 grid h-11 w-11 place-items-center rounded-full bg-violet-100">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="text-[#703bf7]"
+              >
+                <path
+                  d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                />
+                <path
+                  d="M12 8v5"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+                <circle cx="12" cy="15.5" r="1" fill="currentColor" />
+              </svg>
             </div>
-            <h3 className="font-Urbanist text-xl font-bold text-gray-900">
-              Request Received!
-            </h3>
-            <p className="font-Inter text-sm text-gray-600 leading-6">
-              Your request for{" "}
-              <span className="font-semibold text-gray-800">
+            <div>
+              <h3 className="font-Urbanist text-lg sm:text-xl font-bold text-gray-900">
                 Founding Investor Access
-              </span>{" "}
-              has been submitted. Our team will review your profile and contact
-              you within{" "}
-              <span className="font-semibold text-gray-800">1–3 business days</span>.
-            </p>
-            <div className="mt-1 flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-200 px-4 py-3">
-              <Clock size={16} className="text-amber-600 shrink-0" />
-              <p className="font-Inter text-xs text-amber-700 font-medium text-left">
-                No action needed on your end. We'll email you once access is
-                approved.
+              </h3>
+              <p className="font-Inter text-xs sm:text-sm text-gray-500 mt-0.5">
+                Free · Approval required
               </p>
             </div>
+          </div>
+
+          {/* What you get */}
+          <div className="rounded-xl border border-violet-200 bg-violet-50 p-4">
+            <p className="font-Inter text-xs sm:text-sm font-semibold text-violet-800">
+              🔒 This tier is by invitation / approval only.
+            </p>
+            <ul className="mt-2 space-y-1.5 pl-1 font-Inter text-xs sm:text-[13px] text-violet-700 font-medium">
+              <li>✅ Free access to the investor network</li>
+              <li>✅ Off-market deal discovery</li>
+              <li>✅ Connect with capital partners</li>
+              <li>⏳ Access granted after admin review</li>
+            </ul>
+          </div>
+
+          <p className="font-Inter text-xs sm:text-sm text-gray-600 leading-5">
+            Contact our team to request Founding Investor Access. 
+          </p>
+
+          {/* Actions */}
+          <div className="flex gap-3">
             <button
               onClick={handleClose}
-              className="mt-2 w-full font-Urbanist text-sm font-semibold
-                         rounded-lg bg-[#703bf7] px-4 py-2.5 text-white
-                         hover:opacity-90 focus:outline-none"
+              className="flex-1 font-Urbanist text-sm font-semibold rounded-lg
+                         border border-gray-300 bg-white px-4 py-2.5 text-gray-700
+                         hover:bg-gray-50 focus:outline-none cursor-pointer"
             >
-              Got it, thanks!
+              Cancel
+            </button>
+            <button
+              onClick={handleRequest}
+              className="flex-1 font-Urbanist text-sm font-semibold rounded-lg
+                         bg-[#703bf7] px-4 py-2.5 text-white hover:opacity-90
+                         focus:outline-none cursor-pointer"
+            >
+              Contact Us
             </button>
           </div>
-        ) : (
-          // ── Default state ──
-          <div className="flex flex-col gap-5">
-            <div className="flex items-start gap-3">
-              <div className="shrink-0 grid h-11 w-11 place-items-center rounded-full bg-violet-100">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="text-[#703bf7]"
-                >
-                  <path
-                    d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                  <path
-                    d="M12 8v5"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                  <circle cx="12" cy="15.5" r="1" fill="currentColor" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-Urbanist text-lg sm:text-xl font-bold text-gray-900">
-                  Founding Investor Access
-                </h3>
-                <p className="font-Inter text-xs sm:text-sm text-gray-500 mt-0.5">
-                  Free · Approval required
-                </p>
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-violet-200 bg-violet-50 p-4">
-              <p className="font-Inter text-xs sm:text-sm font-semibold text-violet-800">
-                🔒 This tier is by invitation / approval only.
-              </p>
-              <ul className="mt-2 space-y-1.5 pl-1 font-Inter text-xs sm:text-[13px] text-violet-700 font-medium">
-                <li>✅ Free access to the investor network</li>
-                <li>✅ Off-market deal discovery</li>
-                <li>✅ Connect with capital partners</li>
-                <li>⏳ Access granted after admin review</li>
-              </ul>
-            </div>
-
-            <p className="font-Inter text-xs sm:text-sm text-gray-600 leading-5">
-              Click below to submit your access request. Our team will review
-              your profile and reach out within{" "}
-              <span className="font-semibold">1–3 business days</span>.
-            </p>
-
-            <div className="flex gap-3">
-              <button
-                onClick={handleClose}
-                className="flex-1 font-Urbanist text-sm font-semibold rounded-lg
-                           border border-gray-300 bg-white px-4 py-2.5 text-gray-700
-                           hover:bg-gray-50 focus:outline-none"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleRequest}
-                disabled={loading}
-                className="flex-1 font-Urbanist text-sm font-semibold rounded-lg
-                           bg-[#703bf7] px-4 py-2.5 text-white hover:opacity-90
-                           disabled:opacity-60 disabled:cursor-not-allowed
-                           focus:outline-none"
-              >
-                {loading ? "Submitting…" : "Request Access"}
-              </button>
-            </div>
-          </div>
-        )}
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

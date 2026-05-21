@@ -6,7 +6,7 @@ import Image from "../../assets/Banners/OptVerificationImage.jpg";
 import OtpInput from "../../Components/OtpSender/OtpSender";
 import Spinner from "../../Components/Spinner/Spinner";
 import { ArrowRight, CheckCircle, Clock, Mail } from "lucide-react";
-
+import { createPortal } from "react-dom";
 // ─────────────────────────────────────────────────────────────
 // FoundingInvestorWelcomeModal
 // Shown AFTER successful OTP verification.
@@ -17,32 +17,46 @@ import { ArrowRight, CheckCircle, Clock, Mail } from "lucide-react";
 
 const FoundingInvestorWelcomeModal = ({ isOpen, onContinue, redirectPath }) => {
 
- useEffect(() => {
+  // ── Lock html + body scroll while open ──
+  useEffect(() => {
     if (isOpen) {
+      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     }
     return () => {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     };
   }, [isOpen]);
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center
-                 bg-black/60 backdrop-blur-sm p-4
-                 overflow-y-auto"
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        backgroundColor: "rgba(0, 0, 0, 0.6)",
+        backdropFilter: "blur(4px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "1rem",
+        overflowY: "auto",
+      }}
       // Intentionally NO onClick on backdrop
       // User must read and click a button to proceed
     >
       <div
-        className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl
-                    ring-1 ring-black/5 overflow-hidden
-                    animate-[pop_200ms_cubic-bezier(0.2,0.7,0.3,1)_both]"
         onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl
+                   ring-1 ring-black/5 overflow-hidden
+                   animate-[pop_200ms_cubic-bezier(0.2,0.7,0.3,1)_both]"
+        style={{ maxHeight: "90vh", overflowY: "auto" }}
       >
         {/* ── Purple top accent bar ── */}
         <div className="h-2 w-full bg-[#703bf7]" />
@@ -136,8 +150,7 @@ const FoundingInvestorWelcomeModal = ({ isOpen, onContinue, redirectPath }) => {
                 </div>
                 <p className="font-Inter text-xs sm:text-sm text-gray-700 font-medium">
                   <span className="font-semibold">Step 3 —</span>{" "}
-                  We review your profile and email you within{" "}
-                  <span className="font-semibold">1–3 business days</span>.
+                  We review your profile and email you 
                 </p>
               </div>
 
@@ -201,7 +214,8 @@ const FoundingInvestorWelcomeModal = ({ isOpen, onContinue, redirectPath }) => {
           </p>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

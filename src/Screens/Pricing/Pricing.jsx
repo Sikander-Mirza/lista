@@ -20,7 +20,7 @@ import showProfileIncompleteModal from "../../Components/AlertModal/showProfileI
 import { Helmet } from "react-helmet-async";
 import { CheckCircle, Clock, X } from "lucide-react";
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
+
 // ─────────────────────────────────────────────────────────────
 // Static plan feature data
 // ─────────────────────────────────────────────────────────────

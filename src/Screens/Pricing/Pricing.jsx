@@ -111,7 +111,7 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
   const ApiKey = import.meta.env.VITE_API_KEY;
 
-  // Lock body scroll
+  // Lock body scroll when modal open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -166,149 +166,150 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center
-                 bg-black/50 backdrop-blur-sm p-4
+      className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm
                  overflow-y-auto"
       onClick={handleClose}
     >
-      <div
-        className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl
-                    ring-1 ring-black/5 p-6 sm:p-8
-                    my-auto max-h-[90vh] overflow-y-auto
-                    animate-[pop_180ms_cubic-bezier(0.2,0.7,0.3,1)_both]"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close button */}
-        <button
-          onClick={handleClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600
-                     focus:outline-none cursor-pointer"
-          aria-label="Close modal"
+      {/* Wrapper that centers content vertically AND allows scrolling */}
+      <div className="min-h-full grid place-items-center p-4">
+        <div
+          className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl
+                      ring-1 ring-black/5 p-6 sm:p-8
+                      animate-[pop_180ms_cubic-bezier(0.2,0.7,0.3,1)_both]"
+          onClick={(e) => e.stopPropagation()}
         >
-          <X size={20} />
-        </button>
+          {/* Close button */}
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600
+                       focus:outline-none cursor-pointer"
+            aria-label="Close modal"
+          >
+            <X size={20} />
+          </button>
 
-        {submitted ? (
-          // ── Success state ──
-          <div className="flex flex-col items-center text-center gap-4 py-4">
-            <div className="grid h-16 w-16 place-items-center rounded-full bg-green-100">
-              <CheckCircle className="text-green-600" size={36} />
-            </div>
-            <h3 className="font-Urbanist text-xl font-bold text-gray-900">
-              Request Received!
-            </h3>
-            <p className="font-Inter text-sm text-gray-600 leading-6">
-              Your request for{" "}
-              <span className="font-semibold text-gray-800">
-                Founding Investor Access
-              </span>{" "}
-              has been submitted. Our team will review your profile and contact
-              you within{" "}
-              <span className="font-semibold text-gray-800">
-                1–3 business days
-              </span>
-              .
-            </p>
-            <div
-              className="mt-1 flex items-center gap-2 rounded-lg
-                          bg-amber-50 border border-amber-200 px-4 py-3"
-            >
-              <Clock size={16} className="text-amber-600 shrink-0" />
-              <p className="font-Inter text-xs text-amber-700 font-medium text-left">
-                No action needed on your end. We'll email you once access is
-                approved.
-              </p>
-            </div>
-            <button
-              onClick={handleClose}
-              className="mt-2 w-full font-Urbanist text-sm font-semibold
-                         rounded-lg bg-[#703bf7] px-4 py-2.5 text-white
-                         hover:opacity-90 focus:outline-none cursor-pointer"
-            >
-              Got it, thanks!
-            </button>
-          </div>
-        ) : (
-          // ── Default state ──
-          <div className="flex flex-col gap-5">
-            <div className="flex items-start gap-3">
-              <div
-                className="shrink-0 grid h-11 w-11 place-items-center
-                            rounded-full bg-violet-100"
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="text-[#703bf7]"
-                >
-                  <path
-                    d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                  <path
-                    d="M12 8v5"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                  <circle cx="12" cy="15.5" r="1" fill="currentColor" />
-                </svg>
+          {submitted ? (
+            // ── Success state ──
+            <div className="flex flex-col items-center text-center gap-4 py-4">
+              <div className="grid h-16 w-16 place-items-center rounded-full bg-green-100">
+                <CheckCircle className="text-green-600" size={36} />
               </div>
-              <div>
-                <h3 className="font-Urbanist text-lg sm:text-xl font-bold text-gray-900">
+              <h3 className="font-Urbanist text-xl font-bold text-gray-900">
+                Request Received!
+              </h3>
+              <p className="font-Inter text-sm text-gray-600 leading-6">
+                Your request for{" "}
+                <span className="font-semibold text-gray-800">
                   Founding Investor Access
-                </h3>
-                <p className="font-Inter text-xs sm:text-sm text-gray-500 mt-0.5">
-                  Free · Approval required
+                </span>{" "}
+                has been submitted. Our team will review your profile and
+                contact you within{" "}
+                <span className="font-semibold text-gray-800">
+                  1–3 business days
+                </span>
+                .
+              </p>
+              <div
+                className="mt-1 flex items-center gap-2 rounded-lg
+                            bg-amber-50 border border-amber-200 px-4 py-3"
+              >
+                <Clock size={16} className="text-amber-600 shrink-0" />
+                <p className="font-Inter text-xs text-amber-700 font-medium text-left">
+                  No action needed on your end. We'll email you once access is
+                  approved.
                 </p>
               </div>
-            </div>
-
-            <div className="rounded-xl border border-violet-200 bg-violet-50 p-4">
-              <p className="font-Inter text-xs sm:text-sm font-semibold text-violet-800">
-                🔒 This tier is by invitation / approval only.
-              </p>
-              <ul
-                className="mt-2 space-y-1.5 pl-1 font-Inter
-                            text-xs sm:text-[13px] text-violet-700 font-medium"
-              >
-                <li>✅ Free access to the investor network</li>
-                <li>✅ Off-market deal discovery</li>
-                <li>✅ Connect with capital partners</li>
-                <li>⏳ Access granted after admin review</li>
-              </ul>
-            </div>
-
-            <p className="font-Inter text-xs sm:text-sm text-gray-600 leading-5">
-              Click below to submit your access request.
-            </p>
-
-            <div className="flex gap-3">
               <button
                 onClick={handleClose}
-                className="flex-1 font-Urbanist text-sm font-semibold rounded-lg
-                           border border-gray-300 bg-white px-4 py-2.5
-                           text-gray-700 hover:bg-gray-50 focus:outline-none
-                           cursor-pointer"
+                className="mt-2 w-full font-Urbanist text-sm font-semibold
+                           rounded-lg bg-[#703bf7] px-4 py-2.5 text-white
+                           hover:opacity-90 focus:outline-none cursor-pointer"
               >
-                Cancel
-              </button>
-              <button
-                onClick={handleRequest}
-                disabled={loading}
-                className="flex-1 font-Urbanist text-sm font-semibold rounded-lg
-                           bg-[#703bf7] px-4 py-2.5 text-white hover:opacity-90
-                           disabled:opacity-60 disabled:cursor-not-allowed
-                           focus:outline-none cursor-pointer"
-              >
-                {loading ? "Submitting…" : "Request Access"}
+                Got it, thanks!
               </button>
             </div>
-          </div>
-        )}
+          ) : (
+            // ── Default state ──
+            <div className="flex flex-col gap-5">
+              <div className="flex items-start gap-3">
+                <div
+                  className="shrink-0 grid h-11 w-11 place-items-center
+                              rounded-full bg-violet-100"
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="text-[#703bf7]"
+                  >
+                    <path
+                      d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                    />
+                    <path
+                      d="M12 8v5"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="12" cy="15.5" r="1" fill="currentColor" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-Urbanist text-lg sm:text-xl font-bold text-gray-900">
+                    Founding Investor Access
+                  </h3>
+                  <p className="font-Inter text-xs sm:text-sm text-gray-500 mt-0.5">
+                    Free · Approval required
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-violet-200 bg-violet-50 p-4">
+                <p className="font-Inter text-xs sm:text-sm font-semibold text-violet-800">
+                  🔒 This tier is by invitation / approval only.
+                </p>
+                <ul
+                  className="mt-2 space-y-1.5 pl-1 font-Inter
+                              text-xs sm:text-[13px] text-violet-700 font-medium"
+                >
+                  <li>✅ Free access to the investor network</li>
+                  <li>✅ Off-market deal discovery</li>
+                  <li>✅ Connect with capital partners</li>
+                  <li>⏳ Access granted after admin review</li>
+                </ul>
+              </div>
+
+              <p className="font-Inter text-xs sm:text-sm text-gray-600 leading-5">
+                Click below to submit your access request.
+              </p>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={handleClose}
+                  className="flex-1 font-Urbanist text-sm font-semibold rounded-lg
+                             border border-gray-300 bg-white px-4 py-2.5
+                             text-gray-700 hover:bg-gray-50 focus:outline-none
+                             cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleRequest}
+                  disabled={loading}
+                  className="flex-1 font-Urbanist text-sm font-semibold rounded-lg
+                             bg-[#703bf7] px-4 py-2.5 text-white hover:opacity-90
+                             disabled:opacity-60 disabled:cursor-not-allowed
+                             focus:outline-none cursor-pointer"
+                >
+                  {loading ? "Submitting…" : "Request Access"}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

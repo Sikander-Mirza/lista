@@ -619,7 +619,7 @@ const Pricing = () => {
                   ? // Logged-in users see an action-oriented message
                     'Click "Request Access" on the Founding Investor card to submit your application. '
                   : // Guest users see a clear two-step instruction
-                    "Create a free account first, then request Founding Investor Access from your dashboard. ."}
+                    "Create a free account first, then request Founding Investor Access from contact us page ."}
               </p>
             </div>
           </div>

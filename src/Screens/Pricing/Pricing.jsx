@@ -112,7 +112,7 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
   const ApiKey = import.meta.env.VITE_API_KEY;
  const navigate = useNavigate();
- 
+
   // Lock scroll on BOTH html and body
   useEffect(() => {
     if (isOpen) {
@@ -195,11 +195,7 @@ const RequestAccessModal = ({ isOpen, onClose }) => {
               <span className="font-semibold text-gray-800">
                 Founding Investor Access
               </span>{" "}
-              has been submitted. Our team will review your profile and contact
-              you within{" "}
-              <span className="font-semibold text-gray-800">
-                1–3 business days
-              </span>
+              has been submitted. 
               .
             </p>
             <div
@@ -621,9 +617,9 @@ const Pricing = () => {
               <p className="font-Inter text-xs text-violet-600 mt-1 font-medium leading-5">
                 {token
                   ? // Logged-in users see an action-oriented message
-                    'Click "Request Access" on the Founding Investor card to submit your application. Our team reviews all requests and will contact you within 1–3 business days.'
+                    'Click "Request Access" on the Founding Investor card to submit your application. '
                   : // Guest users see a clear two-step instruction
-                    "Create a free account first, then request Founding Investor Access from your dashboard. We review all applications and will contact you within 1–3 business days."}
+                    "Create a free account first, then request Founding Investor Access from your dashboard. ."}
               </p>
             </div>
           </div>

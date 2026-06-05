@@ -11,60 +11,52 @@ export default defineConfig({
   ],
 
   build: {
+    // ✅ es2015 ensures react-snap's old Chromium can parse the JS
+    target: "es2015",
+
     minify: "esbuild",
     esbuildOptions: {
       drop: ["console", "debugger"],
+      // ✅ Transpile modern syntax to ES2015
+      target: "es2015",
     },
 
     rollupOptions: {
       output: {
-        // ✅ SIMPLIFIED chunking — fewer, larger chunks load faster
         manualChunks: {
-          // Core vendor — loads first
-          'vendor-core': [
-            'react',
-            'react-dom',
-            'react-router-dom',
+          "vendor-core": [
+            "react",
+            "react-dom",
+            "react-router-dom",
           ],
-          
-          // State management
-          'vendor-state': [
-            'react-redux',
-            '@reduxjs/toolkit',
-            'redux',
-            'immer',
+          "vendor-state": [
+            "react-redux",
+            "@reduxjs/toolkit",
+            "redux",
+            "immer",
           ],
-          
-          // UI libraries — single chunk
-          'vendor-ui': [
-            '@headlessui/react',
-            'lucide-react',
-            'flowbite-react',
-            'flowbite',
+          "vendor-ui": [
+            "@headlessui/react",
+            "lucide-react",
+            "flowbite-react",
+            "flowbite",
           ],
-          
-          // Utilities
-          'vendor-utils': [
-            'axios',
-            'react-helmet-async',
+          "vendor-utils": [
+            "axios",
+            "react-helmet-async",
           ],
-          
-          // Heavy optional libraries (loaded only when needed)
-          'vendor-optional': [
-            'yet-another-react-lightbox',
-            'react-phone-input-2',
+          "vendor-optional": [
+            "yet-another-react-lightbox",
+            "react-phone-input-2",
           ],
         },
       },
     },
 
     cssCodeSplit: true,
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 700,
     sourcemap: false,
-    target: "es2020",
     cssMinify: true,
-    
-    // ✅ Ensure module preloading works correctly
     modulePreload: {
       polyfill: true,
     },
@@ -72,18 +64,16 @@ export default defineConfig({
 
   optimizeDeps: {
     include: [
-      'react', 
-      'react-dom', 
-      'react-router-dom', 
-      'axios',
-      '@headlessui/react',
+      "react",
+      "react-dom",
+      "react-router-dom",
+      "axios",
+      "@headlessui/react",
     ],
-    exclude: ['yet-another-react-lightbox', 'react-phone-input-2'],
+    exclude: ["yet-another-react-lightbox", "react-phone-input-2"],
+    esbuildOptions: {
+      // ✅ Same target for dev deps
+      target: "es2015",
+    },
   },
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
 });

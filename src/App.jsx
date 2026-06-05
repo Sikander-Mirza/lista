@@ -3,7 +3,10 @@ import Routing from "./Configuration/ScreensRouting/Routing";
 
 const App = () => {
   useEffect(() => {
-    // ✅ Only load flowbite — NO API calls here
+    // ✅ Skip flowbite during react-snap pre-render
+    if (typeof window === "undefined") return;
+    if (window.navigator.userAgent === "ReactSnap") return;
+
     import("flowbite")
       .then((module) => {
         if (module.initFlowbite) {

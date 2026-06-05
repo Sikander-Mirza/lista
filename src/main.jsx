@@ -7,9 +7,13 @@ import { HelmetProvider } from "react-helmet-async";
 import { ErrorProvider } from "./CustomHook/ErrorContext/ErrorContext.jsx";
 import App from "./App.jsx";
 
-// ❌ REMOVE the health check — it's blocking render!
+const rootElement = document.getElementById("root");
 
-createRoot(document.getElementById("root")).render(
+// ✅ ALWAYS use createRoot
+// react-snap still pre-renders HTML for Google (SEO works)
+// We avoid hydration mismatch errors completely
+// Trade-off: tiny re-render flash on load (invisible to users)
+createRoot(rootElement).render(
   <StrictMode>
     <Provider store={store}>
       <ErrorProvider>
